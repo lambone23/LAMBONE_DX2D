@@ -20,6 +20,5 @@ namespace yha::renderer
 	extern ID3DBlob* trianglePSBlob;
 	extern ID3D11PixelShader* trianglePSShader;
 
-
 	void FnInitialize();
 }

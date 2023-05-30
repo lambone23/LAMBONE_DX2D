@@ -218,11 +218,11 @@ namespace yha::graphics
 		arrLayout[1].SemanticName = "COLOR";
 		arrLayout[1].SemanticIndex = 0;
 
+		// triangle
 		mDevice->CreateInputLayout(arrLayout, 2
 			, renderer::triangleVSBlob->GetBufferPointer()
 			, renderer::triangleVSBlob->GetBufferSize()
 			, &renderer::triangleLayout);
-
 
 		return true;
 	}
@@ -284,6 +284,7 @@ namespace yha::graphics
 		UINT vertexsize = sizeof(renderer::Vertex);
 		UINT offset = 0;
 
+		// triangle
 		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexsize, &offset);
 		mContext->IASetInputLayout(renderer::triangleLayout);
 		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -294,9 +295,11 @@ namespace yha::graphics
 		mContext->PSSetShader(renderer::trianglePSShader, 0, 0);
 
 		// Draw Render Target
-		mContext->Draw(3, 0);
+		//■[HW-230530] - drawing shapes
+		//mContext->Draw(3, 0);
+		mContext->Draw(100, 0);
 
-		// 레더타겟에 있는 이미지를 화면에 그려준다
+		// 렌더타겟에 있는 이미지를 화면에 그려준다
 		mSwapChain->Present(0, 0);
 	}
 }
