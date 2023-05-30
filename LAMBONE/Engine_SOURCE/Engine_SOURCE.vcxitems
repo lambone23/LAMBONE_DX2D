@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{0fa53850-375a-4e52-af82-1477f9bf159e}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CEnums.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CGraphics.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CInput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CMath.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CResources.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTime.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CInput.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CMath.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTime.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)CMath.inl" />
+  </ItemGroup>
+</Project>

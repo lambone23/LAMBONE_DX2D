@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Vertex">
+      <UniqueIdentifier>{3c171425-c693-4076-aaf3-bcf50888fe5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pixel">
+      <UniqueIdentifier>{84c73051-b50f-4c94-a1e8-f6401efb72d6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="$(MSBuildThisFileDirectory)TriangleVS.hlsl">
+      <Filter>Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)TrianglePS.hlsl">
+      <Filter>Pixel</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>
