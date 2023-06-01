@@ -38,6 +38,8 @@ namespace yha
 	{
 		CTime::FnUpdate();
 		CInput::FnUpdate();
+
+		renderer::FnUpdate();
 	}
 
 	void CApplication::FnLateUpdate()
