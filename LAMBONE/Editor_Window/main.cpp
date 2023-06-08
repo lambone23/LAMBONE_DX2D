@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "Editor_Window.h"
 #include "CApplication.h"
+#include "CRenderer.h"
 
 yha::CApplication MyApplication;
 
@@ -64,6 +65,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
+    renderer::FnRelease();
     return (int)msg.wParam;
 }
 

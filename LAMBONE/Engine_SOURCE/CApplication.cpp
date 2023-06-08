@@ -32,6 +32,9 @@ namespace yha
 		CInput::FnInitialize();
 
 		renderer::FnInitialize();
+
+		mScene = new CScene();
+		mScene->FnInitialize();
 	}
 
 	void CApplication::FnUpdate()
@@ -39,7 +42,8 @@ namespace yha
 		CTime::FnUpdate();
 		CInput::FnUpdate();
 
-		renderer::FnUpdate();
+		//renderer::FnUpdate();
+		mScene->FnUpdate();
 	}
 
 	void CApplication::FnLateUpdate()
@@ -51,6 +55,8 @@ namespace yha
 		CTime::FnRender();
 
 		graphicDevice->FnDraw();
+		mScene->FnRender();
+		graphicDevice->FnPresent();
 	}
 
 	void CApplication::FnSetWindow(HWND hwnd, UINT width, UINT height)

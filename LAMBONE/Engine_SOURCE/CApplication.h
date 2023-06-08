@@ -1,6 +1,7 @@
 #pragma once
 #include "ZEngine.h"
 #include "CGraphicDevice_Dx11.h"
+#include "CScene.h"
 
 namespace yha
 {
@@ -34,5 +35,7 @@ namespace yha
 		HWND mHwnd;
 		UINT mWidth;
 		UINT mHeight;
+
+		CScene* mScene;
 	};
 }
