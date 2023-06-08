@@ -11,4 +11,12 @@ namespace yha::enums
 		Script,
 		End,
 	};
+
+	enum class EGameObjectType
+	{
+		Player,
+		Prey,
+		End
+	};
+
 }

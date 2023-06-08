@@ -31,6 +31,8 @@ namespace renderer
 	yha::CShader* shader = nullptr;
 	yha::graphics::CConstantBuffer* constantBuffer = nullptr;
 
+	Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
+
 	void FnSetupState()
 	{
 		// Input layout 정점 구조 정보를 넘겨줘야한다.
@@ -132,7 +134,7 @@ namespace renderer
 		constantBuffer = new CConstantBuffer(eCBType::Transform);
 		constantBuffer->FnCreate(sizeof(Vector4));
 
-		Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
+		//Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
 		constantBuffer->FnSetData(&pos);
 		constantBuffer->FnBind(eShaderStage::VS);
 	}
@@ -243,22 +245,21 @@ namespace renderer
 		FnSetupState();
 	}
 
-	//void FnUpdate()
-	//{
-	//	//■[HW-230530] - drawing shapes
-	//	if (CInput::FnGetKey(eKeyCode::RIGHT))
-	//		pos += Vector4(0.3f * CTime::FnDeltaTime(), 0.0f, 0.0f, 1.0f);
-	//	if (CInput::FnGetKey(eKeyCode::LEFT))
-	//		pos += Vector4(-0.3f * CTime::FnDeltaTime(), 0.0f, 0.0f, 1.0f);
-	//	if (CInput::FnGetKey(eKeyCode::UP))
-	//		pos += Vector4(0.0f, 0.3f * CTime::FnDeltaTime(), 0.0f, 1.0f);
-	//	if (CInput::FnGetKey(eKeyCode::DOWN))
-	//		pos += Vector4(0.0f, -0.3f * CTime::FnDeltaTime(), 0.0f, 1.0f);
+	void FnUpdate()
+	{
+		//■[HW-230530] - drawing shapes
+		if (CInput::FnGetKey(eKeyCode::RIGHT))
+			pos += Vector4(0.3f * CTime::FnDeltaTime(), 0.0f, 0.0f, 1.0f);
+		if (CInput::FnGetKey(eKeyCode::LEFT))
+			pos += Vector4(-0.3f * CTime::FnDeltaTime(), 0.0f, 0.0f, 1.0f);
+		if (CInput::FnGetKey(eKeyCode::UP))
+			pos += Vector4(0.0f, 0.3f * CTime::FnDeltaTime(), 0.0f, 1.0f);
+		if (CInput::FnGetKey(eKeyCode::DOWN))
+			pos += Vector4(0.0f, -0.3f * CTime::FnDeltaTime(), 0.0f, 1.0f);
 
-	//	yha::graphics::FnGetDevice()->FnSetConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
-	//	yha::graphics::FnGetDevice()->FnBindConstantBuffer(eShaderStage::VS, eCBType::Transform, triangleConstantBuffer);
-	//		
-	//}
+		constantBuffer->FnSetData(&pos);
+		constantBuffer->FnBind(eShaderStage::VS);
+	}
 
 	void FnRelease()
 	{

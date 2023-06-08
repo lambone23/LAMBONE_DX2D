@@ -1,5 +1,7 @@
 #include "CScene.h"
 
+#include "CConstantBuffer.h"
+
 namespace yha
 {
 	CScene::CScene()
@@ -13,6 +15,7 @@ namespace yha
 	void CScene::FnInitialize()
 	{
 		// 여기서 초기 게임 맵데이터를 세팅
+
 	}
 
 	void CScene::FnUpdate()

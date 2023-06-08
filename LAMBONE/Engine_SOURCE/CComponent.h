@@ -1,6 +1,7 @@
 #pragma once
 #include "CEntity.h"
 
+using namespace yha::math;
 namespace yha
 {
 	using namespace yha::enums;
@@ -8,7 +9,7 @@ namespace yha
 	class CComponent : public CEntity
 	{
 	public:
-		CComponent();
+		CComponent(eComponentType Type); //CComponent();
 		~CComponent();
 
 	public:

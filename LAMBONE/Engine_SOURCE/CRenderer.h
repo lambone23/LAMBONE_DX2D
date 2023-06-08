@@ -19,7 +19,7 @@ namespace renderer
 
 	//extern ID3D11InputLayout* triangleLayout;
 	//extern ID3D11Buffer* triangleBuffer;
-	//extern ID3D11Buffer* triangleIdxBuffer;			// 인덱스버퍼
+	//extern ID3D11Buffer* triangleIdxBuffer;		// 인덱스버퍼
 	//extern ID3D11Buffer* triangleConstantBuffer;	// 상수버퍼
 	//extern ID3DBlob* errorBlob;
 	//extern ID3DBlob* triangleVSBlob;
@@ -32,6 +32,6 @@ namespace renderer
 	extern yha::graphics::CConstantBuffer* constantBuffer;
 
 	void FnInitialize();
-	//void FnUpdate();
+	void FnUpdate();
 	void FnRelease();
 }

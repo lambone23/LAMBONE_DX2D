@@ -55,6 +55,21 @@
     <Filter Include="Graphics\ConstantBuffer">
       <UniqueIdentifier>{0fbe8b8a-f6be-4aa4-bcec-6a9d6f42e1c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Component\Collider">
+      <UniqueIdentifier>{6000a591-805f-487a-a78e-b334b387dbdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Component\Transform">
+      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Contents">
+      <UniqueIdentifier>{f9c41276-5eff-4c1f-9ecb-24f8d3bc6d9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Contents\Player">
+      <UniqueIdentifier>{9696a400-21e1-4589-ad20-4d1d0ae439ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Contents\Prey">
+      <UniqueIdentifier>{21660e33-2d2d-48e5-8018-1b28adc27015}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -120,6 +135,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h">
       <Filter>Graphics\ConstantBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
+      <Filter>GameObject\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCollider.h">
+      <Filter>GameObject\Component\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h">
+      <Filter>GameObject\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CPlayer.h">
+      <Filter>GameObject\Contents\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -172,6 +199,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp">
       <Filter>Graphics\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
+      <Filter>GameObject\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCollider.cpp">
+      <Filter>GameObject\Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp">
+      <Filter>GameObject\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CPlayer.cpp">
+      <Filter>GameObject\Contents\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

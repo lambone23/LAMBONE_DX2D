@@ -42,7 +42,7 @@ namespace yha
 		CTime::FnUpdate();
 		CInput::FnUpdate();
 
-		//renderer::FnUpdate();
+		renderer::FnUpdate();
 		mScene->FnUpdate();
 	}
 

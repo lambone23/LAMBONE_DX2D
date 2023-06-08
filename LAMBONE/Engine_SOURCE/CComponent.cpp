@@ -3,7 +3,7 @@
 
 namespace yha
 {
-	CComponent::CComponent()
+	CComponent::CComponent(eComponentType Type)
 		: mType(eComponentType::End)
 	{
 
