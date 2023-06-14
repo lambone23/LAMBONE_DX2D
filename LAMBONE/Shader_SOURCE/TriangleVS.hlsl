@@ -14,6 +14,9 @@ struct VSOut
 cbuffer Transform : register(b0)
 {
     float4 Pos;
+
+    //бс[HW-0614] - GrowingGame
+    float4 Color;
 }
 
 VSOut main(VSIn In)
@@ -25,7 +28,9 @@ VSOut main(VSIn In)
     Out.Pos.x += Pos.x;
     Out.Pos.y += Pos.y;
 
-    Out.Color = In.Color;
+    //бс[HW-0614] - GrowingGame
+    // Out.Color = In.Color;
+    Out.Color = Color;
 
     return Out;
 }

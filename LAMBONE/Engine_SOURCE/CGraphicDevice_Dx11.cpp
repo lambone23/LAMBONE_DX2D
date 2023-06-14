@@ -453,12 +453,12 @@ namespace yha::graphics
 		//renderer::shader->Binds();
 		//mContext->DrawIndexed(renderer::mesh->GetIndexCount(), 0, 0);
 
-		renderer::mesh->FnBindBuffer();
-		renderer::shader->FnBinds();
-		mContext->DrawIndexed(renderer::mesh->FnGetIndexCount(), 0, 0);
+		//renderer::mesh->FnBindBuffer();
+		//renderer::shader->FnBinds();
+		//mContext->DrawIndexed(renderer::mesh->FnGetIndexCount(), 0, 0);
 
-		// 렌더타겟에 있는 이미지를 화면에 그려준다
-		mSwapChain->Present(0, 0);
+		//// 렌더타겟에 있는 이미지를 화면에 그려준다
+		//mSwapChain->Present(0, 0);
 
 	}//END-void CGraphicDevice_Dx11::FnDraw
 

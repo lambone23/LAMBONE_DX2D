@@ -11,11 +11,13 @@ namespace renderer
 {
 	struct Vertex
 	{
-		Vector3 pos;
+		Vector4 pos;
 		Vector4 color;
 	};
 
-	extern Vertex vertexes[];
+	//extern Vertex vertexes[];
+	extern vector<Vertex> vertexes;
+	extern vector<UINT> indexes;
 
 	//extern ID3D11InputLayout* triangleLayout;
 	//extern ID3D11Buffer* triangleBuffer;
@@ -29,7 +31,8 @@ namespace renderer
 
 	extern yha::CMesh* mesh;
 	extern yha::CShader* shader;
-	extern yha::graphics::CConstantBuffer* constantBuffer;
+	//extern yha::graphics::CConstantBuffer* constantBuffer;
+	extern yha::graphics::CConstantBuffer* constantBuffers[];
 
 	void FnInitialize();
 	void FnUpdate();

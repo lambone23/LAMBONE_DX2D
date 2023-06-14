@@ -9,6 +9,7 @@
 #include <bitset>		// 비트 배열 편하게 사용해주는 라이브러리
 #include <set>			// 해시 테이블
 #include <functional>	// 함수 포인터
+#include <queue>
 
 #include <cmath>		// 수학
 #include <algorithm>	// 정렬 알고리즘
@@ -21,3 +22,13 @@
 #include "CEnums.h"
 #include "CMath.h"
 
+
+using std::vector;
+using std::map;
+using std::wstring;
+using std::list;
+using std::pair;
+using std::make_pair;
+using std::move;
+using std::function;
+using std::queue;

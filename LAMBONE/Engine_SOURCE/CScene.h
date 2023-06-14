@@ -16,6 +16,9 @@ namespace yha
 		virtual void FnLateUpdate();
 		virtual void FnRender();
 
+	public:
+		std::vector<CGameObject*>& FnGetGameObjects() { return mGameObjects; }
+
 	private:
 		std::vector<CGameObject*> mGameObjects;
 	};

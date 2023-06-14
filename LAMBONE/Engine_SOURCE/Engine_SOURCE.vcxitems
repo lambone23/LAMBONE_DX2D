@@ -29,7 +29,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphics.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CInput.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMath.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CPlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CShader.h" />
@@ -53,7 +52,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CPlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp" />
