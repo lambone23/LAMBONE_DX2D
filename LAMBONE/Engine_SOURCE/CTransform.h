@@ -12,19 +12,27 @@ namespace yha
 	public:
 		virtual void FnInitialize() override;
 		virtual void FnUpdate() override;
-		virtual void FnRender() override;
-		//virtual void Release() override;
 		virtual void FnLateUpdate() override;
+		virtual void FnRender() override;
 
 	public:
-		void FnSetPos(Vector4 Pos) { mPos = Pos; }
-		void FnSetSize(Vector4 Size) { mScale = Size; }
-		Vector4 FnGetPos() { return mPos; }
-		Vector4 GetScale() { return mScale; }
+		void FnBindConstantBuffer();
+
+		void FnSetPosition(Vector3 position) { mPosition = position; }
+		void FnSetRotation(Vector3 rotation) { mRotation = rotation; }
+		void FnSetScale(Vector3 scale) { mScale = scale; }
+
+		void FnSetPosition(float x, float y, float z) { mPosition = Vector3(x, y, z); }
+		void FnSetRotation(float x, float y, float z) { mRotation = Vector3(x, y, z); }
+		void FnSetScale(float x, float y, float z) { mScale = Vector3(x, y, z); }
+
+		Vector3 FnGetPosition() { return mPosition; }
+		Vector3 FnGetRotation() { return mRotation; }
+		Vector3 FnGetScale() { return mScale; }
 
 	private:
-		Vector4 mPos;
-		Vector4 mScale;
-
+		Vector3 mPosition;
+		Vector3 mRotation;
+		Vector3 mScale;
 	};
 }

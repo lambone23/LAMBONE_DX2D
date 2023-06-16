@@ -395,13 +395,17 @@ namespace yha::graphics
 		mContext->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 	}//END-void CGraphicDevice_Dx11::FnDrawIndexed
 
-	void CGraphicDevice_Dx11::FnDraw()
+	void CGraphicDevice_Dx11::FnClearTarget()
 	{
 		// render target clear
 		FLOAT bgColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), bgColor);
 		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+	}//END-void CGraphicDevice_Dx11::FnClearTarget
 
+	void CGraphicDevice_Dx11::FnUpdateViewPort()
+	{
 		// viewport update
 		HWND hWnd = MyApplication.FnGetHwnd();
 		RECT winRect = {};
@@ -415,7 +419,32 @@ namespace yha::graphics
 		};
 
 		FnBindViewPort(&mViewPort);
-		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+	}//END-void CGraphicDevice_Dx11::FnUpdateViewPort
+
+	void CGraphicDevice_Dx11::FnDraw()
+	{
+		//[230615]별도 분리
+		//[S]-------------------------------------------------------------------------------------------
+		//// render target clear
+		//FLOAT bgColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
+		//mContext->ClearRenderTargetView(mRenderTargetView.Get(), bgColor);
+		//mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
+
+		//// viewport update
+		//HWND hWnd = MyApplication.FnGetHwnd();
+		//RECT winRect = {};
+		//GetClientRect(hWnd, &winRect);
+		//mViewPort =
+		//{
+		//	0.0f, 0.0f
+		//	, (float)(winRect.right - winRect.left)
+		//	, (float)(winRect.bottom - winRect.top)
+		//	, 0.0f, 1.0f
+		//};
+
+		//FnBindViewPort(&mViewPort);
+		//mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+		//[E]-------------------------------------------------------------------------------------------
 
 		//[230608]별도 분리
 		//[S]-------------------------------------------------------------------------------------------

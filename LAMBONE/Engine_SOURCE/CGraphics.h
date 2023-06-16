@@ -22,7 +22,6 @@ namespace yha::graphics
 	enum class eCBType
 	{
 		Transform,
-		Color,
 		End,
 	};
 

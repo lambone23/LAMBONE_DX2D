@@ -55,11 +55,23 @@
     <Filter Include="Graphics\ConstantBuffer">
       <UniqueIdentifier>{0fbe8b8a-f6be-4aa4-bcec-6a9d6f42e1c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Component\Collider">
-      <UniqueIdentifier>{6000a591-805f-487a-a78e-b334b387dbdf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameObject\Component\Transform">
       <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Manager">
+      <UniqueIdentifier>{36dd7ca7-f234-48b5-8c64-3705976ea0ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Practical">
+      <UniqueIdentifier>{80d02bca-c01e-4655-af7e-57fd3ad1ac8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Practical\Play">
+      <UniqueIdentifier>{d649a698-ca89-4c7a-abe6-051f5f2c60a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Base">
+      <UniqueIdentifier>{2ccf9edd-0bb6-4566-8369-1b7c5632bc2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Component\MeshRenderer">
+      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,12 +120,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
       <Filter>GameObject\Component</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h">
       <Filter>Graphics\Renderer</Filter>
     </ClInclude>
@@ -126,14 +132,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h">
       <Filter>Graphics\ConstantBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
-      <Filter>GameObject\Component\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollider.h">
-      <Filter>GameObject\Component\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h">
       <Filter>GameObject\Component\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
+      <Filter>Scene\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
+      <Filter>Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CPlayScene.h">
+      <Filter>Scene\Practical\Play</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
+      <Filter>GameObject\Component\MeshRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,12 +182,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
       <Filter>GameObject\Component</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp">
       <Filter>Graphics\Renderer</Filter>
     </ClCompile>
@@ -188,14 +194,20 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp">
       <Filter>Graphics\ConstantBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
-      <Filter>GameObject\Component\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollider.cpp">
-      <Filter>GameObject\Component\Collider</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp">
       <Filter>GameObject\Component\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
+      <Filter>Scene\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
+      <Filter>Scene\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CPlayScene.cpp">
+      <Filter>Scene\Practical\Play</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
+      <Filter>GameObject\Component\MeshRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

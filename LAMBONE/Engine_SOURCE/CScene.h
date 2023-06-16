@@ -1,6 +1,6 @@
 #pragma once
 #include "CEntity.h"
-#include "CGameObject.h"
+#include "CLayer.h"
 
 namespace yha
 {
@@ -17,9 +17,9 @@ namespace yha
 		virtual void FnRender();
 
 	public:
-		std::vector<CGameObject*>& FnGetGameObjects() { return mGameObjects; }
+		void FnAddGameObject(eLayerType type, CGameObject* gameObj);
 
 	private:
-		std::vector<CGameObject*> mGameObjects;
+		std::vector<CLayer> mLayers;
 	};
 }

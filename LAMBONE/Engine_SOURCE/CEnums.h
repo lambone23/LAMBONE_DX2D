@@ -8,15 +8,16 @@ namespace yha::enums
 		Transform,
 		Mesh,
 		Particle,
+		MeshRenderer,
 		Script,
 		End,
 	};
 
-	enum class eGameObjectType
+	enum class eLayerType
 	{
 		Player,
-		Prey,
-		End
+		Monster,
+		UI,
+		End,
 	};
-
 }

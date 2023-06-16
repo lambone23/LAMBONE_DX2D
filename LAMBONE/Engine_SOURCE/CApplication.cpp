@@ -2,6 +2,7 @@
 #include "CInput.h"
 #include "CTime.h"
 #include "CRenderer.h"
+#include "CSceneManager.h"
 
 
 namespace yha
@@ -32,30 +33,30 @@ namespace yha
 		CInput::FnInitialize();
 
 		renderer::FnInitialize();
-
-		mScene = new CScene();
-		mScene->FnInitialize();
+		CSceneManager::FnInitialize();
 	}
 
 	void CApplication::FnUpdate()
 	{
 		CTime::FnUpdate();
 		CInput::FnUpdate();
-
-		renderer::FnUpdate();
-		mScene->FnUpdate();
+		CSceneManager::FnUpdate();
 	}
 
 	void CApplication::FnLateUpdate()
 	{
+		CSceneManager::FnLateUpdate();
 	}
 
 	void CApplication::FnRender()
 	{
 		CTime::FnRender();
 
-		graphicDevice->FnDraw();
-		mScene->FnRender();
+		graphicDevice->FnClearTarget();
+		graphicDevice->FnUpdateViewPort();
+		CSceneManager::FnRender();
+		//graphicDevice->FnDraw();
+
 		graphicDevice->FnPresent();
 	}
 

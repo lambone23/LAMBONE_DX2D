@@ -41,6 +41,8 @@ namespace yha::graphics
 		void FnBindViewPort(D3D11_VIEWPORT* viewPort);
 
 		void FnDrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
+		void FnClearTarget();
+		void FnUpdateViewPort();
 		void FnDraw();
 		void FnPresent();
 

@@ -1,15 +1,16 @@
 #pragma once
 #include "CEntity.h"
 
-using namespace yha::math;
 namespace yha
 {
 	using namespace yha::enums;
+	using namespace yha::math;
 
+	class CGameObject;
 	class CComponent : public CEntity
 	{
 	public:
-		CComponent(eComponentType Type); //CComponent();
+		CComponent(eComponentType type);
 		~CComponent();
 
 	public:
@@ -18,7 +19,12 @@ namespace yha
 		virtual void FnLateUpdate();
 		virtual void FnRender();
 
+	public:
+		CGameObject* FnGetOwner() { return mOwner; }
+		void FnSetOwner(CGameObject* owner) { mOwner = owner; }
+
 	private:
 		const eComponentType mType;
+		CGameObject* mOwner;
 	};
 }

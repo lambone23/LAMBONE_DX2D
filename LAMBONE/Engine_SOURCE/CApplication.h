@@ -35,7 +35,5 @@ namespace yha
 		HWND mHwnd;
 		UINT mWidth;
 		UINT mHeight;
-
-		CScene* mScene;
 	};
 }

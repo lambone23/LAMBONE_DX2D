@@ -2,14 +2,8 @@
 #include "CEntity.h"
 #include "CComponent.h"
 
-#include "CMesh.h"
-#include "CShader.h"
-#include "CRenderer.h"
-
 namespace yha
 {
-	class CScene;
-
 	class CGameObject : public CEntity
 	{
 	public:
@@ -21,8 +15,7 @@ namespace yha
 		};
 
 	public:
-		//CGameObject();
-		CGameObject(enums::eGameObjectType _inType, Vector4 _inPos, Vector4 _inColor, float _inSize, CScene* _inScene);
+		CGameObject();
 		virtual ~CGameObject();
 
 	public:
@@ -32,27 +25,39 @@ namespace yha
 		virtual void FnRender();
 
 	public:
-		enums::eGameObjectType FnGetType() { return mType; }
-		Vector4 FnGetPos() { return mVertexInfo.pos; }
-		float FnGetSize() { return mSize; }
-		eState FnGetState() { return mState; }
-		void FnSetState(eState inState) { mState = inState; }
-		
+		template <typename T>
+		T* FnGetComponent()
+		{
+			T* component;
+			for (CComponent* comp : mComponents)
+			{
+				component = dynamic_cast<T*>(comp);
+				if (component != nullptr)
+					return component;
+			}
+
+			return nullptr;
+		}
+
+		template <typename T>
+		T* FnAddComponent()
+		{
+			T* comp = new T();
+
+			CComponent* buff
+				= dynamic_cast<CComponent*>(comp);
+
+			if (buff == nullptr)
+				return nullptr;
+
+			mComponents.push_back(buff);
+			comp->FnSetOwner(this);
+
+			return comp;
+		}
 
 	private:
 		eState mState;
-		//std::vector<Component*> mComponents;
-		//int y;
-		//int x;
-
-		enums::eGameObjectType mType;
-		float mSize;
-
-		CMesh* mesh;
-		renderer::Vertex mVertexInfo;
-		CScene* mScene;
-
-		std::vector<Vector4> mCircleIndexes;
-		float mRatioX;
+		std::vector<CComponent*> mComponents;
 	};
 }
