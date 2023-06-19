@@ -73,6 +73,9 @@
     <Filter Include="GameObject\Component\MeshRenderer">
       <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{60063b9c-c69e-4744-aeef-754220eadfcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
       <Filter>GameObject\Component\MeshRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -208,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
       <Filter>GameObject\Component\MeshRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
+      <Filter>Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,8 +2,6 @@
 #include "ZEngine.h"
 #include "CGraphics.h"
 
-
-
 namespace yha::graphics
 {
 	class CGraphicDevice_Dx11
@@ -37,6 +35,8 @@ namespace yha::graphics
 		void FnSetConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 		void FnBindConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
 		void FnBindsConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
+
+		void FnBindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
 		
 		void FnBindViewPort(D3D11_VIEWPORT* viewPort);
 
@@ -45,6 +45,8 @@ namespace yha::graphics
 		void FnUpdateViewPort();
 		void FnDraw();
 		void FnPresent();
+
+		ID3D11Device* FnGetID3D11Device() { return mDevice.Get(); }
 
 	private:
 		

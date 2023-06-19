@@ -11,10 +11,12 @@ namespace yha
 		static void FnLateUpdate();
 		static void FnRender();
 
+	public:
+		static CScene* FnGetActiveScene() { return mActiveScene; }
+		static CScene* FnLoadScene(std::wstring name);
 
 	private:
 		static CScene* mActiveScene;
-
-		//std::map<std::wstring, Scene*> mScenes;
+		static std::map<std::wstring, CScene*> mScenes;
 	};
 }

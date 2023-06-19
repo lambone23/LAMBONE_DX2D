@@ -32,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ZEngine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h" />
@@ -58,6 +59,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp" />
   </ItemGroup>

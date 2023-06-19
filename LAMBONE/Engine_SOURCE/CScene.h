@@ -17,6 +17,9 @@ namespace yha
 		virtual void FnRender();
 
 	public:
+		virtual void FnOnEnter();
+		virtual void FnOnExit();
+
 		void FnAddGameObject(eLayerType type, CGameObject* gameObj);
 
 	private:
