@@ -12,6 +12,8 @@ namespace yha
 		//CPlayScene* test = new CPlayScene();
 
 		mActiveScene = new CPlayScene();
+		mScenes.insert(std::make_pair(L"PlayScene", mActiveScene));
+
 		mActiveScene->FnInitialize();
 	}
 	void CSceneManager::FnUpdate()
@@ -25,6 +27,15 @@ namespace yha
 	void CSceneManager::FnRender()
 	{
 		mActiveScene->FnRender();
+	}
+
+	void CSceneManager::FnRelease()
+	{
+		for (auto iter : mScenes)
+		{
+			delete iter.second;
+			iter.second = nullptr;
+		}
 	}
 
 	CScene* CSceneManager::FnLoadScene(std::wstring name)

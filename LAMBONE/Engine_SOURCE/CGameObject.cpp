@@ -13,6 +13,14 @@ namespace yha
 
 	CGameObject::~CGameObject()
 	{
+		for (CComponent* comp : mComponents)
+		{
+			if (comp == nullptr)
+				continue;
+
+			delete comp;
+			comp = nullptr;
+		}
 	}
 
 	void CGameObject::FnInitialize()

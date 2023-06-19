@@ -10,6 +10,7 @@ namespace yha
 		static void FnUpdate();
 		static void FnLateUpdate();
 		static void FnRender();
+		static void FnRelease();
 
 	public:
 		static CScene* FnGetActiveScene() { return mActiveScene; }
