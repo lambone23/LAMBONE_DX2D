@@ -11,6 +11,7 @@ namespace renderer
 	yha::CMesh* mesh = nullptr;
 	yha::CShader* shader = nullptr;
 	yha::graphics::CConstantBuffer* constantBuffer = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)eSamplerType::End] = {};
 
 	void FnSetupState()
 	{
@@ -44,6 +45,21 @@ namespace renderer
 			, shader->FnGetVSCode()
 			, shader->FnGetInputLayoutAddressOf());
 
+		// Sampler State
+		D3D11_SAMPLER_DESC desc = {};
+		desc.AddressU = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		desc.AddressV = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+		desc.AddressW = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP;
+
+		// Sampler_Point
+		desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		FnGetDevice()->FnCreateSampler(&desc, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
+		FnGetDevice()->FnBindSampler(eShaderStage::PS, 0, samplerState[(UINT)eSamplerType::Point].GetAddressOf());
+
+		// Sampler_Anisotropic
+		desc.Filter = D3D11_FILTER_ANISOTROPIC;
+		FnGetDevice()->FnCreateSampler(&desc, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
+		FnGetDevice()->FnBindSampler(eShaderStage::PS, 1, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 	}
 
 	void FnLoadBuffer()
@@ -157,6 +173,8 @@ namespace renderer
 		FnSetupState();
 
 		CTexture* texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
+
+		texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 
 		texture->FnBindShader(eShaderStage::PS, 0);
 	}

@@ -303,6 +303,14 @@ namespace yha::graphics
 		return true;
 	}//END-bool CGraphicDevice_Dx11::FnCreatePixelShader
 
+	bool CGraphicDevice_Dx11::FnCreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
+	{
+		if (FAILED(mDevice->CreateSamplerState(pSamplerDesc, ppSamplerState)))
+			return false;
+
+		return true;
+	}//END-bool CGraphicDevice_Dx11::FnCreateSampler
+
 	void CGraphicDevice_Dx11::FnBindInputLayout(ID3D11InputLayout* pInputLayout)
 	{
 		mContext->IASetInputLayout(pInputLayout);
@@ -413,6 +421,35 @@ namespace yha::graphics
 			break;
 		}
 	}//END-void CGraphicDevice_Dx11::FnBindShaderResource
+
+	void CGraphicDevice_Dx11::FnBindSampler(eShaderStage stage, UINT StartSlot, ID3D11SamplerState** ppSamplers)
+	{
+		switch (stage)
+		{
+		case eShaderStage::VS:
+			mContext->VSSetSamplers(StartSlot, 1, ppSamplers);
+			break;
+		case eShaderStage::HS:
+			mContext->HSSetSamplers(StartSlot, 1, ppSamplers);
+			break;
+		case eShaderStage::DS:
+			mContext->DSSetSamplers(StartSlot, 1, ppSamplers);
+			break;
+		case eShaderStage::GS:
+			mContext->GSSetSamplers(StartSlot, 1, ppSamplers);
+			break;
+		case eShaderStage::PS:
+			mContext->PSSetSamplers(StartSlot, 1, ppSamplers);
+			break;
+		case eShaderStage::CS:
+			mContext->CSSetSamplers(StartSlot, 1, ppSamplers);
+			break;
+		case eShaderStage::End:
+			break;
+		default:
+			break;
+		}
+	}//END-void CGraphicDevice_Dx11::FnBindSampler
 
 	void CGraphicDevice_Dx11::FnBindViewPort(D3D11_VIEWPORT* viewPort)
 	{

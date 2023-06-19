@@ -22,6 +22,8 @@ namespace yha::graphics
 		bool FnCreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11VertexShader** ppVertexShader);
 		bool FnCreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11PixelShader** ppPixelShader);
 
+		bool FnCreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState);
+
 		void FnBindInputLayout(ID3D11InputLayout* pInputLayout);
 		void FnBindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology);
 		
@@ -37,6 +39,7 @@ namespace yha::graphics
 		void FnBindsConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
 
 		void FnBindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
+		void FnBindSampler(eShaderStage stage, UINT StartSlot, ID3D11SamplerState** ppSamplers);
 		
 		void FnBindViewPort(D3D11_VIEWPORT* viewPort);
 
