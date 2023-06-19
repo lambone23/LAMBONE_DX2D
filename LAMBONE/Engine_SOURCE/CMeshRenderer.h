@@ -1,7 +1,9 @@
 #pragma once
 #include "CComponent.h"
 #include "CMesh.h"
-#include "CShader.h"
+
+//#include "CShader.h"
+#include "CMaterial.h"
 
 namespace yha
 {
@@ -17,8 +19,14 @@ namespace yha
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
 
+	public:
+		void FnSetMesh(CMesh* mesh) { mMesh = mesh; }
+		void FnSetMaterial(CMaterial* material) { mMaterial = material; }
+
 	private:
 		CMesh* mMesh;
-		CShader* mShader;
+		
+		//CShader* mShader;
+		CMaterial* mMaterial;
 	};
 }

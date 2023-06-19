@@ -6,7 +6,8 @@ namespace yha
 	class CResource
 	{
 	public:
-		CResource();
+		//CResource();
+		CResource(const enums::eResourceType type);
 		virtual ~CResource();
 
 	public:
@@ -17,8 +18,13 @@ namespace yha
 		void FnSetKey(const std::wstring& key) { mKey = key; }
 		void FnSetPath(const std::wstring& path) { mPath = path; }
 
+		enums::eResourceType FnGetType() { return mType; }
+
 	private:
+		const enums::eResourceType mType;
+
 		std::wstring mKey;
 		std::wstring mPath;
+
 	};
 }

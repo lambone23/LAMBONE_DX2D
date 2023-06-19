@@ -37,7 +37,9 @@ namespace yha
 
 	void CTransform::FnBindConstantBuffer()
 	{
-		CConstantBuffer* cb = renderer::constantBuffer;
+		//CConstantBuffer* cb = renderer::constantBuffer;
+		CConstantBuffer* cb = renderer::constantBuffer[(UINT)eCBType::Transform];
+		
 		Vector4 position(mPosition.x, mPosition.y, mPosition.z, 1.0f);
 		cb->FnSetData(&position);
 		cb->FnBind(eShaderStage::VS);

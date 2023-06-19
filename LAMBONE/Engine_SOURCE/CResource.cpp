@@ -3,7 +3,8 @@
 
 namespace yha
 {
-	CResource::CResource()
+	CResource::CResource(const enums::eResourceType type)
+		: mType(type)
 	{
 
 	}

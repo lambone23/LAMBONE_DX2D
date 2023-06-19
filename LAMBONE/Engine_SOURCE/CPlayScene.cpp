@@ -2,7 +2,8 @@
 
 #include "CTransform.h"
 #include "CMeshRenderer.h"
-
+#include "CResources.h"
+#include "CMesh.h"
 
 namespace yha
 {
@@ -16,7 +17,11 @@ namespace yha
 	{
 		CGameObject* player = new CGameObject();
 		FnAddGameObject(eLayerType::Player, player);
-		player->FnAddComponent<CMeshRenderer>();
+		
+		//player->FnAddComponent<CMeshRenderer>();
+		CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
 
 		//GameObject* player2 = new GameObject();
 		//AddGameObject(eLayerType::Player, player2);

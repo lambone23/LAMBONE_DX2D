@@ -4,7 +4,9 @@
 namespace yha
 {
 	CMesh::CMesh()
-		: mVertexBuffer(nullptr)
+		//: mVertexBuffer(nullptr)
+		: CResource(enums::eResourceType::Mesh)
+		, mVertexBuffer(nullptr)
 		, mIndexBuffer(nullptr)
 		, mVBDesc{}
 		, mIBDesc{}
@@ -35,7 +37,7 @@ namespace yha
 			return false;
 
 		return true;
-	}
+	}//END-bool CMesh::FnCreateVertexBuffer
 
 	bool CMesh::FnCreateIndexBuffer(void* data, UINT Count)
 	{
@@ -52,7 +54,7 @@ namespace yha
 			return false;
 
 		return true;
-	}
+	}//END-bool CMesh::FnCreateIndexBuffer
 
 	void CMesh::FnBindBuffer()
 	{
@@ -61,5 +63,10 @@ namespace yha
 
 		FnGetDevice()->FnBindVertexBuffer(0, mVertexBuffer.GetAddressOf(), &stride, &offset);
 		FnGetDevice()->FnBindIndexBuffer(mIndexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-	}
+	}//END-void CMesh::FnBindBuffer
+
+	void CMesh::FnRender()
+	{
+		FnGetDevice()->FnDrawIndexed(mIndexCount, 0, 0);
+	}//END-void CMesh::FnRender
 }

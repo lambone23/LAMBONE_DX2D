@@ -19,6 +19,7 @@ namespace yha
 		bool FnCreateIndexBuffer(void* data, UINT Count);
 
 		void FnBindBuffer(); //Buffer 파이프라인에 묶어준다.
+		void FnRender();
 
 		UINT FnGetIndexCount() { return mIndexCount; }
 

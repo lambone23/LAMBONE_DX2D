@@ -4,7 +4,9 @@
 namespace yha::graphics
 {
 	CTexture::CTexture()
-		: mImage{}
+		//: mImage{}
+		: CResource(enums::eResourceType::Texture)
+		, mImage{}
 		, mTexture(nullptr)
 		, mSRV(nullptr)
 		, mDesc{}

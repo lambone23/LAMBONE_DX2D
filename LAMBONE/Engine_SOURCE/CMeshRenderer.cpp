@@ -26,11 +26,15 @@ namespace yha
 		CTransform* tr = FnGetOwner()->FnGetComponent<CTransform>();
 		tr->FnBindConstantBuffer();
 
-		//mMesh->BindBuffer();
-		//mShader->Binds();
+		////mMesh->BindBuffer();
+		////mShader->Binds();
 
-		renderer::mesh->FnBindBuffer();
-		renderer::shader->FnBinds();
-		FnGetDevice()->FnDrawIndexed(renderer::mesh->FnGetIndexCount(), 0, 0);
+		//renderer::mesh->FnBindBuffer();
+		//renderer::shader->FnBinds();
+		//FnGetDevice()->FnDrawIndexed(renderer::mesh->FnGetIndexCount(), 0, 0);
+
+		mMesh->FnBindBuffer();
+		mMaterial->FnBinds();
+		mMesh->FnRender();
 	}
 }

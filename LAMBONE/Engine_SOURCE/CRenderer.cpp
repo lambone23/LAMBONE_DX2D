@@ -1,6 +1,7 @@
 #include "CRenderer.h"
 #include "CResources.h"
 #include "CTexture.h"
+#include "CMaterial.h"
 
 namespace renderer
 {
@@ -8,9 +9,12 @@ namespace renderer
 	using namespace yha::graphics;
 
 	Vertex vertexes[4] = {};
-	yha::CMesh* mesh = nullptr;
-	yha::CShader* shader = nullptr;
-	yha::graphics::CConstantBuffer* constantBuffer = nullptr;
+	
+	//yha::CMesh* mesh = nullptr;
+	//yha::CShader* shader = nullptr;
+	//yha::graphics::CConstantBuffer* constantBuffer = nullptr;
+	yha::graphics::CConstantBuffer* constantBuffer[(UINT)eCBType::End] = {};
+
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)eSamplerType::End] = {};
 
 	void FnSetupState()
@@ -38,6 +42,17 @@ namespace renderer
 		arrLayout[2].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 		arrLayout[2].SemanticName = "TEXCOORD";
 		arrLayout[2].SemanticIndex = 0;
+
+		// Material
+		CShader* shader = yha::CResources::FnFind<CShader>(L"TriangleShader");
+		yha::graphics::FnGetDevice()->FnCreateInputLayout(
+			arrLayout
+			, 3
+			, shader->FnGetVSCode()
+			, shader->FnGetInputLayoutAddressOf());
+
+		shader = yha::CResources::FnFind<CShader>(L"SpriteShader");
+
 
 		yha::graphics::FnGetDevice()->FnCreateInputLayout(
 			arrLayout
@@ -92,7 +107,9 @@ namespace renderer
 		//	indexes.push_back(i);
 		//}
 
-		mesh = new yha::CMesh();
+		//mesh = new yha::CMesh();
+		CMesh* mesh = new yha::CMesh();
+		CResources::FnInsert(L"RectMesh", mesh);
 		mesh->FnCreateVertexBuffer(vertexes, 4);
 
 		std::vector<UINT> indexes = {};
@@ -133,8 +150,10 @@ namespace renderer
 		////yha::graphics::FnGetDevice()->FnSetConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
 		////yha::graphics::FnGetDevice()->FnBindConstantBuffer(eShaderStage::VS, eCBType::Transform, triangleConstantBuffer);
 
-		constantBuffer = new CConstantBuffer(eCBType::Transform);
-		constantBuffer->FnCreate(sizeof(Vector4));
+		//constantBuffer = new CConstantBuffer(eCBType::Transform);
+		//constantBuffer->FnCreate(sizeof(Vector4));
+		constantBuffer[(UINT)eCBType::Transform] = new CConstantBuffer(eCBType::Transform);
+		constantBuffer[(UINT)eCBType::Transform]->FnCreate(sizeof(Vector4));
 
 		//Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
 		//constantBuffer->FnSetData(&pos);
@@ -145,9 +164,25 @@ namespace renderer
 	{
 		//yha::graphics::FnGetDevice()->FnCreateShader();
 
-		shader = new yha::CShader();
+		//shader = new yha::CShader();
+		CShader* shader = new yha::CShader();
+
 		shader->FnCreate(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		shader->FnCreate(eShaderStage::PS, L"TrianglePS.hlsl", "main");
+
+		yha::CResources::FnInsert(L"TriangleShader", shader);
+
+		CShader* spriteShader = new yha::CShader();
+		spriteShader->FnCreate(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
+		yha::CResources::FnInsert(L"SpriteShader", spriteShader);
+
+		CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
+
+		CMaterial* spriteMateiral = new yha::graphics::CMaterial();
+		spriteMateiral->FnSetShader(spriteShader);
+		spriteMateiral->FnSetTexture(texture);
+		CResources::FnInsert(L"SpriteMaterial", spriteMateiral);
 	}
 
 	void FnInitialize()
@@ -181,9 +216,18 @@ namespace renderer
 
 	void FnRelease()
 	{
-		delete mesh;
-		delete shader;
-		delete constantBuffer;
+		//delete mesh;
+		//delete shader;
+		//delete constantBuffer;
+
+		for (CConstantBuffer* buff : constantBuffer)
+		{
+			if (buff == nullptr)
+				continue;
+
+			delete buff;
+			buff = nullptr;
+		}
 	}
 }
 

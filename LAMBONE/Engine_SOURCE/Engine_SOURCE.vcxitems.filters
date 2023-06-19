@@ -76,6 +76,9 @@
     <Filter Include="Texture">
       <UniqueIdentifier>{60063b9c-c69e-4744-aeef-754220eadfcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Material">
+      <UniqueIdentifier>{1a69b178-4dbb-4e39-9ffd-014b8742164b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -153,6 +156,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
       <Filter>Texture</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CMaterial.h">
+      <Filter>Material</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -217,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
       <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CMaterial.cpp">
+      <Filter>Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
