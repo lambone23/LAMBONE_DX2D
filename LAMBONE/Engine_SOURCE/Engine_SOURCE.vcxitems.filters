@@ -1,236 +1,242 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource">
-      <UniqueIdentifier>{b81691a7-8fbe-4101-bdfd-edc972ac50b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Application">
+    <Filter Include="01_Application">
       <UniqueIdentifier>{f060ced3-fbb5-43df-93e5-a73067e494e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common">
+    <Filter Include="00_Common">
       <UniqueIdentifier>{eeedd1b9-3bcd-447b-81f1-6836d91ac648}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{37ff5660-b200-4d8b-8851-2bf904880ce1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{02f358d0-7c7e-4d82-97cb-0918f0ebb78b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource\Resources">
-      <UniqueIdentifier>{9631ad8b-94f0-408c-b3af-604d02dc3c8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Common\Time">
+    <Filter Include="00_Common\Time">
       <UniqueIdentifier>{11aa2f7d-bf8d-4734-b76a-20d3b3b3e01e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Entity">
+    <Filter Include="00_Common\Entity">
       <UniqueIdentifier>{726500a7-a1dc-432a-a531-823ff16384fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common\Math">
+    <Filter Include="00_Common\Math">
       <UniqueIdentifier>{88907d90-e0eb-4462-b758-9a8168599fed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{d1b10452-0b7d-4e3c-95b4-37c31f763bcc}</UniqueIdentifier>
+    <Filter Include="00_Common\Graphics">
+      <UniqueIdentifier>{37ff5660-b200-4d8b-8851-2bf904880ce1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{8c9e427d-e5b2-4d66-8a24-3b8113d37666}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Layer">
-      <UniqueIdentifier>{f03aa7e5-ca53-4ec2-a882-5c000c9cf7f9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component">
-      <UniqueIdentifier>{790f25a4-116a-42be-ba58-64bbb0da096b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Component\Script">
-      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Shader">
-      <UniqueIdentifier>{8f4a1d2c-6263-41af-96a5-898c4635b72b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Renderer">
-      <UniqueIdentifier>{69f1914e-a3c8-401b-9f12-fc73dfb3bba7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Mesh">
-      <UniqueIdentifier>{559a2302-3759-40e8-9496-79ff780cf3ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\ConstantBuffer">
+    <Filter Include="00_Common\Graphics\ConstantBuffer">
       <UniqueIdentifier>{0fbe8b8a-f6be-4aa4-bcec-6a9d6f42e1c6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Component\Transform">
-      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
+    <Filter Include="02_Scene">
+      <UniqueIdentifier>{8c9e427d-e5b2-4d66-8a24-3b8113d37666}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Manager">
-      <UniqueIdentifier>{36dd7ca7-f234-48b5-8c64-3705976ea0ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Practical">
+    <Filter Include="02_Scene\2_Practical">
       <UniqueIdentifier>{80d02bca-c01e-4655-af7e-57fd3ad1ac8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Practical\Play">
+    <Filter Include="02_Scene\2_Practical\Play">
       <UniqueIdentifier>{d649a698-ca89-4c7a-abe6-051f5f2c60a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\Base">
+    <Filter Include="02_Scene\1_Base">
       <UniqueIdentifier>{2ccf9edd-0bb6-4566-8369-1b7c5632bc2d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Component\MeshRenderer">
+    <Filter Include="02_Scene\0_Manager">
+      <UniqueIdentifier>{36dd7ca7-f234-48b5-8c64-3705976ea0ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03_Layer">
+      <UniqueIdentifier>{f03aa7e5-ca53-4ec2-a882-5c000c9cf7f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04_GameObject">
+      <UniqueIdentifier>{d1b10452-0b7d-4e3c-95b4-37c31f763bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component">
+      <UniqueIdentifier>{790f25a4-116a-42be-ba58-64bbb0da096b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\3_MeshRenderer">
       <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Texture">
+    <Filter Include="05_Component\4_Script">
+      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\2_Particle">
+      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\0_Transform">
+      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\1_Mesh">
+      <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Input">
+      <UniqueIdentifier>{02f358d0-7c7e-4d82-97cb-0918f0ebb78b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource">
+      <UniqueIdentifier>{b81691a7-8fbe-4101-bdfd-edc972ac50b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Resources">
+      <UniqueIdentifier>{9631ad8b-94f0-408c-b3af-604d02dc3c8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Graphics\Resource_Mesh">
+      <UniqueIdentifier>{559a2302-3759-40e8-9496-79ff780cf3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Graphics\Resource_Shader">
+      <UniqueIdentifier>{8f4a1d2c-6263-41af-96a5-898c4635b72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Graphics\Resource_Texture">
       <UniqueIdentifier>{60063b9c-c69e-4744-aeef-754220eadfcb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Material">
+    <Filter Include="00_Common\Graphics\Resource_Material">
       <UniqueIdentifier>{1a69b178-4dbb-4e39-9ffd-014b8742164b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Graphics\Renderer">
+      <UniqueIdentifier>{69f1914e-a3c8-401b-9f12-fc73dfb3bba7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
-      <Filter>Resource</Filter>
+      <Filter>00_Common\Resource</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResources.h">
-      <Filter>Resource\Resources</Filter>
+      <Filter>00_Common\Resource\Resources</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CInput.h">
-      <Filter>Input</Filter>
+      <Filter>00_Common\Input</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CApplication.h">
-      <Filter>Application</Filter>
+      <Filter>01_Application</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphics.h">
-      <Filter>Graphics</Filter>
+      <Filter>00_Common\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
-      <Filter>Graphics</Filter>
+      <Filter>00_Common\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
-      <Filter>Common\Entity</Filter>
+      <Filter>00_Common\Entity</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ZEngine.h">
-      <Filter>Common</Filter>
+      <Filter>00_Common</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CEnums.h">
-      <Filter>Common</Filter>
+      <Filter>00_Common</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h">
-      <Filter>Common</Filter>
+      <Filter>00_Common</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTime.h">
-      <Filter>Common\Time</Filter>
+      <Filter>00_Common\Time</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMath.h">
-      <Filter>Common\Math</Filter>
+      <Filter>00_Common\Math</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h">
-      <Filter>Scene\Layer</Filter>
+      <Filter>03_Layer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
-      <Filter>GameObject</Filter>
+      <Filter>04_GameObject</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
-      <Filter>GameObject\Component</Filter>
+      <Filter>05_Component</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h">
-      <Filter>Graphics\Renderer</Filter>
+      <Filter>00_Common\Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CShader.h">
-      <Filter>Graphics\Shader</Filter>
+      <Filter>00_Common\Graphics\Resource_Shader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMesh.h">
-      <Filter>Graphics\Mesh</Filter>
+      <Filter>00_Common\Graphics\Resource_Mesh</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h">
-      <Filter>Graphics\ConstantBuffer</Filter>
+      <Filter>00_Common\Graphics\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h">
-      <Filter>GameObject\Component\Transform</Filter>
+      <Filter>05_Component\0_Transform</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
-      <Filter>Scene\Base</Filter>
+      <Filter>02_Scene\1_Base</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
-      <Filter>Scene\Manager</Filter>
+      <Filter>02_Scene\0_Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CPlayScene.h">
-      <Filter>Scene\Practical\Play</Filter>
+      <Filter>02_Scene\2_Practical\Play</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
-      <Filter>GameObject\Component\MeshRenderer</Filter>
+      <Filter>05_Component\3_MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
-      <Filter>Texture</Filter>
+      <Filter>00_Common\Graphics\Resource_Texture</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMaterial.h">
-      <Filter>Material</Filter>
+      <Filter>00_Common\Graphics\Resource_Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
-      <Filter>Resource</Filter>
+      <Filter>00_Common\Resource</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp">
-      <Filter>Resource\Resources</Filter>
+      <Filter>00_Common\Resource\Resources</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CInput.cpp">
-      <Filter>Input</Filter>
+      <Filter>00_Common\Input</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp">
-      <Filter>Application</Filter>
+      <Filter>01_Application</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>00_Common\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
-      <Filter>Common\Entity</Filter>
+      <Filter>00_Common\Entity</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTime.cpp">
-      <Filter>Common\Time</Filter>
+      <Filter>00_Common\Time</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMath.cpp">
-      <Filter>Common\Math</Filter>
+      <Filter>00_Common\Math</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp">
-      <Filter>Scene\Layer</Filter>
+      <Filter>03_Layer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp">
-      <Filter>GameObject</Filter>
+      <Filter>04_GameObject</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
-      <Filter>GameObject\Component</Filter>
+      <Filter>05_Component</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp">
-      <Filter>Graphics\Renderer</Filter>
+      <Filter>00_Common\Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CShader.cpp">
-      <Filter>Graphics\Shader</Filter>
+      <Filter>00_Common\Graphics\Resource_Shader</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp">
-      <Filter>Graphics\Mesh</Filter>
+      <Filter>00_Common\Graphics\Resource_Mesh</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp">
-      <Filter>Graphics\ConstantBuffer</Filter>
+      <Filter>00_Common\Graphics\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp">
-      <Filter>GameObject\Component\Transform</Filter>
+      <Filter>05_Component\0_Transform</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
-      <Filter>Scene\Base</Filter>
+      <Filter>02_Scene\1_Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
-      <Filter>Scene\Manager</Filter>
+      <Filter>02_Scene\0_Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CPlayScene.cpp">
-      <Filter>Scene\Practical\Play</Filter>
+      <Filter>02_Scene\2_Practical\Play</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
-      <Filter>GameObject\Component\MeshRenderer</Filter>
+      <Filter>05_Component\3_MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
-      <Filter>Texture</Filter>
+      <Filter>00_Common\Graphics\Resource_Texture</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMaterial.cpp">
-      <Filter>Material</Filter>
+      <Filter>00_Common\Graphics\Resource_Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)CMath.inl">
-      <Filter>Common\Math</Filter>
+      <Filter>00_Common\Math</Filter>
     </None>
   </ItemGroup>
 </Project>

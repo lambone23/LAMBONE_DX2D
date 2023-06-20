@@ -1,7 +1,6 @@
 #include "CSceneManager.h"
 #include "CPlayScene.h"
 
-
 namespace yha
 {
 	CScene* CSceneManager::mActiveScene = nullptr;

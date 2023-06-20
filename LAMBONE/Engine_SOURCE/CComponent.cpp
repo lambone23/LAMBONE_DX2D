@@ -1,6 +1,5 @@
 #include "CComponent.h"
 
-
 namespace yha
 {
 	CComponent::CComponent(eComponentType Type)

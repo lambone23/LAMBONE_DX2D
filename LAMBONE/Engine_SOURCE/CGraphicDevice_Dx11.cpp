@@ -283,7 +283,8 @@ namespace yha::graphics
 		return false;
 	}//END-bool CGraphicDevice_Dx11::FnCompileFromfile
 
-	bool CGraphicDevice_Dx11::FnCreateVertexShader(const void* pShaderBytecode
+	bool CGraphicDevice_Dx11::FnCreateVertexShader(
+		const void* pShaderBytecode
 		, SIZE_T BytecodeLength
 		, ID3D11VertexShader** ppVertexShader)
 	{
@@ -293,7 +294,8 @@ namespace yha::graphics
 		return true;
 	}//END-bool CGraphicDevice_Dx11::FnCreateVertexShader
 
-	bool CGraphicDevice_Dx11::FnCreatePixelShader(const void* pShaderBytecode
+	bool CGraphicDevice_Dx11::FnCreatePixelShader(
+		const void* pShaderBytecode
 		, SIZE_T BytecodeLength
 		, ID3D11PixelShader** ppPixelShader)
 	{
@@ -321,7 +323,8 @@ namespace yha::graphics
 		mContext->IASetPrimitiveTopology(Topology);
 	}//END-void CGraphicDevice_Dx11::FnBindPrimitiveTopology
 
-	void CGraphicDevice_Dx11::FnBindVertexBuffer(UINT StartSlot
+	void CGraphicDevice_Dx11::FnBindVertexBuffer(
+		UINT StartSlot
 		, ID3D11Buffer* const* ppVertexBuffers
 		, const UINT* pStrides
 		, const UINT* pOffsets)
@@ -329,7 +332,8 @@ namespace yha::graphics
 		mContext->IASetVertexBuffers(StartSlot, 1, ppVertexBuffers, pStrides, pOffsets);
 	}//END-void CGraphicDevice_Dx11::FnBindVertexBuffer
 
-	void CGraphicDevice_Dx11::FnBindIndexBuffer(ID3D11Buffer* pIndexBuffer
+	void CGraphicDevice_Dx11::FnBindIndexBuffer(
+		ID3D11Buffer* pIndexBuffer
 		, DXGI_FORMAT Format
 		, UINT Offset)
 	{

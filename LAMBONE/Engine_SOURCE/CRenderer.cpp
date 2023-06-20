@@ -52,8 +52,6 @@ namespace renderer
 			, shader->FnGetInputLayoutAddressOf());
 
 		shader = yha::CResources::FnFind<CShader>(L"SpriteShader");
-
-
 		yha::graphics::FnGetDevice()->FnCreateInputLayout(
 			arrLayout
 			, 3
@@ -75,7 +73,7 @@ namespace renderer
 		desc.Filter = D3D11_FILTER_ANISOTROPIC;
 		FnGetDevice()->FnCreateSampler(&desc, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
 		FnGetDevice()->FnBindSampler(eShaderStage::PS, 1, samplerState[(UINT)eSamplerType::Anisotropic].GetAddressOf());
-	}
+	}//END-void FnSetupState
 
 	void FnLoadBuffer()
 	{
@@ -158,7 +156,7 @@ namespace renderer
 		//Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
 		//constantBuffer->FnSetData(&pos);
 		//constantBuffer->FnBind(eShaderStage::VS);
-	}
+	}//END-void FnLoadBuffer
 
 	void FnLoadShader()
 	{
@@ -166,10 +164,8 @@ namespace renderer
 
 		//shader = new yha::CShader();
 		CShader* shader = new yha::CShader();
-
 		shader->FnCreate(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		shader->FnCreate(eShaderStage::PS, L"TrianglePS.hlsl", "main");
-
 		yha::CResources::FnInsert(L"TriangleShader", shader);
 
 		CShader* spriteShader = new yha::CShader();
@@ -183,7 +179,7 @@ namespace renderer
 		spriteMateiral->FnSetShader(spriteShader);
 		spriteMateiral->FnSetTexture(texture);
 		CResources::FnInsert(L"SpriteMaterial", spriteMateiral);
-	}
+	}//END-void FnLoadShader
 
 	void FnInitialize()
 	{
@@ -212,7 +208,7 @@ namespace renderer
 		texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 
 		texture->FnBindShader(eShaderStage::PS, 0);
-	}
+	}//END-void FnInitialize
 
 	void FnRelease()
 	{
@@ -228,7 +224,7 @@ namespace renderer
 			delete buff;
 			buff = nullptr;
 		}
-	}
+	}//END-void FnRelease
 }
 
 

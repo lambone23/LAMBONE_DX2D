@@ -1,6 +1,5 @@
 #include "CLayer.h"
 
-
 namespace yha
 {
 	CLayer::CLayer()

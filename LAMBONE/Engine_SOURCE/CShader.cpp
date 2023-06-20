@@ -36,14 +36,18 @@ namespace yha
 		if (stage == eShaderStage::VS)
 		{
 			FnGetDevice()->FnCompileFromfile(fullPath, funcName, "vs_5_0", mVSBlob.GetAddressOf());
-			FnGetDevice()->FnCreateVertexShader(mVSBlob->GetBufferPointer()
-				, mVSBlob->GetBufferSize(), mVS.GetAddressOf());
+			FnGetDevice()->FnCreateVertexShader(
+				mVSBlob->GetBufferPointer()
+				, mVSBlob->GetBufferSize()
+				, mVS.GetAddressOf());
 		}
 		else if (stage == eShaderStage::PS)
 		{
 			FnGetDevice()->FnCompileFromfile(fullPath, funcName, "ps_5_0", mPSBlob.GetAddressOf());
-			FnGetDevice()->FnCreatePixelShader(mPSBlob->GetBufferPointer()
-				, mPSBlob->GetBufferSize(), mPS.GetAddressOf());
+			FnGetDevice()->FnCreatePixelShader(
+				mPSBlob->GetBufferPointer()
+				, mPSBlob->GetBufferSize()
+				, mPS.GetAddressOf());
 		}
 
 		return true;;

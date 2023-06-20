@@ -1,7 +1,5 @@
 #pragma once
 #include "CResource.h"
-
-#include "CResource.h"
 #include "CGraphicDevice_Dx11.h"
 
 //

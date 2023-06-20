@@ -4,7 +4,6 @@
 #include "CRenderer.h"
 #include "CSceneManager.h"
 
-
 namespace yha
 {
 	CApplication::CApplication()
