@@ -12,16 +12,15 @@ namespace yha::graphics
 		~CMaterial();
 
 	public:
-
 		virtual HRESULT FnLoad(const std::wstring& path) override;
 
 		void FnBinds();
 
-		void FnSetShader(CShader* shader) { mShader = shader; }
-		void FnSetTexture(CTexture* texture) { mTexture = texture; }
+		void FnSetShader(std::shared_ptr<CShader> shader) { mShader = shader; }
+		void FnSetTexture(std::shared_ptr<CTexture> texture) { mTexture = texture; }
 
 	private:
-		CShader* mShader;
-		CTexture* mTexture;
+		std::shared_ptr<CShader> mShader;
+		std::shared_ptr<CTexture> mTexture;
 	};
 }

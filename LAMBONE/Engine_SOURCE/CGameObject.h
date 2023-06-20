@@ -1,6 +1,7 @@
 #pragma once
 #include "CEntity.h"
 #include "CComponent.h"
+#include "CScript.h"
 
 namespace yha
 {
@@ -36,6 +37,13 @@ namespace yha
 					return component;
 			}
 
+			for (CScript* script : mScripts)
+			{
+				component = dynamic_cast<T*>(script);
+				if (component != nullptr)
+					return component;
+			}
+
 			return nullptr;
 		}
 
@@ -44,13 +52,17 @@ namespace yha
 		{
 			T* comp = new T();
 
-			CComponent* buff
-				= dynamic_cast<CComponent*>(comp);
+			CComponent* buff = dynamic_cast<CComponent*>(comp);
+			CScript* script = dynamic_cast<CScript*>(buff);
 
 			if (buff == nullptr)
 				return nullptr;
 
-			mComponents.push_back(buff);
+			if (script == nullptr)
+				mComponents.push_back(buff);
+			else
+				mScripts.push_back(script);
+
 			comp->FnSetOwner(this);
 
 			return comp;
@@ -59,5 +71,6 @@ namespace yha
 	private:
 		eState mState;
 		std::vector<CComponent*> mComponents;
+		std::vector<CScript*> mScripts;
 	};
 }

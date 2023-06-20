@@ -71,7 +71,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     renderer::FnRelease();
-    yha::CResources::FnRelease();
     yha::CSceneManager::FnRelease();
 
     return (int)msg.wParam;

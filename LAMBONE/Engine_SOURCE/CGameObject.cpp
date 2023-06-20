@@ -21,6 +21,15 @@ namespace yha
 			delete comp;
 			comp = nullptr;
 		}
+
+		for (CScript* script : mScripts)
+		{
+			if (script == nullptr)
+				continue;
+
+			delete script;
+			script = nullptr;
+		}
 	}
 
 	void CGameObject::FnInitialize()
@@ -34,6 +43,11 @@ namespace yha
 		{
 			comp->FnUpdate();
 		}
+
+		for (CScript* script : mScripts)
+		{
+			script->FnUpdate();
+		}
 	}
 
 	void CGameObject::FnLateUpdate()
@@ -41,6 +55,11 @@ namespace yha
 		for (CComponent* comp : mComponents)
 		{
 			comp->FnLateUpdate();
+		}
+
+		for (CScript* script : mScripts)
+		{
+			script->FnLateUpdate();
 		}
 	}
 
@@ -51,6 +70,11 @@ namespace yha
 			comp->FnRender();
 		}
 		//상수버퍼로 위치정보 크기정보, 색깔, 업데이트 해줘야한다.
+
+		for (CScript* script : mScripts)
+		{
+			script->FnRender();
+		}
 
 	}
 }

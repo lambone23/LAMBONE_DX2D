@@ -3,6 +3,7 @@
 #include "CMeshRenderer.h"
 #include "CResources.h"
 #include "CMesh.h"
+#include "CCameraScript.h"
 
 namespace yha
 {
@@ -21,6 +22,8 @@ namespace yha
 		CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
+
+		player->FnAddComponent<CCameraScript>();
 
 		//GameObject* player2 = new GameObject();
 		//AddGameObject(eLayerType::Player, player2);

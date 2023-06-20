@@ -44,7 +44,8 @@ namespace renderer
 		arrLayout[2].SemanticIndex = 0;
 
 		// Material
-		CShader* shader = yha::CResources::FnFind<CShader>(L"TriangleShader");
+		//CShader* shader = yha::CResources::FnFind<CShader>(L"TriangleShader");
+		std::shared_ptr<CShader> shader = yha::CResources::FnFind<CShader>(L"TriangleShader");
 		yha::graphics::FnGetDevice()->FnCreateInputLayout(
 			arrLayout
 			, 3
@@ -106,7 +107,8 @@ namespace renderer
 		//}
 
 		//mesh = new yha::CMesh();
-		CMesh* mesh = new yha::CMesh();
+		//CMesh* mesh = new yha::CMesh();
+		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
 		CResources::FnInsert(L"RectMesh", mesh);
 		mesh->FnCreateVertexBuffer(vertexes, 4);
 
@@ -163,19 +165,23 @@ namespace renderer
 		//yha::graphics::FnGetDevice()->FnCreateShader();
 
 		//shader = new yha::CShader();
-		CShader* shader = new yha::CShader();
+		//CShader* shader = new yha::CShader();
+		std::shared_ptr<CShader> shader = std::make_shared<CShader>();
 		shader->FnCreate(eShaderStage::VS, L"TriangleVS.hlsl", "main");
 		shader->FnCreate(eShaderStage::PS, L"TrianglePS.hlsl", "main");
 		yha::CResources::FnInsert(L"TriangleShader", shader);
 
-		CShader* spriteShader = new yha::CShader();
+		//CShader* spriteShader = new yha::CShader();
+		std::shared_ptr<CShader> spriteShader = std::make_shared<CShader>();
 		spriteShader->FnCreate(eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
 		yha::CResources::FnInsert(L"SpriteShader", spriteShader);
 
-		CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
+		//CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
+		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 
-		CMaterial* spriteMateiral = new yha::graphics::CMaterial();
+		//CMaterial* spriteMateiral = new yha::graphics::CMaterial();
+		std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
 		spriteMateiral->FnSetShader(spriteShader);
 		spriteMateiral->FnSetTexture(texture);
 		CResources::FnInsert(L"SpriteMaterial", spriteMateiral);
@@ -203,7 +209,8 @@ namespace renderer
 		FnLoadShader();
 		FnSetupState();
 
-		CTexture* texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
+		//CTexture* texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
+		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
 
 		texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 

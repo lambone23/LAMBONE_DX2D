@@ -20,13 +20,13 @@ namespace yha
 		virtual void FnRender() override;
 
 	public:
-		void FnSetMesh(CMesh* mesh) { mMesh = mesh; }
-		void FnSetMaterial(CMaterial* material) { mMaterial = material; }
+		void FnSetMesh(std::shared_ptr<CMesh> mesh) { mMesh = mesh; }
+		void FnSetMaterial(std::shared_ptr<CMaterial> material) { mMaterial = material; }
 
 	private:
-		CMesh* mMesh;
+		std::shared_ptr<CMesh> mMesh;
 		
 		//CShader* mShader;
-		CMaterial* mMaterial;
+		std::shared_ptr<CMaterial> mMaterial;
 	};
 }

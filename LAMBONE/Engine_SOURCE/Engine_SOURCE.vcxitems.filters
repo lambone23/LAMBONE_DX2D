@@ -58,9 +58,6 @@
     <Filter Include="05_Component\0_Transform">
       <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\1_Mesh">
-      <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00_Common\Input">
       <UniqueIdentifier>{02f358d0-7c7e-4d82-97cb-0918f0ebb78b}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,12 @@
     </Filter>
     <Filter Include="00_Common\Graphics\Renderer">
       <UniqueIdentifier>{69f1914e-a3c8-401b-9f12-fc73dfb3bba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\4_Script\CameraScript">
+      <UniqueIdentifier>{4e2031a1-bac2-4b06-89ec-7f15346372a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\1_Mesh %28Graphics%29">
+      <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +168,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CMaterial.h">
       <Filter>00_Common\Graphics\Resource_Material</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h">
+      <Filter>05_Component\4_Script</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCameraScript.h">
+      <Filter>05_Component\4_Script\CameraScript</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -232,6 +241,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMaterial.cpp">
       <Filter>00_Common\Graphics\Resource_Material</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp">
+      <Filter>05_Component\4_Script</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCameraScript.cpp">
+      <Filter>05_Component\4_Script\CameraScript</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
