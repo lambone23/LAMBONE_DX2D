@@ -36,5 +36,7 @@ namespace yha
 		mMesh->FnBindBuffer();
 		mMaterial->FnBinds();
 		mMesh->FnRender();
+
+		mMaterial->FnClear();
 	}
 }

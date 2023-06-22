@@ -10,6 +10,7 @@ namespace yha::enums
 		Particle,
 		MeshRenderer,
 		Script,
+		Camera,
 		End,
 	};
 

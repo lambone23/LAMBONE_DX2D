@@ -1,6 +1,7 @@
 #include "CTransform.h"
 #include "CRenderer.h"
 #include "CConstantBuffer.h"
+#include "CCamera.h"
 
 namespace yha
 {
@@ -56,12 +57,14 @@ namespace yha
 
 	void CTransform::FnBindConstantBuffer()
 	{
-
 		renderer::TransformCB trCB = {};
 		trCB.mWorld = mWorld;
 
 		//trCB.mView = mWorld;
+		trCB.mView = CCamera::FnGetViewMatrix();
+		 
 		//trCB.mProjection = mWorld;
+		trCB.mProjection = CCamera::FnGetProjectionMatrix();
 
 		//CConstantBuffer* cb = renderer::constantBuffer;
 		CConstantBuffer* cb = renderer::constantBuffer[(UINT)eCBType::Transform];

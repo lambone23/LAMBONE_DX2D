@@ -22,6 +22,7 @@ namespace yha::graphics
 	public:
 		virtual HRESULT FnLoad(const std::wstring& path) override;
 		void FnBindShader(eShaderStage stage, UINT startSlot);
+		void FnClear();
 
 	private:
 		ScratchImage mImage;

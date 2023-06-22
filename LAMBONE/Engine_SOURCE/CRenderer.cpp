@@ -178,14 +178,24 @@ namespace renderer
 		spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
 		yha::CResources::FnInsert(L"SpriteShader", spriteShader);
 
-		//CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
-		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
+		{// SpriteMaterial
+			//CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 
-		//CMaterial* spriteMateiral = new yha::graphics::CMaterial();
-		std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
-		spriteMateiral->FnSetShader(spriteShader);
-		spriteMateiral->FnSetTexture(texture);
-		CResources::FnInsert(L"SpriteMaterial", spriteMateiral);
+			//CMaterial* spriteMateiral = new yha::graphics::CMaterial();
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"SpriteMaterial", spriteMateiral);
+		}
+
+		{// SpriteMaterial02
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"SpriteMaterial02", spriteMateiral);
+		}
 	}//END-void FnLoadShader
 
 	void FnInitialize()

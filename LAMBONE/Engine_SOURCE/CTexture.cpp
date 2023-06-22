@@ -50,10 +50,22 @@ namespace yha::graphics
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
 
 		return S_OK;
-	}
+	}//END-HRESULT CTexture::FnLoad
 
 	void CTexture::FnBindShader(eShaderStage stage, UINT startSlot)
 	{
 		FnGetDevice()->FnBindShaderResource(stage, startSlot, mSRV.GetAddressOf());
-	}
+	}//END-void CTexture::FnBindShader
+
+	void CTexture::FnClear()
+	{
+		ID3D11ShaderResourceView* srv = nullptr;
+
+		FnGetDevice()->FnBindShaderResource(eShaderStage::VS, 0, &srv);
+		FnGetDevice()->FnBindShaderResource(eShaderStage::DS, 0, &srv);
+		FnGetDevice()->FnBindShaderResource(eShaderStage::GS, 0, &srv);
+		FnGetDevice()->FnBindShaderResource(eShaderStage::HS, 0, &srv);
+		FnGetDevice()->FnBindShaderResource(eShaderStage::CS, 0, &srv);
+		FnGetDevice()->FnBindShaderResource(eShaderStage::PS, 0, &srv);
+	}//END-void CTexture::FnClear
 }

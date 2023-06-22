@@ -15,6 +15,7 @@ namespace yha::graphics
 		virtual HRESULT FnLoad(const std::wstring& path) override;
 
 		void FnBinds();
+		void FnClear();
 
 		void FnSetShader(std::shared_ptr<CShader> shader) { mShader = shader; }
 		void FnSetTexture(std::shared_ptr<CTexture> texture) { mTexture = texture; }

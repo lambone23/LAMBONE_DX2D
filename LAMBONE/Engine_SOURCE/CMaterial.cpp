@@ -24,4 +24,9 @@ namespace yha::graphics
 		mTexture->FnBindShader(eShaderStage::PS, 0);
 		mShader->FnBinds();
 	}
+
+	void CMaterial::FnClear()
+	{
+		mTexture->FnClear();
+	}
 }
