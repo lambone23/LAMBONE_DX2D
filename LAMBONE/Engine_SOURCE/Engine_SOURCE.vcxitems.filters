@@ -88,6 +88,9 @@
     <Filter Include="05_Component\1_Mesh %28Graphics%29">
       <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00_Common\Camera">
+      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -174,6 +177,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CCameraScript.h">
       <Filter>05_Component\4_Script\CameraScript</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
+      <Filter>00_Common\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -247,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCameraScript.cpp">
       <Filter>05_Component\4_Script\CameraScript</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
+      <Filter>00_Common\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

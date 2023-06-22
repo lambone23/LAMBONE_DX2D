@@ -29,8 +29,8 @@ namespace yha
 		//AddGameObject(eLayerType::Player, player2);
 		//player2->AddComponent<MeshRenderer>();
 
-		//Transform* tr = player->GetComponent<Transform>();
-		//tr->SetPosition(Vector3(0.5f, 0.5f, 0.0f));
+		CTransform* tr = player->FnGetComponent<CTransform>();
+		tr->FnSetPosition(Vector3(0.5f, 0.5f, 0.0f));
 	}
 
 	void CPlayScene::FnUpdate()

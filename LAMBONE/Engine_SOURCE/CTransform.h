@@ -30,9 +30,19 @@ namespace yha
 		Vector3 FnGetRotation() { return mRotation; }
 		Vector3 FnGetScale() { return mScale; }
 
+		Vector3 FnFoward() { return mFoward; }
+		Vector3 FnRight() { return mRight; }
+		Vector3 FnUp() { return mUp; }
+
 	private:
 		Vector3 mPosition;
 		Vector3 mRotation;
 		Vector3 mScale;
+
+		Vector3 mUp;
+		Vector3 mFoward;
+		Vector3 mRight;
+
+		Matrix mWorld;
 	};
 }

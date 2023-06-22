@@ -23,11 +23,30 @@ namespace yha
 
 	void CTransform::FnUpdate()
 	{
+		// 이동 회전 크기 변경
 	}
 
 	void CTransform::FnLateUpdate()
 	{
 		//BindConstantBuffer();
+
+		mWorld = Matrix::Identity;
+
+		Matrix scale = Matrix::CreateScale(mScale);
+
+		Matrix rotation;
+		rotation = Matrix::CreateRotationX(mRotation.x);
+		rotation *= Matrix::CreateRotationY(mRotation.y);
+		rotation *= Matrix::CreateRotationZ(mRotation.z);
+
+		Matrix position;
+		position.Translation(mPosition);
+
+		mWorld = scale * rotation * position;
+
+		mUp		= Vector3::TransformNormal(Vector3::Up, rotation);
+		mFoward	= Vector3::TransformNormal(Vector3::Forward, rotation);
+		mRight	= Vector3::TransformNormal(Vector3::Right, rotation);
 	}
 
 	void CTransform::FnRender()
@@ -37,11 +56,21 @@ namespace yha
 
 	void CTransform::FnBindConstantBuffer()
 	{
+
+		renderer::TransformCB trCB = {};
+		trCB.mWorld = mWorld;
+
+		//trCB.mView = mWorld;
+		//trCB.mProjection = mWorld;
+
 		//CConstantBuffer* cb = renderer::constantBuffer;
 		CConstantBuffer* cb = renderer::constantBuffer[(UINT)eCBType::Transform];
 		
 		Vector4 position(mPosition.x, mPosition.y, mPosition.z, 1.0f);
-		cb->FnSetData(&position);
+		
+		//cb->FnSetData(&position);
+		cb->FnSetData(&trCB);
+
 		cb->FnBind(eShaderStage::VS);
 	}
 
