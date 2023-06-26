@@ -21,8 +21,11 @@ namespace yha::graphics
 
 	void CMaterial::FnBinds()
 	{
-		mTexture->FnBindShader(eShaderStage::PS, 0);
-		mShader->FnBinds();
+		if (mTexture)
+			mTexture->FnBindShader(eShaderStage::PS, 0);
+
+		if (mShader)
+			mShader->FnBinds();
 	}
 
 	void CMaterial::FnClear()

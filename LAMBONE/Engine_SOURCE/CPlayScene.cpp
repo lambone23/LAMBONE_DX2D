@@ -24,7 +24,7 @@ namespace yha
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
 
-			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0f));
 			//player->FnAddComponent<CCameraScript>();
 		}
 
@@ -36,7 +36,7 @@ namespace yha
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial02"));
 
-			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, 0.0f, 0.0f));
+			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.2f, 0.0f, 0.0f));
 			//player->AddComponent<CameraScript>();
 		}
 

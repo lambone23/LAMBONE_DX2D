@@ -22,7 +22,10 @@ namespace yha::graphics
 		bool FnCreateVertexShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11VertexShader** ppVertexShader);
 		bool FnCreatePixelShader(const void* pShaderBytecode, SIZE_T BytecodeLength, ID3D11PixelShader** ppPixelShader);
 
-		bool FnCreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState);
+		bool FnCreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState);
+		bool FnCreateRasterizeState(const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState);
+		bool FnCreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState);
+		bool FnCreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc, ID3D11BlendState** ppBlendState);
 
 		void FnBindInputLayout(ID3D11InputLayout* pInputLayout);
 		void FnBindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology);
@@ -42,6 +45,10 @@ namespace yha::graphics
 		void FnBindSampler(eShaderStage stage, UINT StartSlot, ID3D11SamplerState** ppSamplers);
 		
 		void FnBindViewPort(D3D11_VIEWPORT* viewPort);
+
+		void FnBindRasterizeState(ID3D11RasterizerState* pRasterizerState);
+		void FnBindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
+		void FnBindBlendState(ID3D11BlendState* pBlendState);
 
 		void FnDrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
 		void FnClearTarget();

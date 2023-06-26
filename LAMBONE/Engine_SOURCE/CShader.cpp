@@ -1,4 +1,5 @@
 #include "CShader.h"
+#include "CRenderer.h"
 
 namespace yha
 {
@@ -7,6 +8,9 @@ namespace yha
 		: CResource(enums::eResourceType::Shader)
 		, mInputLayout(nullptr)
 		, mTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
+		, mRSType(eRSType::SolidBack)
+		, mDSType(eDSType::Less)
+		, mBSType(eBSType::AlphaBlend)
 	{
 	}
 
@@ -59,5 +63,13 @@ namespace yha
 
 		FnGetDevice()->FnBindVertexShader(mVS.Get());
 		FnGetDevice()->FnBindPixelShader(mPS.Get());
+
+		Microsoft::WRL::ComPtr<ID3D11RasterizerState> rsState = renderer::rasterizerStates[(UINT)mRSType];
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dsState = renderer::depthStencilStates[(UINT)mDSType];
+		Microsoft::WRL::ComPtr<ID3D11BlendState> bsState = renderer::blendStates[(UINT)mBSType];
+
+		FnGetDevice()->FnBindRasterizeState(rsState.Get());
+		FnGetDevice()->FnBindDepthStencilState(dsState.Get());
+		FnGetDevice()->FnBindBlendState(bsState.Get());
 	}
 }

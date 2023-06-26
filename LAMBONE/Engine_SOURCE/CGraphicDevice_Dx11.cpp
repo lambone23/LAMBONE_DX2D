@@ -199,74 +199,6 @@ namespace yha::graphics
 		return true;
 	}//END-bool CGraphicDevice_Dx11::FnCreateBuffer
 
-	//[230608]별도 분리
-	//[S]-------------------------------------------------------------------------------------------
-	//bool CGraphicDevice_Dx11::FnCreateShader()
-	//{
-	//	std::filesystem::path shaderPath
-	//		= std::filesystem::current_path().parent_path();
-	//	shaderPath += L"\\Shader_SOURCE\\";
-
-	//	std::filesystem::path vsPath(shaderPath.c_str());
-	//	vsPath += L"TriangleVS.hlsl";
-
-	//	D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-	//		, "main", "vs_5_0", 0, 0, &yha::renderer::triangleVSBlob, &yha::renderer::errorBlob);
-
-	//	if (yha::renderer::errorBlob)
-	//	{
-	//		OutputDebugStringA((char*)yha::renderer::errorBlob->GetBufferPointer());
-	//		yha::renderer::errorBlob->Release();
-	//	}
-
-	//	mDevice->CreateVertexShader(yha::renderer::triangleVSBlob->GetBufferPointer()
-	//		, yha::renderer::triangleVSBlob->GetBufferSize()
-	//		, nullptr, &yha::renderer::triangleVSShader);
-
-	//	std::filesystem::path psPath(shaderPath.c_str());
-	//	psPath += L"TrianglePS.hlsl";
-
-	//	D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
-	//		, "main", "ps_5_0", 0, 0, &yha::renderer::trianglePSBlob, &yha::renderer::errorBlob);
-
-	//	if (yha::renderer::errorBlob)
-	//	{
-	//		OutputDebugStringA((char*)yha::renderer::errorBlob->GetBufferPointer());
-	//		yha::renderer::errorBlob->Release();
-	//	}
-
-	//	mDevice->CreatePixelShader(yha::renderer::trianglePSBlob->GetBufferPointer()
-	//		, yha::renderer::trianglePSBlob->GetBufferSize()
-	//		, nullptr, &yha::renderer::trianglePSShader);
-
-
-	//	// Input layout 정점 구조 정보를 넘겨줘야한다.
-	//	D3D11_INPUT_ELEMENT_DESC arrLayout[2] = {};
-
-	//	arrLayout[0].AlignedByteOffset = 0;
-	//	arrLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	//	arrLayout[0].InputSlot = 0;
-	//	arrLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	//	arrLayout[0].SemanticName = "POSITION";
-	//	arrLayout[0].SemanticIndex = 0;
-
-	//	arrLayout[1].AlignedByteOffset = 12;
-	//	arrLayout[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	//	arrLayout[1].InputSlot = 0;
-	//	arrLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
-	//	arrLayout[1].SemanticName = "COLOR";
-	//	arrLayout[1].SemanticIndex = 0;
-
-	//	// triangle
-	//	mDevice->CreateInputLayout(arrLayout, 2
-	//		, renderer::triangleVSBlob->GetBufferPointer()
-	//		, renderer::triangleVSBlob->GetBufferSize()
-	//		, &renderer::triangleLayout);
-
-	//	return true;
-	//}//END-bool CGraphicDevice_Dx11::FnCreateShader
-	//[E]-------------------------------------------------------------------------------------------
-
 	bool CGraphicDevice_Dx11::FnCompileFromfile(const std::wstring& fileName, const std::string& funcName, const std::string& version, ID3DBlob** ppCode)
 	{
 		ID3DBlob* errorBlob = nullptr;
@@ -305,13 +237,37 @@ namespace yha::graphics
 		return true;
 	}//END-bool CGraphicDevice_Dx11::FnCreatePixelShader
 
-	bool CGraphicDevice_Dx11::FnCreateSampler(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
+	bool CGraphicDevice_Dx11::FnCreateSamplerState(const D3D11_SAMPLER_DESC* pSamplerDesc, ID3D11SamplerState** ppSamplerState)
 	{
 		if (FAILED(mDevice->CreateSamplerState(pSamplerDesc, ppSamplerState)))
 			return false;
 
 		return true;
 	}//END-bool CGraphicDevice_Dx11::FnCreateSampler
+
+	bool CGraphicDevice_Dx11::FnCreateRasterizeState(const D3D11_RASTERIZER_DESC* pRasterizerDesc, ID3D11RasterizerState** ppRasterizerState)
+	{
+		if (FAILED(mDevice->CreateRasterizerState(pRasterizerDesc, ppRasterizerState)))
+			return false;
+
+		return true;
+	}//END-bool CGraphicDevice_Dx11::FnCreateRasterizeState
+
+	bool CGraphicDevice_Dx11::FnCreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState)
+	{
+		if (FAILED(mDevice->CreateDepthStencilState(pDepthStencilDesc, ppDepthStencilState)))
+			return false;
+
+		return true;
+	}//END-bool CGraphicDevice_Dx11::FnCreateDepthStencilState
+
+	bool CGraphicDevice_Dx11::FnCreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc, ID3D11BlendState** ppBlendState)
+	{
+		if (FAILED(mDevice->CreateBlendState(pBlendStateDesc, ppBlendState)))
+			return false;
+
+		return true;
+	}//END-bool CGraphicDevice_Dx11::FnCreateBlendState
 
 	void CGraphicDevice_Dx11::FnBindInputLayout(ID3D11InputLayout* pInputLayout)
 	{
@@ -459,6 +415,21 @@ namespace yha::graphics
 	{
 		mContext->RSSetViewports(1, viewPort);
 	}//END-void CGraphicDevice_Dx11::FnBindViewPort
+
+	void CGraphicDevice_Dx11::FnBindRasterizeState(ID3D11RasterizerState* pRasterizerState)
+	{
+		mContext->RSSetState(pRasterizerState);
+	}//END-void CGraphicDevice_Dx11::FnBindRasterizeState
+
+	void CGraphicDevice_Dx11::FnBindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState)
+	{
+		mContext->OMSetDepthStencilState(pDepthStencilState, 0);
+	}//END-void CGraphicDevice_Dx11::FnBindDepthStencilState
+
+	void CGraphicDevice_Dx11::FnBindBlendState(ID3D11BlendState* pBlendState)
+	{
+		mContext->OMSetBlendState(pBlendState, nullptr, 0xffffffff);
+	}//END-void CGraphicDevice_Dx11::FnBindBlendState
 
 	void CGraphicDevice_Dx11::FnDrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation)
 	{

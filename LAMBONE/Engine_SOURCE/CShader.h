@@ -22,6 +22,10 @@ namespace yha
 		ID3D11InputLayout* FnGetInputLayout() { return mInputLayout; }
 		ID3D11InputLayout** FnGetInputLayoutAddressOf() { return &mInputLayout; }
 
+		void FnSetRSState(eRSType type) { mRSType = type; }
+		void FnSetDSState(eDSType type) { mDSType = type; }
+		void FnSetBSState(eBSType type) { mBSType = type; }
+
 	private:
 		ID3D11InputLayout* mInputLayout;
 		D3D11_PRIMITIVE_TOPOLOGY mTopology;
@@ -37,7 +41,9 @@ namespace yha
 		Microsoft::WRL::ComPtr<ID3D11DomainShader> mDS;
 		Microsoft::WRL::ComPtr<ID3D11GeometryShader> mGS;
 		Microsoft::WRL::ComPtr<ID3D11PixelShader> mPS;
+
+		eRSType mRSType;
+		eDSType mDSType;
+		eBSType mBSType;
 	};
 }
-
-
