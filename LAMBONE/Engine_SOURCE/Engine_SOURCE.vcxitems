@@ -20,6 +20,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneEnding.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneMainMenu.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMaterial.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMesh.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h" />
@@ -33,7 +35,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CMath.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CPlayScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneIntro.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneLoading.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayGrassDay.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayGrassNight.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayPoolDay.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayPoolNight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h" />
@@ -55,6 +63,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CInput.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneEnding.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneMainMenu.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMaterial.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp" />
@@ -64,7 +74,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneIntro.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneLoading.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayGrassDay.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayGrassNight.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayPoolDay.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayPoolNight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp" />

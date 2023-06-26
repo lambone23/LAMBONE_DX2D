@@ -25,12 +25,6 @@
     <Filter Include="02_Scene">
       <UniqueIdentifier>{8c9e427d-e5b2-4d66-8a24-3b8113d37666}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Scene\2_Practical">
-      <UniqueIdentifier>{80d02bca-c01e-4655-af7e-57fd3ad1ac8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\Play">
-      <UniqueIdentifier>{d649a698-ca89-4c7a-abe6-051f5f2c60a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02_Scene\1_Base">
       <UniqueIdentifier>{2ccf9edd-0bb6-4566-8369-1b7c5632bc2d}</UniqueIdentifier>
     </Filter>
@@ -90,6 +84,42 @@
     </Filter>
     <Filter Include="00_Common\Camera">
       <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical">
+      <UniqueIdentifier>{1a83562d-b5c6-442e-82cc-f4950ec2a76d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\01_PlayGrass">
+      <UniqueIdentifier>{d649a698-ca89-4c7a-abe6-051f5f2c60a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\02_PlayPool">
+      <UniqueIdentifier>{cd7a150d-58b9-442e-bd0b-9cf0451eaf9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\00_Title">
+      <UniqueIdentifier>{4ff070c3-40ab-4e12-bee2-b2fc07a3605a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\00_Title\Intro">
+      <UniqueIdentifier>{6b29017e-3c5a-44ac-a340-55f0afc560a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\00_Title\Loading">
+      <UniqueIdentifier>{412324c6-771f-40d8-b527-7d15761051ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\00_Title\MainMenu">
+      <UniqueIdentifier>{98c5f91b-ef6a-47bb-9483-e782e6f322e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\02_PlayPool\PoolDay">
+      <UniqueIdentifier>{2bbb6c5c-bec2-4b67-ae8e-b6d429519aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\01_PlayGrass\GrassDay">
+      <UniqueIdentifier>{d3628f27-16ea-4c90-bb37-a78f56e3ce2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\01_PlayGrass\GrassNight">
+      <UniqueIdentifier>{d8fbfea3-7b9b-42e4-af79-65946c20bccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\02_PlayPool\PoolNight">
+      <UniqueIdentifier>{27f90323-ec96-46fa-9722-fadd822bebdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_Scene\2_Practical\00_Title\Ending">
+      <UniqueIdentifier>{ac800d22-f5cf-457e-b2f2-6889d48398d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +189,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
       <Filter>02_Scene\0_Manager</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CPlayScene.h">
-      <Filter>02_Scene\2_Practical\Play</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
       <Filter>05_Component\3_MeshRenderer</Filter>
     </ClInclude>
@@ -179,6 +206,33 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
       <Filter>00_Common\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneIntro.h">
+      <Filter>02_Scene\2_Practical\00_Title\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneLoading.h">
+      <Filter>02_Scene\2_Practical\00_Title\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneMainMenu.h">
+      <Filter>02_Scene\2_Practical\00_Title\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayGrassDay.h">
+      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassDay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayGrassNight.h">
+      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassNight</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayPoolDay.h">
+      <Filter>02_Scene\2_Practical\02_PlayPool\PoolDay</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayPoolNight.h">
+      <Filter>02_Scene\2_Practical\02_PlayPool\PoolNight</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneEnding.h">
+      <Filter>02_Scene\2_Practical\00_Title\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CPlayScene.h">
+      <Filter>02_Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -236,9 +290,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
       <Filter>02_Scene\0_Manager</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CPlayScene.cpp">
-      <Filter>02_Scene\2_Practical\Play</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
       <Filter>05_Component\3_MeshRenderer</Filter>
     </ClCompile>
@@ -256,6 +307,33 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
       <Filter>00_Common\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneIntro.cpp">
+      <Filter>02_Scene\2_Practical\00_Title\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneLoading.cpp">
+      <Filter>02_Scene\2_Practical\00_Title\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneMainMenu.cpp">
+      <Filter>02_Scene\2_Practical\00_Title\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayGrassDay.cpp">
+      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassDay</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayGrassNight.cpp">
+      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassNight</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayPoolDay.cpp">
+      <Filter>02_Scene\2_Practical\02_PlayPool\PoolDay</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayPoolNight.cpp">
+      <Filter>02_Scene\2_Practical\02_PlayPool\PoolNight</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneEnding.cpp">
+      <Filter>02_Scene\2_Practical\00_Title\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CPlayScene.cpp">
+      <Filter>02_Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

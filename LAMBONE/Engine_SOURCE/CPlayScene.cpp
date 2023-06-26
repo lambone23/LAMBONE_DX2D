@@ -40,7 +40,7 @@ namespace yha
 			//player->AddComponent<CameraScript>();
 		}
 
-		//Main Camera
+		// Main Camera
 		CGameObject* camera = new CGameObject();
 		FnAddGameObject(eLayerType::Player, camera);
 		

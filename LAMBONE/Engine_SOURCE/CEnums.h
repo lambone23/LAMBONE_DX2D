@@ -14,8 +14,25 @@ namespace yha::enums
 		End,
 	};
 
+	enum class eSceneType
+	{
+		Intro,
+		Loading,
+		MainMenu,
+		Ending,
+
+		GrassDay,
+		GrassNight,
+		PoolDay,
+		PoolNight,
+		//RoofDay,
+		//RoofNight,
+		End
+	};
+
 	enum class eLayerType
 	{
+		BG,
 		Player,
 		Monster,
 		UI,

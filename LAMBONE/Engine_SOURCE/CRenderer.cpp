@@ -8,13 +8,10 @@ namespace renderer
 	using namespace yha;
 	using namespace yha::graphics;
 
+	// RectMesh
 	Vertex vertexes[4] = {};
-	
-	//yha::CMesh* mesh = nullptr;
-	//yha::CShader* shader = nullptr;
-	//yha::graphics::CConstantBuffer* constantBuffer = nullptr;
-	yha::graphics::CConstantBuffer* constantBuffer[(UINT)eCBType::End] = {};
 
+	yha::graphics::CConstantBuffer* constantBuffer[(UINT)eCBType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)eSamplerType::End] = {};
 
 	void FnSetupState()
@@ -81,33 +78,6 @@ namespace renderer
 		//==================================================================
 		// Vertex Buffer
 		//==================================================================
-		//D3D11_BUFFER_DESC triangleDesc = {};
-		//triangleDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-
-		////■[HW-230530] - drawing shapes
-		////triangleDesc.ByteWidth = sizeof(Vertex) * 100; //triangleDesc.ByteWidth = sizeof(Vertex) * 3;
-
-		////[230531] 인덱스버퍼, 상수버퍼 생성 이후
-		//triangleDesc.ByteWidth = sizeof(Vertex) * 24; //triangleDesc.ByteWidth = sizeof(Vertex) * 3;
-
-		//triangleDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER;
-		//triangleDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE;
-
-		//D3D11_SUBRESOURCE_DATA triangleData = {};
-		//triangleData.pSysMem = vertexes;
-		//yha::graphics::FnGetDevice()->FnCreateBuffer(&triangleBuffer, &triangleDesc, &triangleData);
-
-		//std::vector<UINT> indexes = {};
-		////indexes.push_back(0);
-		////indexes.push_back(1);
-		////indexes.push_back(2);
-		//for (size_t i = 0; i < 24; i++)
-		//{
-		//	indexes.push_back(i);
-		//}
-
-		//mesh = new yha::CMesh();
-		//CMesh* mesh = new yha::CMesh();
 		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
 		CResources::FnInsert(L"RectMesh", mesh);
 		mesh->FnCreateVertexBuffer(vertexes, 4);
@@ -124,41 +94,14 @@ namespace renderer
 		//==================================================================
 		// Index Buffer
 		//==================================================================
-		//D3D11_BUFFER_DESC triangleIdxDesc = {};
-		//triangleIdxDesc.ByteWidth = sizeof(UINT) * indexes.size();
-		//triangleIdxDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_INDEX_BUFFER;
-		//triangleIdxDesc.Usage = D3D11_USAGE_DEFAULT;
-		//triangleIdxDesc.CPUAccessFlags = 0;
-
-		//D3D11_SUBRESOURCE_DATA triangleIdxData = {};
-		//triangleIdxData.pSysMem = indexes.data();
-		//yha::graphics::FnGetDevice()->FnCreateBuffer(&triangleIdxBuffer, &triangleIdxDesc, &triangleIdxData);
-
 		mesh->FnCreateIndexBuffer(indexes.data(), indexes.size());
 
 		//==================================================================
 		// Constant Buffer
 		//==================================================================
-		//D3D11_BUFFER_DESC triangleCSDesc = {};
-		//triangleCSDesc.ByteWidth = sizeof(Vector4);
-		//triangleCSDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_CONSTANT_BUFFER;
-		//triangleCSDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC;
-		//triangleCSDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		//yha::graphics::FnGetDevice()->FnCreateBuffer(&triangleConstantBuffer, &triangleCSDesc, nullptr);
-
-		////Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f); //Vector4 pos(0.3f, 0.0f, 0.0f, 1.0f);
-		////yha::graphics::FnGetDevice()->FnSetConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
-		////yha::graphics::FnGetDevice()->FnBindConstantBuffer(eShaderStage::VS, eCBType::Transform, triangleConstantBuffer);
-
-		//constantBuffer = new CConstantBuffer(eCBType::Transform);
-		//constantBuffer->FnCreate(sizeof(Vector4));
 		constantBuffer[(UINT)eCBType::Transform] = new CConstantBuffer(eCBType::Transform);
-		//constantBuffer[(UINT)eCBType::Transform]->FnCreate(sizeof(Vector4));
 		constantBuffer[(UINT)eCBType::Transform]->FnCreate(sizeof(TransformCB));
 
-		//Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
-		//constantBuffer->FnSetData(&pos);
-		//constantBuffer->FnBind(eShaderStage::VS);
 	}//END-void FnLoadBuffer
 
 	void FnLoadShader()
@@ -196,10 +139,113 @@ namespace renderer
 			spriteMateiral->FnSetTexture(texture);
 			CResources::FnInsert(L"SpriteMaterial02", spriteMateiral);
 		}
+
+#pragma region 00_Title
+		//==================================================================
+		// 00_Title
+		//==================================================================
+		{
+			// Intro
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Intro", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_Intro.jpg");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_Intro", spriteMateiral);
+		}
+		{
+			// LoadingPage
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"LoadingPage", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_Loading.png");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_Loading", spriteMateiral);
+		}
+		{
+			// MainMenu
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"MainMenu", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_MainMenu.png");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_MainMenu", spriteMateiral);
+		}
+		{
+			// Ending
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Ending", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_Ending.png");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_Ending", spriteMateiral);
+		}
+#pragma endregion
+#pragma region 01_PlayGrass
+		//==================================================================
+		// 01_PlayGrass
+		//==================================================================
+		{
+			// GrassDay
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"GrassDay", L"..\\Resources\\Texture\\MyGame\\BG\\01_PlayGrass\\Grassday.jpg");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_GrassDay", spriteMateiral);
+		}
+		{
+			// GrassNight
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"GrassNight", L"..\\Resources\\Texture\\MyGame\\BG\\01_PlayGrass\\Grassnight.jpg");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_GrassNight", spriteMateiral);
+		}
+#pragma endregion
+#pragma region 02_PlayPool
+		//==================================================================
+		// 02_PlayPool
+		//==================================================================
+		{
+			// PoolDay
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"PoolDay", L"..\\Resources\\Texture\\MyGame\\BG\\02_PlayPool\\PVZBackground_7.jpg");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_PoolDay", spriteMateiral);
+		}
+		{
+			// PoolNight
+			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"PoolNight", L"..\\Resources\\Texture\\MyGame\\BG\\02_PlayPool\\PVZBackground_8.jpg");
+			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+			spriteMateiral->FnSetShader(spriteShader);
+			spriteMateiral->FnSetTexture(texture);
+			CResources::FnInsert(L"BG_PoolNight", spriteMateiral);
+		}
+#pragma endregion
+#pragma region 03_roof
+		//==================================================================
+		// 03_roof
+		//==================================================================
+
+		//{
+		//	// Grassday
+		//	std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Roofday", L"..\\Resources\\Texture\\MyGame\\BG\\03_PlayRoof\\Roofday.jpg");
+		//	std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+		//	spriteMateiral->FnSetShader(spriteShader);
+		//	spriteMateiral->FnSetTexture(texture);
+		//	CResources::FnInsert(L"BG_Roofday", spriteMateiral);
+		//}
+		//{
+		//	// Grassnight
+		//	std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Roofnight", L"..\\Resources\\Texture\\MyGame\\BG\\03_PlayRoof\\Roofnight.jpg");
+		//	std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
+		//	spriteMateiral->FnSetShader(spriteShader);
+		//	spriteMateiral->FnSetTexture(texture);
+		//	CResources::FnInsert(L"BG_Roofnight", spriteMateiral);
+		//}
+#pragma endregion
 	}//END-void FnLoadShader
 
 	void FnInitialize()
 	{
+		// RectMesh
 		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
 		vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 		vertexes[0].uv = Vector2(0.0f, 0.0f);
@@ -221,11 +267,9 @@ namespace renderer
 		FnSetupState();
 
 		//CTexture* texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
-		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
-
-		texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
-
-		texture->FnBindShader(eShaderStage::PS, 0);
+		//std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
+		//texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
+		//texture->FnBindShader(eShaderStage::PS, 0);
 	}//END-void FnInitialize
 
 	void FnRelease()

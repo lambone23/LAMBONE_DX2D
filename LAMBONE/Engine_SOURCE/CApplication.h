@@ -35,5 +35,10 @@ namespace yha
 		HWND mHwnd;
 		UINT mWidth;
 		UINT mHeight;
+
+	public:
+		bool mFlagMyGame = true;
+		float ScaleWidth = 8.0f;
+		float ScaleHeight = 4.5f;
 	};
 }

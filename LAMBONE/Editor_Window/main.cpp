@@ -33,6 +33,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     //_CrtSetBreakAlloc(371);
+    SetProcessDPIAware(); // 모니터 배율 영향 X
 
     // TODO: 여기에 코드를 입력합니다.
 
@@ -97,7 +98,12 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EDITORWINDOW));
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_EDITORWINDOW);
+
+    // ■Chk - 하단 공백
+    //default //wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_EDITORWINDOW);
+    //wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_STATIC);
+    wcex.lpszMenuName = NULL;
+    
     wcex.lpszClassName = szWindowClass;
     wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 

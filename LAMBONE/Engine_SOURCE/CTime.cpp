@@ -41,7 +41,7 @@ namespace yha
 
 			wchar_t szFloat[50] = {};
 			float FPS = 1.0f / (float)mDeltaTime;
-			swprintf_s(szFloat, 50, L"FPS : %d", (UINT)FPS);
+			swprintf_s(szFloat, 50, L"PvZ By LAMBONE -- #FPS : %d", (UINT)FPS);
 			//int iLen = wcsnlen_s(szFloat, 50);
 			SetWindowText(hWnd, szFloat);
 
