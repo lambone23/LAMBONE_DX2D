@@ -1,18 +1,18 @@
 #include "CSceneManager.h"
 
-#include "CPlayScene.h"
+//#include "CPlayScene.h"
 
-#include "CApplication.h"
-#include "CSceneIntro.h"
-#include "CSceneLoading.h"
-#include "CSceneMainMenu.h"
-#include "CSceneEnding.h"
-#include "CScenePlayGrassDay.h"
-#include "CScenePlayGrassNight.h"
-#include "CScenePlayPoolDay.h"
-#include "CScenePlayPoolNight.h"
+//#include "CApplication.h"
+//#include "../ZEngine/CSceneIntro.h"
+//#include "../ZEngine/CSceneLoading.h"
+//#include "../ZEngine/CSceneMainMenu.h"
+//#include "../ZEngine/CSceneEnding.h"
+//#include "../ZEngine/CScenePlayGrassDay.h"
+//#include "../ZEngine/CScenePlayGrassNight.h"
+//#include "../ZEngine/CScenePlayPoolDay.h"
+//#include "../ZEngine/CScenePlayPoolNight.h"
 
-extern yha::CApplication MyApplication;
+//extern yha::CApplication MyApplication;
 
 namespace yha
 {
@@ -21,36 +21,35 @@ namespace yha
 
 	void CSceneManager::FnInitialize()
 	{
-		if (MyApplication.mFlagMyGame)
-		{
-			mScenes.insert(std::make_pair(L"Scene_Intro", new CSceneIntro()));
-			mScenes.insert(std::make_pair(L"Scene_Loading", new CSceneLoading()));
-			mScenes.insert(std::make_pair(L"Scene_MainMenu", new CSceneMainMenu()));
-			mScenes.insert(std::make_pair(L"Scene_Ending", new CSceneEnding()));
-			
-			mScenes.insert(std::make_pair(L"Scene_PlayGrassDay", new CScenePlayGrassDay()));
-			mScenes.insert(std::make_pair(L"Scene_PlayGrassNight", new CScenePlayGrassNight()));
-			mScenes.insert(std::make_pair(L"Scene_PlayPoolDay", new CScenePlayPoolDay()));
-			mScenes.insert(std::make_pair(L"Scene_PlayPoolNight", new CScenePlayPoolNight()));
+		//if (MyApplication.mFlagMyGame)
+		//{
+		//	mScenes.insert(std::make_pair(L"Scene_Intro", new CSceneIntro()));
+		//	mScenes.insert(std::make_pair(L"Scene_Loading", new CSceneLoading()));
+		//	mScenes.insert(std::make_pair(L"Scene_MainMenu", new CSceneMainMenu()));
+		//	mScenes.insert(std::make_pair(L"Scene_Ending", new CSceneEnding()));
 
-			std::map<std::wstring, CScene*>::iterator iter = mScenes.begin();
+		//	mScenes.insert(std::make_pair(L"Scene_PlayGrassDay", new CScenePlayGrassDay()));
+		//	mScenes.insert(std::make_pair(L"Scene_PlayGrassNight", new CScenePlayGrassNight()));
+		//	mScenes.insert(std::make_pair(L"Scene_PlayPoolDay", new CScenePlayPoolDay()));
+		//	mScenes.insert(std::make_pair(L"Scene_PlayPoolNight", new CScenePlayPoolNight()));
 
-			for (auto itr = mScenes.begin(); itr != mScenes.end(); itr++)
-			{
-				if (nullptr != iter->second)
-					itr->second->FnInitialize();
-			}
+		//	std::map<std::wstring, CScene*>::iterator iter = mScenes.begin();
 
-			mActiveScene = FnLoadScene(L"Scene_Intro");
-		}
-		else
-		{
-			//CPlayScene* test = new CPlayScene();
+		//	for (auto itr = mScenes.begin(); itr != mScenes.end(); itr++)
+		//	{
+		//		if (nullptr != iter->second)
+		//			itr->second->FnInitialize();
+		//	}
 
-			mActiveScene = new CPlayScene();
-			mScenes.insert(std::make_pair(L"PlayScene", mActiveScene));
-			mActiveScene->FnInitialize();
-		}
+		//	mActiveScene = FnLoadScene(L"Scene_Intro");
+		// 
+		//}
+		//else
+		//{
+		//	mActiveScene = new CPlayScene();
+		//	mScenes.insert(std::make_pair(L"PlayScene", mActiveScene));
+		//	mActiveScene->FnInitialize();
+		//}
 	}
 	void CSceneManager::FnUpdate()
 	{
@@ -67,7 +66,7 @@ namespace yha
 
 	void CSceneManager::FnRelease()
 	{
-		for (auto iter : mScenes)
+		for (auto& iter : mScenes)
 		{
 			delete iter.second;
 			iter.second = nullptr;

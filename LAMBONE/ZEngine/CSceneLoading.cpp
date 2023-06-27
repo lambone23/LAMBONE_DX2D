@@ -1,4 +1,4 @@
-#include "CScenePlayPoolNight.h"
+#include "CSceneLoading.h"
 
 #include "CGameObject.h"
 #include "CInput.h"
@@ -6,21 +6,22 @@
 #include "CMeshRenderer.h"
 #include "CResources.h"
 #include "CCamera.h"
-#include "CCameraScript.h"
 #include "CSceneManager.h"
 #include "CApplication.h"
+
+#include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
 
 namespace yha
 {
-	CScenePlayPoolNight::CScenePlayPoolNight()
+	CSceneLoading::CSceneLoading()
 	{
 	}
-	CScenePlayPoolNight::~CScenePlayPoolNight()
+	CSceneLoading::~CSceneLoading()
 	{
 	}
-	void CScenePlayPoolNight::FnInitialize()
+	void CSceneLoading::FnInitialize()
 	{
 		//==================================================================
 		// Main Camera
@@ -39,24 +40,24 @@ namespace yha
 
 		CMeshRenderer* mr = BG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_PoolNight"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Loading"));
 
 		BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
 
 	}
-	void CScenePlayPoolNight::FnUpdate()
+	void CSceneLoading::FnUpdate()
 	{
 		if (CInput::FnGetKeyDown(eKeyCode::N))
-			CSceneManager::FnLoadScene(L"Scene_Ending");
+			CSceneManager::FnLoadScene(L"Scene_MainMenu");
 
 		CScene::FnUpdate();
 	}
-	void CScenePlayPoolNight::FnLateUpdate()
+	void CSceneLoading::FnLateUpdate()
 	{
 		CScene::FnLateUpdate();
 	}
-	void CScenePlayPoolNight::FnRender()
+	void CSceneLoading::FnRender()
 	{
 		CScene::FnRender();
 	}

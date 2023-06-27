@@ -8,7 +8,6 @@ namespace renderer
 	using namespace yha;
 	using namespace yha::graphics;
 
-	// RectMesh
 	Vertex vertexes[4] = {};
 
 	yha::graphics::CConstantBuffer* constantBuffer[(UINT)eCBType::End] = {};
@@ -16,6 +15,8 @@ namespace renderer
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[(UINT)eRSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
+
+	std::vector<yha::CCamera*> cameras = {};
 
 	void FnSetupState()
 	{
@@ -364,6 +365,17 @@ namespace renderer
 		//texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 		//texture->FnBindShader(eShaderStage::PS, 0);
 	}//END-void FnInitialize
+
+	void FnRender()
+	{
+		for (CCamera* cam : cameras)
+		{
+			if (cam == nullptr)
+				continue;
+
+			cam->FnRender();
+		}
+	}//END-void FnRender
 
 	void FnRelease()
 	{

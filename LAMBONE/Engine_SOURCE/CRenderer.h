@@ -4,6 +4,7 @@
 #include "CMesh.h"
 #include "CShader.h"
 #include "CConstantBuffer.h"
+#include "CCamera.h"
 
 using namespace yha::math;
 using namespace yha::graphics;
@@ -32,6 +33,9 @@ namespace renderer
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[];
 
+	extern std::vector<yha::CCamera*> cameras;
+
 	void FnInitialize();
+	void FnRender();
 	void FnRelease();
 }

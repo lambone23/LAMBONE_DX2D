@@ -1,12 +1,13 @@
 ﻿// Editor_Window.cpp : 애플리케이션에 대한 진입점을 정의합니다.
-//
 
 #include "framework.h"
 #include "Editor_Window.h"
 #include "CApplication.h"
 #include "CRenderer.h"
 #include "CResources.h"
-#include "CSceneManager.h"
+//#include "CSceneManager.h"
+//#include "LoadScenes.h"
+#include "../ZEngine/LoadScenes.h"
 
 yha::CApplication MyApplication;
 
@@ -32,8 +33,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(371);
-    SetProcessDPIAware(); // 모니터 배율 영향 X
+    //_CrtSetBreakAlloc(937);
+    //SetProcessDPIAware(); // 모니터 배율 영향 X - But 화면 사이즈가 작아진다.
 
     // TODO: 여기에 코드를 입력합니다.
 
@@ -86,7 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+    WNDCLASSEXW wcex = {};
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -137,6 +138,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     UpdateWindow(hWnd);
 
     MyApplication.FnInitialize();
+    yha::FnInitializeScenes();
 
     return TRUE;
 }

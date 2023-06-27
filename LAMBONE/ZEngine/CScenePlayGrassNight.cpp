@@ -1,4 +1,4 @@
-#include "CSceneLoading.h"
+#include "CScenePlayGrassNight.h"
 
 #include "CGameObject.h"
 #include "CInput.h"
@@ -6,23 +6,23 @@
 #include "CMeshRenderer.h"
 #include "CResources.h"
 #include "CCamera.h"
-#include "CCameraScript.h"
 #include "CSceneManager.h"
 #include "CApplication.h"
+
+#include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
 
 namespace yha
 {
-	CSceneLoading::CSceneLoading()
+	CScenePlayGrassNight::CScenePlayGrassNight()
 	{
 	}
-	CSceneLoading::~CSceneLoading()
+	CScenePlayGrassNight::~CScenePlayGrassNight()
 	{
 	}
-	void CSceneLoading::FnInitialize()
+	void CScenePlayGrassNight::FnInitialize()
 	{
-
 		//==================================================================
 		// Main Camera
 		//==================================================================
@@ -40,24 +40,24 @@ namespace yha
 
 		CMeshRenderer* mr = BG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Loading"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_GrassNight"));
 
 		BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
 
 	}
-	void CSceneLoading::FnUpdate()
+	void CScenePlayGrassNight::FnUpdate()
 	{
 		if (CInput::FnGetKeyDown(eKeyCode::N))
-			CSceneManager::FnLoadScene(L"Scene_MainMenu");
+			CSceneManager::FnLoadScene(L"Scene_PlayPoolDay");
 
 		CScene::FnUpdate();
 	}
-	void CSceneLoading::FnLateUpdate()
+	void CScenePlayGrassNight::FnLateUpdate()
 	{
 		CScene::FnLateUpdate();
 	}
-	void CSceneLoading::FnRender()
+	void CScenePlayGrassNight::FnRender()
 	{
 		CScene::FnRender();
 	}

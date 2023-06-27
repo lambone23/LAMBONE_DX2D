@@ -5,6 +5,7 @@
 #include "CMesh.h"
 #include "CCameraScript.h"
 #include "CCamera.h"
+#include "CSceneManager.h"
 
 namespace yha
 {

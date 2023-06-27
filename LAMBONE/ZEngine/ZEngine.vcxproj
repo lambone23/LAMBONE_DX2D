@@ -148,9 +148,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCameraScript.h" />
+    <ClInclude Include="CPlayScene.h" />
+    <ClInclude Include="CSceneEnding.h" />
+    <ClInclude Include="CSceneIntro.h" />
+    <ClInclude Include="CSceneLoading.h" />
+    <ClInclude Include="CSceneMainMenu.h" />
+    <ClInclude Include="CScenePlayGrassDay.h" />
+    <ClInclude Include="CScenePlayGrassNight.h" />
+    <ClInclude Include="CScenePlayPoolDay.h" />
+    <ClInclude Include="CScenePlayPoolNight.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="LoadScenes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCameraScript.cpp" />
+    <ClCompile Include="CPlayScene.cpp" />
+    <ClCompile Include="CSceneEnding.cpp" />
+    <ClCompile Include="CSceneIntro.cpp" />
+    <ClCompile Include="CSceneLoading.cpp" />
+    <ClCompile Include="CSceneMainMenu.cpp" />
+    <ClCompile Include="CScenePlayGrassDay.cpp" />
+    <ClCompile Include="CScenePlayGrassNight.cpp" />
+    <ClCompile Include="CScenePlayPoolDay.cpp" />
+    <ClCompile Include="CScenePlayPoolNight.cpp" />
     <ClCompile Include="ZEngine.cpp" />
   </ItemGroup>
   <ItemGroup>

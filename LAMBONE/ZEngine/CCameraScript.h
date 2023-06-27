@@ -1,5 +1,6 @@
 #pragma once
-#include "CScript.h"
+//#include "CScript.h"
+#include <CScript.h>
 
 namespace yha
 {

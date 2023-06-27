@@ -25,12 +25,6 @@
     <Filter Include="02_Scene">
       <UniqueIdentifier>{8c9e427d-e5b2-4d66-8a24-3b8113d37666}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Scene\1_Base">
-      <UniqueIdentifier>{2ccf9edd-0bb6-4566-8369-1b7c5632bc2d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\0_Manager">
-      <UniqueIdentifier>{36dd7ca7-f234-48b5-8c64-3705976ea0ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03_Layer">
       <UniqueIdentifier>{f03aa7e5-ca53-4ec2-a882-5c000c9cf7f9}</UniqueIdentifier>
     </Filter>
@@ -39,18 +33,6 @@
     </Filter>
     <Filter Include="05_Component">
       <UniqueIdentifier>{790f25a4-116a-42be-ba58-64bbb0da096b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\3_MeshRenderer">
-      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\4_Script">
-      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\2_Particle">
-      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\0_Transform">
-      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
     </Filter>
     <Filter Include="00_Common\Input">
       <UniqueIdentifier>{02f358d0-7c7e-4d82-97cb-0918f0ebb78b}</UniqueIdentifier>
@@ -61,65 +43,50 @@
     <Filter Include="00_Common\Resource\Resources">
       <UniqueIdentifier>{9631ad8b-94f0-408c-b3af-604d02dc3c8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00_Common\Graphics\Resource_Mesh">
-      <UniqueIdentifier>{559a2302-3759-40e8-9496-79ff780cf3ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00_Common\Graphics\Resource_Shader">
-      <UniqueIdentifier>{8f4a1d2c-6263-41af-96a5-898c4635b72b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00_Common\Graphics\Resource_Texture">
-      <UniqueIdentifier>{60063b9c-c69e-4744-aeef-754220eadfcb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00_Common\Graphics\Resource_Material">
-      <UniqueIdentifier>{1a69b178-4dbb-4e39-9ffd-014b8742164b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00_Common\Graphics\Renderer">
       <UniqueIdentifier>{69f1914e-a3c8-401b-9f12-fc73dfb3bba7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\4_Script\CameraScript">
-      <UniqueIdentifier>{4e2031a1-bac2-4b06-89ec-7f15346372a5}</UniqueIdentifier>
+    <Filter Include="02_Scene\Manager">
+      <UniqueIdentifier>{36dd7ca7-f234-48b5-8c64-3705976ea0ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\1_Mesh %28Graphics%29">
+    <Filter Include="02_Scene\Base">
+      <UniqueIdentifier>{2ccf9edd-0bb6-4566-8369-1b7c5632bc2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Graphics\GraphicDevice">
+      <UniqueIdentifier>{51b30cbe-2b27-46c4-8730-0236a82c24f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Material">
+      <UniqueIdentifier>{1a69b178-4dbb-4e39-9ffd-014b8742164b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Mesh">
+      <UniqueIdentifier>{559a2302-3759-40e8-9496-79ff780cf3ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Shader">
+      <UniqueIdentifier>{8f4a1d2c-6263-41af-96a5-898c4635b72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Texture">
+      <UniqueIdentifier>{60063b9c-c69e-4744-aeef-754220eadfcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\1_Transform">
+      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\2_Mesh %28Resource%29">
       <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
     </Filter>
-    <Filter Include="00_Common\Camera">
+    <Filter Include="05_Component\3_Particle">
+      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\4_MeshRenderer">
+      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\5_Script">
+      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\6_Camera">
       <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02_Scene\2_Practical">
-      <UniqueIdentifier>{1a83562d-b5c6-442e-82cc-f4950ec2a76d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\01_PlayGrass">
-      <UniqueIdentifier>{d649a698-ca89-4c7a-abe6-051f5f2c60a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\02_PlayPool">
-      <UniqueIdentifier>{cd7a150d-58b9-442e-bd0b-9cf0451eaf9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\00_Title">
-      <UniqueIdentifier>{4ff070c3-40ab-4e12-bee2-b2fc07a3605a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\00_Title\Intro">
-      <UniqueIdentifier>{6b29017e-3c5a-44ac-a340-55f0afc560a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\00_Title\Loading">
-      <UniqueIdentifier>{412324c6-771f-40d8-b527-7d15761051ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\00_Title\MainMenu">
-      <UniqueIdentifier>{98c5f91b-ef6a-47bb-9483-e782e6f322e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\02_PlayPool\PoolDay">
-      <UniqueIdentifier>{2bbb6c5c-bec2-4b67-ae8e-b6d429519aac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\01_PlayGrass\GrassDay">
-      <UniqueIdentifier>{d3628f27-16ea-4c90-bb37-a78f56e3ce2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\01_PlayGrass\GrassNight">
-      <UniqueIdentifier>{d8fbfea3-7b9b-42e4-af79-65946c20bccd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\02_PlayPool\PoolNight">
-      <UniqueIdentifier>{27f90323-ec96-46fa-9722-fadd822bebdf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02_Scene\2_Practical\00_Title\Ending">
-      <UniqueIdentifier>{ac800d22-f5cf-457e-b2f2-6889d48398d0}</UniqueIdentifier>
+    <Filter Include="05_Component\0_Base">
+      <UniqueIdentifier>{0d113f36-e56b-47e1-86e5-0480614df306}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +103,6 @@
       <Filter>01_Application</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphics.h">
-      <Filter>00_Common\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
       <Filter>00_Common\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CEntity.h">
@@ -165,74 +129,47 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h">
       <Filter>04_GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
-      <Filter>05_Component</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CRenderer.h">
       <Filter>00_Common\Graphics\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CShader.h">
-      <Filter>00_Common\Graphics\Resource_Shader</Filter>
+      <Filter>00_Common\Resource\Shader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMesh.h">
-      <Filter>00_Common\Graphics\Resource_Mesh</Filter>
+      <Filter>00_Common\Resource\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h">
       <Filter>00_Common\Graphics\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h">
-      <Filter>05_Component\0_Transform</Filter>
+      <Filter>05_Component\1_Transform</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
-      <Filter>02_Scene\1_Base</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
-      <Filter>02_Scene\0_Manager</Filter>
+      <Filter>02_Scene\Base</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
-      <Filter>05_Component\3_MeshRenderer</Filter>
+      <Filter>05_Component\4_MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
-      <Filter>00_Common\Graphics\Resource_Texture</Filter>
+      <Filter>00_Common\Resource\Texture</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMaterial.h">
-      <Filter>00_Common\Graphics\Resource_Material</Filter>
+      <Filter>00_Common\Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h">
-      <Filter>05_Component\4_Script</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCameraScript.h">
-      <Filter>05_Component\4_Script\CameraScript</Filter>
+      <Filter>05_Component\5_Script</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
-      <Filter>00_Common\Camera</Filter>
+      <Filter>05_Component\6_Camera</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneIntro.h">
-      <Filter>02_Scene\2_Practical\00_Title\Intro</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
+      <Filter>00_Common\Graphics\GraphicDevice</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneLoading.h">
-      <Filter>02_Scene\2_Practical\00_Title\Loading</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
+      <Filter>05_Component\0_Base</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneMainMenu.h">
-      <Filter>02_Scene\2_Practical\00_Title\MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayGrassDay.h">
-      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassDay</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayGrassNight.h">
-      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassNight</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayPoolDay.h">
-      <Filter>02_Scene\2_Practical\02_PlayPool\PoolDay</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CScenePlayPoolNight.h">
-      <Filter>02_Scene\2_Practical\02_PlayPool\PoolNight</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneEnding.h">
-      <Filter>02_Scene\2_Practical\00_Title\Ending</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CPlayScene.h">
-      <Filter>02_Scene</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
+      <Filter>02_Scene\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -247,9 +184,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp">
       <Filter>01_Application</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
-      <Filter>00_Common\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp">
       <Filter>00_Common\Entity</Filter>
@@ -266,74 +200,47 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp">
       <Filter>04_GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
-      <Filter>05_Component</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp">
       <Filter>00_Common\Graphics\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CShader.cpp">
-      <Filter>00_Common\Graphics\Resource_Shader</Filter>
+      <Filter>00_Common\Resource\Shader</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp">
-      <Filter>00_Common\Graphics\Resource_Mesh</Filter>
+      <Filter>00_Common\Resource\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp">
       <Filter>00_Common\Graphics\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp">
-      <Filter>05_Component\0_Transform</Filter>
+      <Filter>05_Component\1_Transform</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
-      <Filter>02_Scene\1_Base</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
-      <Filter>02_Scene\0_Manager</Filter>
+      <Filter>02_Scene\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
-      <Filter>05_Component\3_MeshRenderer</Filter>
+      <Filter>05_Component\4_MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
-      <Filter>00_Common\Graphics\Resource_Texture</Filter>
+      <Filter>00_Common\Resource\Texture</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMaterial.cpp">
-      <Filter>00_Common\Graphics\Resource_Material</Filter>
+      <Filter>00_Common\Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp">
-      <Filter>05_Component\4_Script</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCameraScript.cpp">
-      <Filter>05_Component\4_Script\CameraScript</Filter>
+      <Filter>05_Component\5_Script</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
-      <Filter>00_Common\Camera</Filter>
+      <Filter>05_Component\6_Camera</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneIntro.cpp">
-      <Filter>02_Scene\2_Practical\00_Title\Intro</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
+      <Filter>00_Common\Graphics\GraphicDevice</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneLoading.cpp">
-      <Filter>02_Scene\2_Practical\00_Title\Loading</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
+      <Filter>05_Component\0_Base</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneMainMenu.cpp">
-      <Filter>02_Scene\2_Practical\00_Title\MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayGrassDay.cpp">
-      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassDay</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayGrassNight.cpp">
-      <Filter>02_Scene\2_Practical\01_PlayGrass\GrassNight</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayPoolDay.cpp">
-      <Filter>02_Scene\2_Practical\02_PlayPool\PoolDay</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CScenePlayPoolNight.cpp">
-      <Filter>02_Scene\2_Practical\02_PlayPool\PoolNight</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneEnding.cpp">
-      <Filter>02_Scene\2_Practical\00_Title\Ending</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CPlayScene.cpp">
-      <Filter>02_Scene</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
+      <Filter>02_Scene\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

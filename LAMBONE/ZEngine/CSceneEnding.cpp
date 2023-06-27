@@ -1,4 +1,4 @@
-#include "CSceneIntro.h"
+#include "CSceneEnding.h"
 
 #include "CGameObject.h"
 #include "CInput.h"
@@ -6,21 +6,22 @@
 #include "CMeshRenderer.h"
 #include "CResources.h"
 #include "CCamera.h"
-#include "CCameraScript.h"
 #include "CSceneManager.h"
 #include "CApplication.h"
+
+#include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
 
 namespace yha
 {
-	CSceneIntro::CSceneIntro()
+	CSceneEnding::CSceneEnding()
 	{
 	}
-	CSceneIntro::~CSceneIntro()
+	CSceneEnding::~CSceneEnding()
 	{
 	}
-	void CSceneIntro::FnInitialize()
+	void CSceneEnding::FnInitialize()
 	{
 		//==================================================================
 		// Main Camera
@@ -39,29 +40,24 @@ namespace yha
 
 		CMeshRenderer* mr = BG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Intro"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Ending"));
 
 		BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
 
-
 	}
-	void CSceneIntro::FnUpdate()
+	void CSceneEnding::FnUpdate()
 	{
-		//if (CInput::FnGetKey(eKeyCode::N))
 		if (CInput::FnGetKeyDown(eKeyCode::N))
-		//if (CInput::FnGetKeyState(eKeyCode::N) == eKeyState::Down)
-		{
-			CSceneManager::FnLoadScene(L"Scene_Loading");
-		}
+			CSceneManager::FnLoadScene(L"Scene_Intro");
 
 		CScene::FnUpdate();
 	}
-	void CSceneIntro::FnLateUpdate()
+	void CSceneEnding::FnLateUpdate()
 	{
 		CScene::FnLateUpdate();
 	}
-	void CSceneIntro::FnRender()
+	void CSceneEnding::FnRender()
 	{
 		CScene::FnRender();
 	}

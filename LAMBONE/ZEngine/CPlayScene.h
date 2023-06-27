@@ -1,5 +1,6 @@
 #pragma once
-#include "CScene.h"
+//#include "CScene.h"
+#include <CScene.h>
 
 namespace yha
 {
