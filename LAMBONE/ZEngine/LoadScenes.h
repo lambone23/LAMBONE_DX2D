@@ -30,7 +30,7 @@ namespace yha
 			CSceneManager::FnCreateScene<CSceneLoading>(L"Scene_Loading");
 			CSceneManager::FnCreateScene<CSceneMainMenu>(L"Scene_MainMenu");
 			CSceneManager::FnCreateScene<CSceneEnding>(L"Scene_Ending");
-
+			
 			CSceneManager::FnCreateScene<CScenePlayGrassDay>(L"Scene_PlayGrassDay");
 			CSceneManager::FnCreateScene<CScenePlayGrassNight>(L"Scene_PlayGrassNight");
 			CSceneManager::FnCreateScene<CScenePlayPoolDay>(L"Scene_PlayPoolDay");

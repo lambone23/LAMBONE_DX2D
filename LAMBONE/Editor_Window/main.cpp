@@ -6,8 +6,7 @@
 #include "CRenderer.h"
 #include "CResources.h"
 //#include "CSceneManager.h"
-//#include "LoadScenes.h"
-#include "../ZEngine/LoadScenes.h"
+#include "LoadScenes.h"
 
 yha::CApplication MyApplication;
 

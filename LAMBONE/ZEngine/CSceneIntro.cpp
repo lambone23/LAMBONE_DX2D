@@ -44,8 +44,6 @@ namespace yha
 
 		BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
-
-
 	}
 	void CSceneIntro::FnUpdate()
 	{
