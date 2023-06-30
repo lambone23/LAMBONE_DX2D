@@ -51,7 +51,6 @@ Global
 		Engine_SOURCE\Engine_SOURCE.vcxitems*{0fa53850-375a-4e52-af82-1477f9bf159e}*SharedItemsImports = 9
 		Editor_SOURCE\Editor_SOURCE.vcxitems*{50faedcc-5dd6-452d-9fe9-e8393b91a40e}*SharedItemsImports = 9
 		Editor_SOURCE\Editor_SOURCE.vcxitems*{5a51c6fd-b04b-43b5-b21d-906b69f875ed}*SharedItemsImports = 4
-		Engine_SOURCE\Engine_SOURCE.vcxitems*{5a51c6fd-b04b-43b5-b21d-906b69f875ed}*SharedItemsImports = 4
 		Shader_SOURCE\Shader_SOURCE.vcxitems*{d0cfb277-2a2a-47a4-a411-4b8d92fee255}*SharedItemsImports = 9
 		Engine_SOURCE\Engine_SOURCE.vcxitems*{e46ab22e-7383-4582-b017-278499e8b754}*SharedItemsImports = 4
 	EndGlobalSection

@@ -215,7 +215,8 @@ namespace renderer
 		spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
 		yha::CResources::FnInsert(L"SpriteShader", spriteShader);
 
-		{// SpriteMaterial
+		{
+			// SpriteMaterial
 			//CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 
@@ -226,11 +227,15 @@ namespace renderer
 			CResources::FnInsert(L"SpriteMaterial", spriteMateiral);
 		}
 
-		{// SpriteMaterial02
+		{
+			// SpriteMaterial02
 			std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
 			std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
 			spriteMateiral->FnSetShader(spriteShader);
 			spriteMateiral->FnSetTexture(texture);
+
+			spriteMateiral->FnSetRenderingMode(eRenderingMode::Transparent);
+
 			CResources::FnInsert(L"SpriteMaterial02", spriteMateiral);
 		}
 
@@ -375,6 +380,8 @@ namespace renderer
 
 			cam->FnRender();
 		}
+
+		cameras.clear();
 	}//END-void FnRender
 
 	void FnRelease()

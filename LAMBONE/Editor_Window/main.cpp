@@ -2,11 +2,19 @@
 
 #include "framework.h"
 #include "Editor_Window.h"
-#include "CApplication.h"
-#include "CRenderer.h"
-#include "CResources.h"
+
+#include "../Engine_SOURCE/CApplication.h"
+#include "../Engine_SOURCE/CRenderer.h"
+#include "../Engine_SOURCE/CResources.h"
+
 //#include "CSceneManager.h"
 #include "LoadScenes.h"
+
+#ifdef _DEBUG
+#pragma comment(lib, "..\\x64\\Debug\\ZEngine.lib")
+#else
+#pragma comment(lib, "..\\x64\\Release\\ZEngine.lib")
+#endif
 
 yha::CApplication MyApplication;
 

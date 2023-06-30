@@ -17,6 +17,7 @@ namespace yha
 
 	public:
 		void FnAddGameObject(CGameObject* gameObj);
+		const std::vector<CGameObject*> FnGetGameObjects() { return mGameObjects; }
 
 	private:
 		std::vector<CGameObject*> mGameObjects;

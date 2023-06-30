@@ -22,6 +22,26 @@ namespace yha
 
 		void FnAddGameObject(eLayerType type, CGameObject* gameObj);
 
+		template <typename T>
+		std::vector<T*> FnFindObjectsOfType()
+		{
+			std::vector<T*> findObjs = {};
+			for (CLayer* layer : mLayers)
+			{
+				auto gameObjs = layer->FnGetGameObjects();
+				for (CGameObject* obj : gameObjs)
+				{
+					T* buff = dynamic_cast<T*>(obj);
+					if (buff != nullptr)
+						findObjs.push_back(buff);
+				}
+			}
+
+			return findObjs;
+		}
+
+		CLayer& FnGetLayer(eLayerType type) { return mLayers[(UINT)type]; }
+
 	private:
 		std::vector<CLayer> mLayers;
 	};

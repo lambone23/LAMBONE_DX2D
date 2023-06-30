@@ -1,8 +1,8 @@
 #pragma once
-#include "CSceneManager.h"
+#include "..\Engine_SOURCE\CSceneManager.h"
 #include "CPlayScene.h"
 
-#include "CApplication.h"
+#include "..\Engine_SOURCE\CApplication.h"
 #include "CSceneIntro.h"
 #include "CSceneLoading.h"
 #include "CSceneMainMenu.h"

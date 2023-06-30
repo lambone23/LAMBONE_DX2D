@@ -53,7 +53,9 @@ namespace yha
 
 		graphicDevice->FnClearTarget();
 		graphicDevice->FnUpdateViewPort();
-		CSceneManager::FnRender();
+
+		//CSceneManager::FnRender();
+		renderer::FnRender();
 		//graphicDevice->FnDraw();
 
 		graphicDevice->FnPresent();

@@ -25,6 +25,7 @@ namespace yha::graphics
 		End,
 	};
 
+	// Constant Buffer
 	enum class eCBType
 	{
 		Transform,
@@ -39,6 +40,7 @@ namespace yha::graphics
 		End,
 	};
 
+	// Rasterizer State
 	enum class eRSType
 	{
 		SolidBack,
@@ -48,6 +50,7 @@ namespace yha::graphics
 		End,
 	};
 
+	// Depth Stencil State
 	enum class eDSType
 	{
 		Less,
@@ -57,11 +60,20 @@ namespace yha::graphics
 		End,
 	};
 
+	// Blend State
 	enum class eBSType
 	{
 		Default,
 		AlphaBlend,
 		OneOne,
+		End,
+	};
+
+	enum class eRenderingMode
+	{
+		Opaque,
+		CutOut,
+		Transparent,
 		End,
 	};
 

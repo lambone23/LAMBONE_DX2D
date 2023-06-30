@@ -22,6 +22,7 @@ namespace yha
 	public:
 		void FnSetMesh(std::shared_ptr<CMesh> mesh) { mMesh = mesh; }
 		void FnSetMaterial(std::shared_ptr<CMaterial> material) { mMaterial = material; }
+		std::shared_ptr<CMaterial> FnGetMaterial() { return mMaterial; }
 
 	private:
 		std::shared_ptr<CMesh> mMesh;

@@ -20,8 +20,13 @@ namespace yha::graphics
 		void FnSetShader(std::shared_ptr<CShader> shader) { mShader = shader; }
 		void FnSetTexture(std::shared_ptr<CTexture> texture) { mTexture = texture; }
 
+		void FnSetRenderingMode(eRenderingMode mode) { mMode = mode; }
+		eRenderingMode FnGetRenderingMode() { return mMode; }
+
 	private:
 		std::shared_ptr<CShader> mShader;
 		std::shared_ptr<CTexture> mTexture;
+
+		eRenderingMode mMode;
 	};
 }
