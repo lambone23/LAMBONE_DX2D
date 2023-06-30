@@ -17,7 +17,10 @@ namespace yha
 	}
 	void CPlayScene::FnInitialize()
 	{
-		{// Zelda
+		//==================================================================
+		// Contents
+		//==================================================================
+		{// Zelda [Player]
 			CGameObject* player = new CGameObject();
 			player->FnSetName(L"Zelda");
 			FnAddGameObject(eLayerType::Player, player);
@@ -30,10 +33,10 @@ namespace yha
 			//player->FnAddComponent<CCameraScript>();
 		}
 
-		{// Smile
+		{// Smile [Player]
 			CGameObject* player = new CGameObject();
 			player->FnSetName(L"Smile");
-			FnAddGameObject(eLayerType::UI, player); //FnAddGameObject(eLayerType::Player, player);
+			FnAddGameObject(eLayerType::Player, player);
 
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
@@ -43,7 +46,23 @@ namespace yha
 			//player->AddComponent<CameraScript>();
 		}
 
-		{// Main Camera
+		{// Smile [UI]
+			CGameObject* player = new CGameObject();
+			player->FnSetName(L"Smile");
+			FnAddGameObject(eLayerType::UI, player);
+
+			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial02"));
+			
+			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.2f, 0.0f, 0.0f));
+			//player->AddComponent<CameraScript>();
+		}
+
+		//==================================================================
+		// Camera
+		//==================================================================
+		{// Main Camera - [OFF : UI / ON : Player] - Move[O]
 			CGameObject* camera = new CGameObject();
 			FnAddGameObject(eLayerType::Player, camera);
 
@@ -53,19 +72,19 @@ namespace yha
 			camera->FnAddComponent<CCameraScript>();
 		}
 
-		{// UI Camera
+		{// UI Camera - [OFF : Player / ON : UI] - Move[X]
 			CGameObject* camera = new CGameObject();
 			FnAddGameObject(eLayerType::Player, camera);
 
 			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
 			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
 			cameraComp->FnTurnLayerMask(eLayerType::Player, false);
-			//camera->AddComponent<CameraScript>();
+			//camera->FnAddComponent<CCameraScript>();
 		}
 
-		//GameObject* player2 = new GameObject();
-		//AddGameObject(eLayerType::Player, player2);
-		//player2->AddComponent<MeshRenderer>();
+		//CGameObject* player2 = new CGameObject();
+		//FnAddGameObject(eLayerType::Player, player2);
+		//player2->FnAddComponent<CMeshRenderer>();
 
 		//CTransform* tr = player->FnGetComponent<CTransform>();
 		//tr->FnSetPosition(Vector3(0.5f, 0.5f, 0.0f));
