@@ -34,6 +34,9 @@ namespace yha
 		Vector3 FnRight() { return mRight; }
 		Vector3 FnUp() { return mUp; }
 
+		void FnSetParent(CTransform* transform) { mParent = transform; }
+		CTransform* FnGetParent() { return mParent; }
+
 	private:
 		Vector3 mPosition;
 		Vector3 mRotation;
@@ -44,5 +47,7 @@ namespace yha
 		Vector3 mRight;
 
 		Matrix mWorld;
+
+		CTransform* mParent;
 	};
 }

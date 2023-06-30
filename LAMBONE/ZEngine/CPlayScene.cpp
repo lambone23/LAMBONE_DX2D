@@ -21,6 +21,10 @@ namespace yha
 		// Contents
 		//==================================================================
 		{// Zelda [Player]
+
+			//-------------------------------------
+			// player - Parent
+			//-------------------------------------
 			CGameObject* player = new CGameObject();
 			player->FnSetName(L"Zelda");
 			FnAddGameObject(eLayerType::Player, player);
@@ -31,6 +35,30 @@ namespace yha
 
 			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0001f)); // (Vector3(0.0f, 0.0f, 1.0f));
 			//player->FnAddComponent<CCameraScript>();
+
+			//-------------------------------------
+			// player2 - Child
+			//-------------------------------------
+			CGameObject* player2 = new CGameObject();
+			player2->FnSetName(L"ZeldaChild");
+			FnAddGameObject(eLayerType::Player, player2);
+
+			CMeshRenderer* mr2 = player2->FnAddComponent<CMeshRenderer>();
+			mr2->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr2->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
+
+			player2->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.0f, 0.0f, 1.0001f));
+			//player->AddComponent<CameraScript>();
+
+			player2->FnGetComponent<CTransform>()->FnSetParent(player->FnGetComponent<CTransform>());
+			
+			//-------------------------------------
+			// player & player2
+			//-------------------------------------
+			const float pi = 3.141592f;
+			float degree = pi / 2.0f;
+			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.0f, 0.0f, 1.0001f));
+			player->FnGetComponent<CTransform>()->FnSetRotation(Vector3(0.0f, 0.0f, degree));
 		}
 
 		{// Smile [Player]

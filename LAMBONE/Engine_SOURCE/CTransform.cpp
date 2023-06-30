@@ -48,6 +48,11 @@ namespace yha
 		mUp		= Vector3::TransformNormal(Vector3::Up, rotation);
 		mFoward	= Vector3::TransformNormal(Vector3::Forward, rotation);
 		mRight	= Vector3::TransformNormal(Vector3::Right, rotation);
+
+		if (mParent)
+		{
+			mWorld *= mParent->mWorld;
+		}
 	}
 
 	void CTransform::FnRender()
