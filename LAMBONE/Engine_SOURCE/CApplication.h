@@ -2,6 +2,7 @@
 #include "ZEngine.h"
 #include "CGraphicDevice_Dx11.h"
 #include "CScene.h"
+#include <tchar.h>
 
 namespace yha
 {
@@ -37,8 +38,10 @@ namespace yha
 		UINT mHeight;
 
 	public:
-		bool mFlagMyGame = false;
+		bool mFlagMyGame = true;
 		float ScaleWidth = 8.0f;
 		float ScaleHeight = 4.5f;
+
+		bool mFlagChkFirst = true;
 	};
 }

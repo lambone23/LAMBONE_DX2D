@@ -9,10 +9,7 @@ namespace yha
 	void CCameraScript::FnUpdate()
 	{
 		CTransform* tr = FnGetOwner()->FnGetComponent<CTransform>();
-		Vector3 pos = tr->FnGetPosition();
-		
-		//pos.x += 1.0f * CTime::FnDeltaTime();
-		//tr->FnSetPosition(pos);
+		Vector3 pos = tr->FnGetPosition();	
 
 		if (CInput::FnGetKey(eKeyCode::W))
 		{
@@ -44,5 +41,6 @@ namespace yha
 			pos.y += 5.0f * CTime::FnDeltaTime();
 			tr->FnSetPosition(pos);
 		}
+
 	}
 }

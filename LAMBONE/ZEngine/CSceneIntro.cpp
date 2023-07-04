@@ -26,24 +26,42 @@ namespace yha
 		//==================================================================
 		// Main Camera
 		//==================================================================
-		CGameObject* camera = new CGameObject();
-		FnAddGameObject(eLayerType::Player, camera);
-		camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
-		CCamera* cameraComp = camera->FnAddComponent<CCamera>();
-		//camera->FnAddComponent<CCameraScript>();
+		{
+			CGameObject* camera = new CGameObject();
+			FnAddGameObject(eLayerType::Player, camera);
+			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
+			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
+			cameraComp->FnTurnLayerMask(eLayerType::UI, false);
+			camera->FnAddComponent<CCameraScript>();
+		}
+
+		//==================================================================
+		// UI Camera
+		//==================================================================
+		{
+			CGameObject* camera = new CGameObject();
+			FnAddGameObject(eLayerType::Player, camera);
+
+			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
+			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
+			cameraComp->FnTurnLayerMask(eLayerType::Player, false);
+			//camera->FnAddComponent<CCameraScript>();
+		}
 
 		//==================================================================
 		// BG
 		//==================================================================
-		CGameObject* BG = new CGameObject();
-		FnAddGameObject(eLayerType::BG, BG);
+		{
+			CGameObject* BG = new CGameObject();
+			FnAddGameObject(eLayerType::BG, BG);
 
-		CMeshRenderer* mr = BG->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Intro"));
+			CMeshRenderer* mr = BG->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Intro"));
 
-		BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
+			BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
+			BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
+		}
 	}
 	void CSceneIntro::FnUpdate()
 	{
@@ -61,5 +79,22 @@ namespace yha
 	void CSceneIntro::FnRender()
 	{
 		CScene::FnRender();
+	}
+
+	void CSceneIntro::FnOnEnter()
+	{
+		//std::wstring name = CSceneManager::FnGetActiveSceneName();
+		//if (name == L"Scene_Intro")
+		//{
+		//	HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+		//	TCHAR Temp[256] = { 0, };
+		//	_stprintf_s(Temp, L"Welcome");
+		//	MessageBox(Tmp_mHwnd, Temp, L"START", MB_OK);
+		//}
+	}
+
+	void CSceneIntro::FnOnExit()
+	{
+
 	}
 }

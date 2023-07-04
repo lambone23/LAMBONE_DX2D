@@ -60,4 +60,21 @@ namespace yha
 	{
 		CScene::FnRender();
 	}
+
+	void CSceneEnding::FnOnEnter()
+	{
+		//std::wstring name = CSceneManager::FnGetActiveSceneName();
+		//if (name == L"Scene_Ending")
+		//{
+		//	HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+		//	TCHAR Temp[256] = { 0, };
+		//	_stprintf_s(Temp, L"GAME OVER");
+		//	MessageBox(Tmp_mHwnd, Temp, L"END", MB_OK);
+		//}
+	}
+
+	void CSceneEnding::FnOnExit()
+	{
+
+	}
 }

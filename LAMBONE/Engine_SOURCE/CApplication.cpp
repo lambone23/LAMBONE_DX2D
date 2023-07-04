@@ -3,6 +3,7 @@
 #include "CTime.h"
 #include "CRenderer.h"
 #include "CSceneManager.h"
+#include <windowsx.h>
 
 namespace yha
 {
@@ -40,6 +41,24 @@ namespace yha
 		CTime::FnUpdate();
 		CInput::FnUpdate();
 		CSceneManager::FnUpdate();
+
+		//====================================================================
+		// 마우스 LBUTTON 클릭시, 윈도우 상의 좌표 위치 출력
+		//====================================================================
+		//if (CInput::FnGetKey(eKeyCode::LBUTTON))
+		//{
+		//	HWND Tmp_mHwnd = FnGetHwnd();
+
+		//	//VectorXY MousePos = CInput::FnGetMousePos();
+		//	::POINT MousePos = {};
+		//	::GetCursorPos(&MousePos);
+		//	::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+
+		//	TCHAR Temp[256] = { 0, };
+		//	_stprintf_s(Temp, L"x: %d, y: %d", MousePos.x, MousePos.y);
+		//	MessageBox(Tmp_mHwnd, Temp, L"좌표", MB_OK);
+		//}
 	}
 
 	void CApplication::FnLateUpdate()

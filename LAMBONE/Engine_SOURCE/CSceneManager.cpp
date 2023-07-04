@@ -2,7 +2,7 @@
 
 //#include "CPlayScene.h"
 
-//#include "CApplication.h"
+#include "CApplication.h"
 //#include "../ZEngine/CSceneIntro.h"
 //#include "../ZEngine/CSceneLoading.h"
 //#include "../ZEngine/CSceneMainMenu.h"
@@ -12,12 +12,13 @@
 //#include "../ZEngine/CScenePlayPoolDay.h"
 //#include "../ZEngine/CScenePlayPoolNight.h"
 
-//extern yha::CApplication MyApplication;
+extern yha::CApplication MyApplication;
 
 namespace yha
 {
 	CScene* CSceneManager::mActiveScene = nullptr;
 	std::map<std::wstring, CScene*> CSceneManager::mScenes;
+	std::wstring CSceneManager::mActiveSceneName = L"ABC";
 
 	void CSceneManager::FnInitialize()
 	{
@@ -77,6 +78,8 @@ namespace yha
 	{
 		std::map<std::wstring, CScene*>::iterator iter = mScenes.find(name);
 
+		mActiveSceneName = name;
+
 		if (iter == mScenes.end())
 			return nullptr;
 
@@ -89,4 +92,11 @@ namespace yha
 
 		return iter->second;
 	}
+
+	//std::wstring CSceneManager::FnGetActiveSceneName()
+	//{
+	//	return std::wstring(mActiveSceneName);
+	//}
+
+
 }

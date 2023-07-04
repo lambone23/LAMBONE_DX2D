@@ -9,7 +9,8 @@ namespace yha
 		template <typename T>
 		static std::shared_ptr<T> FnFind(const std::wstring& key)
 		{
-			// 리소스맵에서 데이터를 탐색한다 데이터가 있다면 해당데이터를 반환하고
+			// 리소스맵에서 데이터를 탐색한다.
+			// 데이터가 있다면 해당데이터를 반환하고
 			// 데이터가 없다면 end를 반환해준다.
 			std::map<std::wstring, std::shared_ptr<CResource>>::iterator iter = mResources.find(key);
 

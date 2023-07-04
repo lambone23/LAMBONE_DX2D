@@ -16,7 +16,8 @@ namespace yha
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
 
-	private:
-
+	public:
+		virtual void FnOnEnter() override;
+		virtual void FnOnExit() override;
 	};
 }

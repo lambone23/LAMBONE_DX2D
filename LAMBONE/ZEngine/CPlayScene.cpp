@@ -7,6 +7,11 @@
 #include "CCamera.h"
 #include "CSceneManager.h"
 
+#include "CApplication.h"
+#include <tchar.h>
+
+extern yha::CApplication MyApplication;
+
 namespace yha
 {
 	CPlayScene::CPlayScene()
@@ -131,5 +136,24 @@ namespace yha
 	void CPlayScene::FnRender()
 	{
 		CScene::FnRender();
+	}
+
+	void CPlayScene::FnOnEnter()
+	{
+		//int a = 0;
+
+		//std::wstring name = CSceneManager::FnGetActiveSceneName();
+		//if (name == L"PlayScene")
+		//	a = 1;
+
+		//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+		//TCHAR Temp[256] = { 0, };
+		//_stprintf_s(Temp, L"x: %d", a);
+		//MessageBox(Tmp_mHwnd, Temp, L"ÁÂÇ¥", MB_OK);
+	}
+
+	void CPlayScene::FnOnExit()
+	{
+
 	}
 }

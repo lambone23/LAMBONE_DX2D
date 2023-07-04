@@ -10,6 +10,8 @@
 //#include "CSceneManager.h"
 #include "LoadScenes.h"
 
+#include <atlstr.h>
+
 #ifdef _DEBUG
 #pragma comment(lib, "..\\x64\\Debug\\ZEngine.lib")
 #else
@@ -162,6 +164,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    //HDC hdc;
+    //static CString str;
+    //static POINT MousePos;
+
     switch (message)
     {
     case WM_COMMAND:
@@ -192,6 +198,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+
+    //case WM_MOUSEMOVE: //마우스 움직일 경우 메시지
+    //    MousePos.x = LOWORD(lParam); //x좌표를 받는다.
+    //    MousePos.y = HIWORD(lParam); //y좌표를 받는다.
+
+    //    //마우스 좌표의 정수값을 문자열로 변환하여 저장
+    //    str.Format(_T("X좌표: %d Y좌표: %d"), MousePos.x, MousePos.y); //현재 마우스의 위치값을 문자열로 변환한다.
+    //    //그리기 위해서 DC를 얻어옴
+    //    hdc = GetDC(hWnd);
+    //    //마우스가 움직일 때마다 현재 마우스위치를 받아온다.
+    //    TextOut(hdc, 0, 0, str, lstrlen(str)); //문자열로 변환한 마우스 좌표값을 출력한다.
+    //    ReleaseDC(hWnd, hdc);//그리기 영역 해제
+    //    break;
+
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

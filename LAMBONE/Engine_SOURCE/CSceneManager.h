@@ -33,8 +33,13 @@ namespace yha
 		static CScene* FnGetActiveScene() { return mActiveScene; }
 		static std::map<std::wstring, CScene*> FnGetScenes() { return mScenes; }
 
+		static std::wstring FnGetActiveSceneName() { return mActiveSceneName; }
+
 	private:
 		static CScene* mActiveScene;
 		static std::map<std::wstring, CScene*> mScenes;
+
+		static std::wstring mActiveSceneName;
+
 	};
 }

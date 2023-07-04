@@ -13,5 +13,12 @@ namespace yha
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
+
+	public:
+		virtual void FnOnEnter() override;
+		virtual void FnOnExit() override;
+
+	private:
+		CGameObject* mUI_btn_StartAdventure;
 	};
 }

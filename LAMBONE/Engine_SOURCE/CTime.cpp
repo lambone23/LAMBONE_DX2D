@@ -1,7 +1,9 @@
 #include "CTime.h"
 #include "CApplication.h"
+#include "CSceneManager.h"
 
 extern yha::CApplication MyApplication;
+extern yha::CSceneManager MySceneManager;
 
 namespace yha
 {
@@ -38,10 +40,32 @@ namespace yha
 		if (mSecond > 1.0f)
 		{
 			HWND hWnd = MyApplication.FnGetHwnd();
-
-			wchar_t szFloat[50] = {};
+			wchar_t szFloat[200] = {};
 			float FPS = 1.0f / (float)mDeltaTime;
-			swprintf_s(szFloat, 50, L"PvZ By LAMBONE -- #FPS : %d", (UINT)FPS);
+
+			std::wstring activeSceneName = CSceneManager::FnGetActiveSceneName();
+
+			if (activeSceneName == L"PlayScene")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayScene]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_Intro")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [Intro]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_Loading")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [Loading]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_MainMenu")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [MainMenu]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_Ending")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [Ending]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_PlayGrassDay")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayGrassDay]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_PlayGrassNight")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayGrassNight]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_PlayPoolDay")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayPoolDay]", (UINT)FPS);
+			else if (activeSceneName == L"Scene_PlayPoolNight")
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayPoolNight]", (UINT)FPS);
+			else
+				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d", (UINT)FPS);
+			
 			//int iLen = wcsnlen_s(szFloat, 50);
 			SetWindowText(hWnd, szFloat);
 
