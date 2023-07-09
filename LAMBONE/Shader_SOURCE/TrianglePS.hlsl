@@ -1,3 +1,4 @@
+#include "globals.hlsli"
 
 struct VSIn
 {
@@ -13,11 +14,11 @@ struct VSOut
     float2 UV : TEXCOORD;
 };
 
-Texture2D albedoTexture : register(t0);
-
-//SamplerState samplerState : register(s0);
-SamplerState pointSampler : register(s0);
-SamplerState anisotropicSampler : register(s1);
+//Texture2D albedoTexture : register(t0);
+//
+////SamplerState samplerState : register(s0);
+//SamplerState pointSampler : register(s0);
+//SamplerState anisotropicSampler : register(s1);
 
 float4 main(VSOut In) : SV_TARGET
 {

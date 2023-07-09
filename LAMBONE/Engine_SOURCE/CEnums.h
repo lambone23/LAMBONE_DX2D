@@ -33,6 +33,7 @@ namespace yha::enums
 	enum class eLayerType
 	{
 		BG,
+		Grid,
 		Player,
 		Monster,
 		UI,

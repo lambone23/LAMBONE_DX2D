@@ -1,3 +1,4 @@
+#include "globals.hlsli"
 
 //structedBuffer
 struct VSIn
@@ -14,16 +15,12 @@ struct VSOut
     float2 UV : TEXCOORD;
 };
 
-cbuffer Transform : register(b0)
-{
-    //float4 Position;
-    //float4 Rotation;
-    //float4 Scale;
-
-    row_major matrix mWorld;
-    row_major matrix mView;
-    row_major matrix mProjection;
-}
+//cbuffer Transform : register(b0)
+//{
+//    row_major matrix mWorld;
+//    row_major matrix mView;
+//    row_major matrix mProjection;
+//}
 
 VSOut main(VSIn In)
 {
@@ -34,13 +31,11 @@ VSOut main(VSIn In)
     //Out.Pos.x += Position.x;
     //Out.Pos.y += Position.y;
 
-    float4 world = mul(float4(In.Pos, 1.0f), mWorld);
-    float4 view = mul(world, mView);
-    float4 proj = mul(view, mProjection);
+    float4 world = mul(float4(In.Pos, 1.0f), WorldMatrix);
+    float4 view = mul(world, ViewMatrix);
+    float4 proj = mul(view, ProjectionMatrix);
     
-    //Out.Pos = world;
     Out.Pos = proj;
-
     Out.UV = In.UV;
     Out.Color = In.Color;
 

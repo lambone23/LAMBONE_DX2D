@@ -7,8 +7,9 @@
 #include "CResources.h"
 #include "CCamera.h"
 #include "CSceneManager.h"
-#include "CApplication.h"
+#include "CGridScript.h"
 
+#include "CApplication.h"
 #include "CCameraScript.h"
 #include "CTime.h"
 #include "CComponent.h"
@@ -28,20 +29,25 @@ namespace yha
 		MyApplication.mFlagChkFirst = true;
 
 		//==================================================================
-		// Main Camera
+		// Camera
 		//==================================================================
+		CCamera* cameraComp = nullptr;
+
+		//-------------------------------------
+		// Main Camera
+		//-------------------------------------
 		{
 			mCamera = new CGameObject();
 			FnAddGameObject(eLayerType::Player, mCamera);
 			mCamera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
-			CCamera* cameraComp = mCamera->FnAddComponent<CCamera>();
+			cameraComp = mCamera->FnAddComponent<CCamera>();
 			cameraComp->FnTurnLayerMask(eLayerType::UI, false);
 			mCamera->FnAddComponent<CCameraScript>();
 		}
 
-		//==================================================================
+		//-------------------------------------
 		// UI Camera
-		//==================================================================
+		//-------------------------------------
 		{
 			CGameObject* camera = new CGameObject();
 			FnAddGameObject(eLayerType::Player, camera);
@@ -51,7 +57,6 @@ namespace yha
 			cameraComp->FnTurnLayerMask(eLayerType::Player, false);
 			//camera->FnAddComponent<CCameraScript>();
 		}
-
 
 		//==================================================================
 		// BG
@@ -65,6 +70,24 @@ namespace yha
 
 		BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.5f, 0.0f, 1.0f));
 		BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(11.f, 33.f / 7.f, 0.f));
+
+
+		//==================================================================
+		// Grid (After Camera Set)
+		//==================================================================
+		{
+			CGameObject* grid = new CGameObject();
+			grid->FnSetName(L"Grid");
+			FnAddGameObject(eLayerType::Grid, grid);
+
+			CMeshRenderer* mr = grid->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"GridMaterial"));
+			CGridScript* gridSc = grid->FnAddComponent<CGridScript>();
+			gridSc->FnSetCamera(cameraComp);
+		}
+
+
 
 		//==================================================================
 		// UI
@@ -158,6 +181,9 @@ namespace yha
 		if (pos.x > 3.f)
 			MyApplication.mFlagChkFirst = false;
 
+		//==================================================================
+		// Choose Plants
+		//==================================================================
 		if (!MyApplication.mFlagChkFirst)
 		{
 			if (mFlagShowSeedChooser)
@@ -227,12 +253,12 @@ namespace yha
 			}
 		}
 
+		//==================================================================
+		// Play
+		//==================================================================
 		if (mFlagPlay && mFlagChkEnterScene)
 		{
 #pragma region Resource_UI
-			//==================================================================
-			// Main Camera Move
-			//==================================================================
 			{
 				// mUI_SunPointChk
 				CMeshRenderer* mr = mUI_SunPointChk->FnAddComponent<CMeshRenderer>();
@@ -316,7 +342,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 2.f, 0.f));
 				mCard_SunFlower->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -326,7 +352,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower2->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower2->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 1.5f, 0.f));
 				mCard_SunFlower2->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -336,7 +362,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower3->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower3->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 1.f, 0.f));
 				mCard_SunFlower3->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -346,7 +372,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower4->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower4->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 0.5f, 0.f));
 				mCard_SunFlower4->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -356,7 +382,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower5->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower5->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 0.f, 0.f));
 				mCard_SunFlower5->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -366,7 +392,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower6->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower6->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -0.5f, 0.f));
 				mCard_SunFlower6->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -376,7 +402,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower7->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower7->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.f, 0.f));
 				mCard_SunFlower7->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
@@ -386,7 +412,7 @@ namespace yha
 				// Card_SunFlower
 				CMeshRenderer* mr = mCard_SunFlower8->FnAddComponent<CMeshRenderer>();
 				mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"Card_SunFlower"));
+				mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
 
 				mCard_SunFlower8->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.5f, 0.f));
 				mCard_SunFlower8->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));

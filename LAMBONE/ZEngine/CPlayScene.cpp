@@ -6,6 +6,7 @@
 #include "CCameraScript.h"
 #include "CCamera.h"
 #include "CSceneManager.h"
+#include "CGridScript.h"
 
 #include "CApplication.h"
 #include <tchar.h>
@@ -95,12 +96,14 @@ namespace yha
 		//==================================================================
 		// Camera
 		//==================================================================
+		CCamera* cameraComp = nullptr;
+
 		{// Main Camera - [OFF : UI / ON : Player] - Move[O]
 			CGameObject* camera = new CGameObject();
 			FnAddGameObject(eLayerType::Player, camera);
 
 			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
-			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
+			cameraComp = camera->FnAddComponent<CCamera>();
 			cameraComp->FnTurnLayerMask(eLayerType::UI, false);
 			camera->FnAddComponent<CCameraScript>();
 		}
@@ -113,6 +116,21 @@ namespace yha
 			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
 			cameraComp->FnTurnLayerMask(eLayerType::Player, false);
 			//camera->FnAddComponent<CCameraScript>();
+		}
+
+		//==================================================================
+		// Grid (After Camera Set)
+		//==================================================================
+		{
+			CGameObject* grid = new CGameObject();
+			grid->FnSetName(L"Grid");
+			FnAddGameObject(eLayerType::Grid, grid);
+			
+			CMeshRenderer* mr = grid->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"GridMaterial"));
+			CGridScript* gridSc = grid->FnAddComponent<CGridScript>();
+			gridSc->FnSetCamera(cameraComp);
 		}
 
 		//CGameObject* player2 = new CGameObject();
@@ -130,6 +148,19 @@ namespace yha
 
 	void CPlayScene::FnLateUpdate()
 	{
+		//Vector3 pos(600, 450, 0.0f);
+		//Vector3 pos2(600, 450, 1000.0f);
+		//Viewport viewport;
+		//viewport.width = 1600.0f;
+		//viewport.height = 900.0f;
+		//viewport.x = 0;
+		//viewport.y = 0;
+		//viewport.minDepth = 0.0f;
+		//viewport.maxDepth = 1.0f;
+
+		//pos = viewport.Unproject(pos, Camera::GetProjectionMatrix(), Camera::GetViewMatrix(), Matrix::Identity);
+		//pos2 = viewport.Unproject(pos2, Camera::GetProjectionMatrix(), Camera::GetViewMatrix(), Matrix::Identity);
+
 		CScene::FnLateUpdate();
 	}
 

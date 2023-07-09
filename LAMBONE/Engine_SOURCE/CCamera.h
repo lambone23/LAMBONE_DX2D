@@ -48,6 +48,8 @@ namespace yha
 		void FnEnableDepthStencilState();
 		void FnDisableDepthStencilState();
 
+		float FnGetSize() { return mSize; }
+
 	private:
 		static Matrix View;
 		static Matrix Projection;

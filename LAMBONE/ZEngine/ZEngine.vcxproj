@@ -150,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCameraScript.h" />
+    <ClInclude Include="CGridScript.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CSceneEnding.h" />
     <ClInclude Include="CSceneIntro.h" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCameraScript.cpp" />
+    <ClCompile Include="CGridScript.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CSceneEnding.cpp" />
     <ClCompile Include="CSceneIntro.cpp" />

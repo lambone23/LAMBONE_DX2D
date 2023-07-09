@@ -32,6 +32,9 @@
     <ClCompile Include="CScenePlayPoolNight.cpp">
       <Filter>Contents\Scene\02_PlayPool\Night</Filter>
     </ClCompile>
+    <ClCompile Include="CGridScript.cpp">
+      <Filter>Contents\Script\Grid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -67,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="CScenePlayPoolNight.h">
       <Filter>Contents\Scene\02_PlayPool\Night</Filter>
+    </ClInclude>
+    <ClInclude Include="CGridScript.h">
+      <Filter>Contents\Script\Grid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,6 +123,9 @@
     </Filter>
     <Filter Include="Contents\Scene\02_PlayPool\Night">
       <UniqueIdentifier>{9e56ebde-bc49-4f6c-87ce-53091f1b5c1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Script\Grid">
+      <UniqueIdentifier>{345e9769-6397-4842-99b2-e3b0cd99d4d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
