@@ -64,7 +64,10 @@ namespace yha
 	{
 		mActiveScene->FnRender();
 	}
-
+	void CSceneManager::FnDestroy()
+	{
+		mActiveScene->FnDestroy();
+	}
 	void CSceneManager::FnRelease()
 	{
 		for (auto& iter : mScenes)

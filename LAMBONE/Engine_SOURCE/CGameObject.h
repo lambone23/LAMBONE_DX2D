@@ -8,7 +8,7 @@ namespace yha
 	class CGameObject : public CEntity
 	{
 	public:
-		enum eState
+		enum class eState
 		{
 			Active,
 			Paused,
@@ -67,6 +67,9 @@ namespace yha
 
 			return comp;
 		}
+
+		void FnSetState(eState state) { mState = state; }
+		eState FnGetState() { return mState; }
 
 	private:
 		eState mState;

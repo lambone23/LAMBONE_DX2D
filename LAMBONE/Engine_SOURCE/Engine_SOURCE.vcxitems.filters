@@ -88,6 +88,9 @@
     <Filter Include="05_Component\0_Base">
       <UniqueIdentifier>{0d113f36-e56b-47e1-86e5-0480614df306}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00_Common\Object">
+      <UniqueIdentifier>{b7e2b2f3-7cac-4a9c-8dec-8ae7bd0c07b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
       <Filter>02_Scene\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
+      <Filter>00_Common\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

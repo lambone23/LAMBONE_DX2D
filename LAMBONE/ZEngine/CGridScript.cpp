@@ -5,6 +5,8 @@
 #include "CApplication.h"
 #include "CGameObject.h"
 #include "CRenderer.h"
+#include "CTime.h"
+#include "CObject.h"
 
 extern yha::CApplication MyApplication;
 
@@ -22,6 +24,14 @@ namespace yha
 	}
 	void CGridScript::FnUpdate()
 	{
+		static float chTime = 0.0f;
+		chTime += CTime::FnDeltaTime();
+
+		if (chTime > 3.0f)
+		{
+			object::FnDestroy(FnGetOwner());
+		}
+
 		if (mCamera == nullptr)
 			return;
 

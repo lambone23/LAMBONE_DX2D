@@ -19,6 +19,7 @@ namespace yha
 		void FnUpdate();
 		void FnLateUpdate();
 		void FnRender();
+		void FnDestroy();
 
 	public:
 		void FnSetWindow(HWND hwnd, UINT width, UINT height);

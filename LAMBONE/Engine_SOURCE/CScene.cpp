@@ -38,6 +38,13 @@ namespace yha
 			layer.FnRender();
 		}
 	}
+	void CScene::FnDestroy()
+	{
+		for (CLayer& layer : mLayers)
+		{
+			layer.FnDestory();
+		}
+	}
 	void CScene::FnOnEnter()
 	{
 	}

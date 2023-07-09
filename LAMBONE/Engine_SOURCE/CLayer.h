@@ -14,6 +14,7 @@ namespace yha
 		virtual void FnUpdate();
 		virtual void FnLateUpdate();
 		virtual void FnRender();
+		virtual void FnDestory();
 
 	public:
 		void FnAddGameObject(CGameObject* gameObj);

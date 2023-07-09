@@ -7,6 +7,7 @@
 #include "CCamera.h"
 #include "CSceneManager.h"
 #include "CGridScript.h"
+#include "CObject.h"
 
 #include "CApplication.h"
 #include <tchar.h>
@@ -31,16 +32,17 @@ namespace yha
 			//-------------------------------------
 			// player - Parent
 			//-------------------------------------
-			CGameObject* player = new CGameObject();
+			CGameObject* player = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 1.0001f), eLayerType::Player);
+			//¡áobject //CGameObject* player = new CGameObject();
 			player->FnSetName(L"Zelda");
-			FnAddGameObject(eLayerType::Player, player);
+			//¡áobject //FnAddGameObject(eLayerType::Player, player);
 
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
 
-			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0001f)); // (Vector3(0.0f, 0.0f, 1.0f));
-			//player->FnAddComponent<CCameraScript>();
+			//¡áobject //player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0001f));
+			//¡áobject ////player->FnAddComponent<CCameraScript>();
 
 			//-------------------------------------
 			// player2 - Child

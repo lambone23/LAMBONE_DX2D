@@ -25,6 +25,7 @@ namespace yha
 		FnUpdate();
 		FnLateUpdate();
 		FnRender();
+		FnDestroy();
 	}
 
 	void CApplication::FnInitialize()
@@ -80,6 +81,11 @@ namespace yha
 		graphicDevice->FnPresent();
 	}
 
+	void CApplication::FnDestroy()
+	{
+		CSceneManager::FnDestroy();
+	}
+
 	void CApplication::FnSetWindow(HWND hwnd, UINT width, UINT height)
 	{
 		if (graphicDevice == nullptr)
@@ -98,5 +104,4 @@ namespace yha
 		ShowWindow(mHwnd, true);
 		UpdateWindow(mHwnd);
 	}
-
 }
