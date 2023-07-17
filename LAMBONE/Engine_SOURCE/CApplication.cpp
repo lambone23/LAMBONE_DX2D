@@ -78,17 +78,12 @@ namespace yha
 		renderer::FnRender();
 		//graphicDevice->FnDraw();
 
-		//graphicDevice->FnPresent();
+		graphicDevice->FnPresent();
 	}
 
 	void CApplication::FnDestroy()
 	{
 		CSceneManager::FnDestroy();
-	}
-
-	void CApplication::FnPresent()
-	{
-		graphicDevice->FnPresent();
 	}
 
 	void CApplication::FnSetWindow(HWND hwnd, UINT width, UINT height)

@@ -15,8 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollider2D.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
@@ -48,8 +46,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollider2D.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />

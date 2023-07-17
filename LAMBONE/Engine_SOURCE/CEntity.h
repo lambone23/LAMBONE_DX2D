@@ -12,11 +12,11 @@ namespace yha
 	public:
 		void FnSetName(const std::wstring& name) { mName = name; }
 		std::wstring& FnGetName() { return mName; }
-		void FnSetID(UINT64 id) { mColliderID = id; }
-		UINT64 FnGetID() { return mColliderID; }
+		void FnSetID(UINT64 id) { mID = id; }
+		UINT64 FnGetID() { return mID; }
 
 	private:
 		std::wstring mName;
-		UINT64 mColliderID;
+		UINT64 mID;
 	};
 }

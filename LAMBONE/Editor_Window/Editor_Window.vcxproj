@@ -157,11 +157,6 @@
       <FileType>Document</FileType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ZEngine\ZEngine.vcxproj">
-      <Project>{e46ab22e-7383-4582-b017-278499e8b754}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -20,7 +20,6 @@ namespace yha
 		void FnLateUpdate();
 		void FnRender();
 		void FnDestroy();
-		void FnPresent();
 
 	public:
 		void FnSetWindow(HWND hwnd, UINT width, UINT height);
@@ -40,7 +39,7 @@ namespace yha
 		UINT mHeight;
 
 	public:
-		bool mFlagMyGame = false;
+		bool mFlagMyGame = true;
 
 		float ScaleWidth = 8.0f;
 		float ScaleHeight = 4.5f;

@@ -27,12 +27,6 @@
     <FxCompile Include="$(MSBuildThisFileDirectory)GridPS.hlsl">
       <Filter>Pixel</Filter>
     </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)DebugPS.hlsl">
-      <Filter>Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="$(MSBuildThisFileDirectory)DebugVS.hlsl">
-      <Filter>Vertex</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)globals.hlsli" />

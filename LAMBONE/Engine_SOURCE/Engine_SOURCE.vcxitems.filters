@@ -73,29 +73,23 @@
     <Filter Include="05_Component\2_Mesh %28Resource%29">
       <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="05_Component\3_Particle">
+      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\4_MeshRenderer">
+      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\5_Script">
+      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\6_Camera">
+      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="05_Component\0_Base">
       <UniqueIdentifier>{0d113f36-e56b-47e1-86e5-0480614df306}</UniqueIdentifier>
     </Filter>
     <Filter Include="00_Common\Object">
       <UniqueIdentifier>{b7e2b2f3-7cac-4a9c-8dec-8ae7bd0c07b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\4_Particle">
-      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\5_MeshRenderer">
-      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\6_Script">
-      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\7_Camera">
-      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\3_Collider2D">
-      <UniqueIdentifier>{532548d4-cf63-4429-9c20-c7df620bd68d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\3_Collider2D\Manager">
-      <UniqueIdentifier>{ffc5bfd3-abb8-4869-949a-4e78b9900eb9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,7 +151,7 @@
       <Filter>02_Scene\Base</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
-      <Filter>05_Component\5_MeshRenderer</Filter>
+      <Filter>05_Component\4_MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
       <Filter>00_Common\Resource\Texture</Filter>
@@ -166,10 +160,10 @@
       <Filter>00_Common\Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h">
-      <Filter>05_Component\6_Script</Filter>
+      <Filter>05_Component\5_Script</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
-      <Filter>05_Component\7_Camera</Filter>
+      <Filter>05_Component\6_Camera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
@@ -182,12 +176,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CObject.h">
       <Filter>00_Common\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollider2D.h">
-      <Filter>05_Component\3_Collider2D</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
-      <Filter>05_Component\3_Collider2D\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,7 +225,7 @@
       <Filter>02_Scene\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
-      <Filter>05_Component\5_MeshRenderer</Filter>
+      <Filter>05_Component\4_MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
       <Filter>00_Common\Resource\Texture</Filter>
@@ -246,10 +234,10 @@
       <Filter>00_Common\Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp">
-      <Filter>05_Component\6_Script</Filter>
+      <Filter>05_Component\5_Script</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
-      <Filter>05_Component\7_Camera</Filter>
+      <Filter>05_Component\6_Camera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
@@ -259,12 +247,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
       <Filter>02_Scene\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollider2D.cpp">
-      <Filter>05_Component\3_Collider2D</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
-      <Filter>05_Component\3_Collider2D\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

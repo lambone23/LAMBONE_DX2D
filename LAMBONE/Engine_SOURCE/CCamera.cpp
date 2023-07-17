@@ -232,9 +232,6 @@ namespace yha
 			if (gameObj == nullptr)
 				continue;
 
-			if (gameObj->FnGetState() != CGameObject::eState::Active)
-				continue;
-
 			gameObj->FnRender();
 		}
 	}//END-void CCamera::FnRenderOpaque
@@ -246,9 +243,6 @@ namespace yha
 			if (gameObj == nullptr)
 				continue;
 
-			if (gameObj->FnGetState() != CGameObject::eState::Active)
-				continue;
-
 			gameObj->FnRender();
 		}
 	}//END-void CCamera::FnRenderCutOut
@@ -258,9 +252,6 @@ namespace yha
 		for (CGameObject* gameObj : mTransparentGameObjects)
 		{
 			if (gameObj == nullptr)
-				continue;
-
-			if (gameObj->FnGetState() != CGameObject::eState::Active)
 				continue;
 
 			gameObj->FnRender();

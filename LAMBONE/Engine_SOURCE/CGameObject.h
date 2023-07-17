@@ -48,29 +48,6 @@ namespace yha
 		}
 
 		template <typename T>
-		const std::vector<T*>& FnGetComponents()
-		{
-			std::vector<T*> comps;
-
-			T* component;
-			for (CComponent* comp : mComponents)
-			{
-				component = dynamic_cast<T*>(comp);
-				if (component != nullptr)
-					comps.push_back(component);
-			}
-
-			for (CScript* script : mScripts)
-			{
-				component = dynamic_cast<T*>(script);
-				if (component != nullptr)
-					comps.push_back(component);
-			}
-
-			return comps;
-		}
-
-		template <typename T>
 		T* FnAddComponent()
 		{
 			T* comp = new T();

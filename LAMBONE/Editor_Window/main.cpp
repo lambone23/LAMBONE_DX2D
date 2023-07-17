@@ -3,13 +3,12 @@
 #include "framework.h"
 #include "Editor_Window.h"
 
-#include "..\Engine_SOURCE\CApplication.h"
-#include "..\Engine_SOURCE\CRenderer.h"
-#include "..\Engine_SOURCE\CResources.h"
+#include "../Engine_SOURCE/CApplication.h"
+#include "../Engine_SOURCE/CRenderer.h"
+#include "../Engine_SOURCE/CResources.h"
 
 //#include "CSceneManager.h"
 #include "LoadScenes.h"
-#include "CGuiEditor.h"
 
 #include <atlstr.h>
 
@@ -79,17 +78,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             // 여기서 게임 로직이 돌아가야한다.
             MyApplication.FnRun();
-            gui::Editor::FnRun();
-            MyApplication.FnPresent();
         }
     }
 
     renderer::FnRelease();
     yha::CSceneManager::FnRelease();
-    gui::Editor::FnRelease();
 
     return (int)msg.wParam;
 }
+
+
 
 //
 //  함수: MyRegisterClass()
@@ -150,7 +148,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
     MyApplication.FnInitialize();
     yha::FnInitializeScenes();
-    gui::Editor::FnInitialize();
 
     return TRUE;
 }
