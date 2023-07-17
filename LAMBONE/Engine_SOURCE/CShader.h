@@ -25,6 +25,7 @@ namespace yha
 		void FnSetRSState(eRSType type) { mRSType = type; }
 		void FnSetDSState(eDSType type) { mDSType = type; }
 		void FnSetBSState(eBSType type) { mBSType = type; }
+		void FnSetTopology(D3D11_PRIMITIVE_TOPOLOGY topology) { mTopology = topology; }
 
 	private:
 		ID3D11InputLayout* mInputLayout;

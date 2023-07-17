@@ -24,8 +24,11 @@ namespace yha
 			None,
 		};
 
-		static Matrix FnGetViewMatrix() { return View; }
-		static Matrix FnGetProjectionMatrix() { return Projection; }
+		static Matrix& FnGetGpuViewMatrix() { return View; }
+		static void FnSetGpuViewMatrix(Matrix view) { View = view; }
+
+		static Matrix& FnGetGpuProjectionMatrix() { return Projection; }
+		static void FnSetGpuProjectionMatrix(Matrix projection) { Projection = projection; }
 
 		bool FnCreateViewMatrix();
 		bool FnCreateProjectionMatrix(eProjectionType type);
@@ -49,6 +52,8 @@ namespace yha
 		void FnDisableDepthStencilState();
 
 		float FnGetSize() { return mSize; }
+		Matrix& FnGetViewMatrix() { return mView; }
+		Matrix& FnGetProjectionMatrix() { return mProjection; }
 
 	private:
 		static Matrix View;

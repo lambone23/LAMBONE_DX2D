@@ -8,6 +8,8 @@
 #include "CSceneManager.h"
 #include "CGridScript.h"
 #include "CObject.h"
+#include "CRenderer.h"
+#include "CCollider2D.h"
 
 #include "CApplication.h"
 #include <tchar.h>
@@ -37,6 +39,8 @@ namespace yha
 			player->FnSetName(L"Zelda");
 			//¡áobject //FnAddGameObject(eLayerType::Player, player);
 
+			CCollider2D* cd = player->FnAddComponent<CCollider2D>();
+
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
@@ -47,24 +51,24 @@ namespace yha
 			//-------------------------------------
 			// player2 - Child
 			//-------------------------------------
-			CGameObject* player2 = new CGameObject();
-			player2->FnSetName(L"ZeldaChild");
-			FnAddGameObject(eLayerType::Player, player2);
+			//CGameObject* player2 = new CGameObject();
+			//player2->FnSetName(L"ZeldaChild");
+			//FnAddGameObject(eLayerType::Player, player2);
 
-			CMeshRenderer* mr2 = player2->FnAddComponent<CMeshRenderer>();
-			mr2->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-			mr2->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
+			//CMeshRenderer* mr2 = player2->FnAddComponent<CMeshRenderer>();
+			//mr2->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			//mr2->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
 
-			player2->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.0f, 0.0f, 1.0001f));
-			//player->AddComponent<CameraScript>();
+			//player2->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.0f, 0.0f, 1.0001f));
+			////player->AddComponent<CameraScript>();
 
-			player2->FnGetComponent<CTransform>()->FnSetParent(player->FnGetComponent<CTransform>());
+			//player2->FnGetComponent<CTransform>()->FnSetParent(player->FnGetComponent<CTransform>());
 			
 			//-------------------------------------
 			// player & player2
 			//-------------------------------------
 			const float pi = 3.141592f;
-			float degree = pi / 2.0f;
+			float degree = pi / 8.0f; //float degree = pi / 2.0f;
 			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.0f, 0.0f, 1.0001f));
 			player->FnGetComponent<CTransform>()->FnSetRotation(Vector3(0.0f, 0.0f, degree));
 		}
@@ -150,18 +154,18 @@ namespace yha
 
 	void CPlayScene::FnLateUpdate()
 	{
-		//Vector3 pos(600, 450, 0.0f);
-		//Vector3 pos2(600, 450, 1000.0f);
-		//Viewport viewport;
-		//viewport.width = 1600.0f;
-		//viewport.height = 900.0f;
-		//viewport.x = 0;
-		//viewport.y = 0;
-		//viewport.minDepth = 0.0f;
-		//viewport.maxDepth = 1.0f;
+		Vector3 pos(600, 450, 0.0f);
+		Vector3 pos2(600, 450, 1000.0f);
+		Viewport viewport;
+		viewport.width = 1600.0f;
+		viewport.height = 900.0f;
+		viewport.x = 0;
+		viewport.y = 0;
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
 
-		//pos = viewport.Unproject(pos, Camera::GetProjectionMatrix(), Camera::GetViewMatrix(), Matrix::Identity);
-		//pos2 = viewport.Unproject(pos2, Camera::GetProjectionMatrix(), Camera::GetViewMatrix(), Matrix::Identity);
+		pos = viewport.Unproject(pos, CCamera::FnGetGpuProjectionMatrix(), CCamera::FnGetGpuViewMatrix(), Matrix::Identity);
+		pos2 = viewport.Unproject(pos2, CCamera::FnGetGpuProjectionMatrix(), CCamera::FnGetGpuViewMatrix(), Matrix::Identity);
 
 		CScene::FnLateUpdate();
 	}

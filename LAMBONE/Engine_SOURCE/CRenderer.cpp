@@ -8,15 +8,16 @@ namespace renderer
 	using namespace yha;
 	using namespace yha::graphics;
 
-	Vertex vertexes[4] = {};
-
+	//Vertex vertexes[4] = {};
 	yha::graphics::CConstantBuffer* constantBuffer[(UINT)eCBType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> samplerState[(UINT)eSamplerType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizerStates[(UINT)eRSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
 
+	yha::CCamera* mainCamera = nullptr;
 	std::vector<yha::CCamera*> cameras = {};
+	std::vector<DebugMesh> debugMeshs = {};
 
 	void FnSetupState()
 	{
@@ -62,6 +63,13 @@ namespace renderer
 			, shader->FnGetInputLayoutAddressOf());
 
 		shader = yha::CResources::FnFind<CShader>(L"GridShader");
+		yha::graphics::FnGetDevice()->FnCreateInputLayout(
+			arrLayout
+			, 3
+			, shader->FnGetVSCode()
+			, shader->FnGetInputLayoutAddressOf());
+
+		shader = yha::CResources::FnFind<CShader>(L"DebugShader");
 		yha::graphics::FnGetDevice()->FnCreateInputLayout(
 			arrLayout
 			, 3
@@ -176,7 +184,12 @@ namespace renderer
 
 	void FnLoadMesh()
 	{
+		std::vector<Vertex> vertexes = {};
+		std::vector<UINT> indexes = {};
+
 		// RectMesh
+		vertexes.resize(4);
+
 		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
 		vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 		vertexes[0].uv = Vector2(0.0f, 0.0f);
@@ -192,18 +205,14 @@ namespace renderer
 		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.0f);
 		vertexes[3].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
-	}//END-void FnLoadMesh
 
-	void FnLoadBuffer()
-	{
 		//==================================================================
 		// Vertex Buffer
 		//==================================================================
 		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
 		CResources::FnInsert(L"RectMesh", mesh);
-		mesh->FnCreateVertexBuffer(vertexes, 4);
+		mesh->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
 
-		std::vector<UINT> indexes = {};
 		indexes.push_back(0);
 		indexes.push_back(1);
 		indexes.push_back(2);
@@ -217,6 +226,68 @@ namespace renderer
 		//==================================================================
 		mesh->FnCreateIndexBuffer(indexes.data(), indexes.size());
 
+		//==================================================================
+		// Rect Debug Mesh
+		//==================================================================
+		std::shared_ptr<CMesh> rectDebug = std::make_shared<CMesh>();
+		CResources::FnInsert(L"DebugRect", rectDebug);
+		rectDebug->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
+		rectDebug->FnCreateIndexBuffer(indexes.data(), indexes.size());
+
+		//==================================================================
+		// Circle Debug Mesh
+		//==================================================================
+		vertexes.clear();
+		indexes.clear();
+
+		Vertex center = {};
+		center.pos = Vector3(0.0f, 0.0f, 0.0f);
+		center.color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		vertexes.push_back(center);
+
+		int iSlice = 40;
+		float fRadius = 0.5f;
+		float fTheta = XM_2PI / (float)iSlice;
+
+		for (int i = 0; i < iSlice; ++i)
+		{
+			center.pos = Vector3(
+				fRadius * cosf(fTheta * (float)i)
+				, fRadius * sinf(fTheta * (float)i)
+				, 0.0f);
+			center.color = Vector4(0.0f, 1.0f, 0.0f, 1.f);
+			vertexes.push_back(center);
+		}
+
+		//for (UINT i = 0; i < (UINT)iSlice; ++i)
+		//{
+		//	indexes.push_back(0);
+		//	if (i == iSlice - 1)
+		//	{
+		//		indexes.push_back(1);
+		//	}
+		//	else
+		//	{
+		//		indexes.push_back(i + 2);
+		//	}
+		//	indexes.push_back(i + 1);
+		//}
+
+		for (int i = 0; i < vertexes.size() - 2; ++i)
+		{
+			indexes.push_back(i + 1);
+		}
+
+		indexes.push_back(1);
+
+		std::shared_ptr<CMesh> circleDebug = std::make_shared<CMesh>();
+		CResources::FnInsert(L"DebugCircle", circleDebug);
+		circleDebug->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
+		circleDebug->FnCreateIndexBuffer(indexes.data(), indexes.size());
+	}//END-void FnLoadMesh
+
+	void FnLoadBuffer()
+	{
 		//==================================================================
 		// Constant Buffer
 		//==================================================================
@@ -252,6 +323,14 @@ namespace renderer
 		girdShader->FnCreate(eShaderStage::VS, L"GridVS.hlsl", "main");
 		girdShader->FnCreate(eShaderStage::PS, L"GridPS.hlsl", "main");
 		yha::CResources::FnInsert(L"GridShader", girdShader);
+
+		std::shared_ptr<CShader> debugShader = std::make_shared<CShader>();
+		debugShader->FnCreate(eShaderStage::VS, L"DebugVS.hlsl", "main");
+		debugShader->FnCreate(eShaderStage::PS, L"DebugPS.hlsl", "main");
+		debugShader->FnSetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		debugShader->FnSetRSState(eRSType::SolidNone);
+		//debugShader->SetDSState(eDSType::NoWrite);
+		yha::CResources::FnInsert(L"DebugShader", debugShader);
 	}//END-void FnLoadShader
 
 	void FnLoadMaterial()
@@ -289,6 +368,15 @@ namespace renderer
 		material = std::make_shared<CMaterial>();
 		material->FnSetShader(gridShader);
 		CResources::FnInsert(L"GridMaterial", material);
+
+		//==================================================================
+		// DebugShader
+		//==================================================================
+		std::shared_ptr<CShader> debugShader = CResources::FnFind<CShader>(L"DebugShader");
+
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(debugShader);
+		CResources::FnInsert(L"DebugMaterial", material);
 
 #pragma region Resource_BG
 		//==================================================================
@@ -490,6 +578,11 @@ namespace renderer
 		FnLoadMaterial();
 
 	}//END-void FnInitialize
+
+	void FnPushDebugMeshAttribute(DebugMesh mesh)
+	{
+		debugMeshs.push_back(mesh);
+	}//END-void FnPushDebugMeshAttribute
 
 	void FnRender()
 	{
