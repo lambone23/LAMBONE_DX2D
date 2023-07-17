@@ -9,13 +9,25 @@ namespace yha
 		CScenePlayGrassDay();
 		virtual ~CScenePlayGrassDay();
 
+	private:
+		void FnDoInitialize();
+
+	public:
 		virtual void FnInitialize() override;
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
 
+	public:
+		virtual void FnOnEnter() override;
+		virtual void FnOnExit() override;
+
 	private:
-		CGameObject* mCamera;
+		CGameObject* mCamera_Main;
+		CGameObject* mCamera_UI;
+
+		CGameObject* mBG;
+
 		double mChkSecond = 0.0f;
 
 		bool mFlagChkEnterScene = false;
@@ -48,9 +60,5 @@ namespace yha
 		//CGameObject* mCard_Peashooter;
 		//CGameObject* mCard_WallNut;
 		//CGameObject* mCard_CherryBomb;
-
-	public:
-		virtual void FnOnEnter() override;
-		virtual void FnOnExit() override;
 	};
 }

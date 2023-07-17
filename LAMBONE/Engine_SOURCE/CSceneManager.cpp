@@ -81,8 +81,6 @@ namespace yha
 	{
 		std::map<std::wstring, CScene*>::iterator iter = mScenes.find(name);
 
-		mActiveSceneName = name;
-
 		if (iter == mScenes.end())
 			return nullptr;
 
@@ -90,16 +88,10 @@ namespace yha
 		{
 			mActiveScene->FnOnExit();
 			mActiveScene = iter->second;
+			mActiveSceneName = name;
 			mActiveScene->FnOnEnter();
 		}
 
 		return iter->second;
 	}
-
-	//std::wstring CSceneManager::FnGetActiveSceneName()
-	//{
-	//	return std::wstring(mActiveSceneName);
-	//}
-
-
 }

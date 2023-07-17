@@ -8,7 +8,7 @@
 #include "CCamera.h"
 #include "CSceneManager.h"
 #include "CApplication.h"
-
+#include "CObject.h"
 #include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
@@ -16,68 +16,66 @@ extern yha::CApplication MyApplication;
 namespace yha
 {
 	CSceneMainMenu::CSceneMainMenu()
+		: mCamera_Main(nullptr)
+		, mCamera_UI(nullptr)
+		, mBG(nullptr)
+		, mUI_btn_StartAdventure(nullptr)
 	{
 	}
 	CSceneMainMenu::~CSceneMainMenu()
 	{
 	}
-	void CSceneMainMenu::FnInitialize()
+
+	void CSceneMainMenu::FnDoInitialize()
 	{
 		//==================================================================
+		// Camera
+		//==================================================================
+		CCamera* cameraComp = nullptr;
+
+		//-------------------------------------
 		// Main Camera
-		//==================================================================
-		{
-			CGameObject* camera = new CGameObject();
-			FnAddGameObject(eLayerType::Player, camera);
-			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
-			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
-			cameraComp->FnTurnLayerMask(eLayerType::UI, false);
-			camera->FnAddComponent<CCameraScript>();
-		}
+		//-------------------------------------
+		mCamera_Main = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, -10.0f), eLayerType::Player);
+		cameraComp = mCamera_Main->FnAddComponent<CCamera>();
+		cameraComp->FnTurnLayerMask(eLayerType::UI, false);
+		mCamera_Main->FnAddComponent<CCameraScript>();
 
-		//==================================================================
+		//-------------------------------------
 		// UI Camera
-		//==================================================================
-		{
-			CGameObject* camera = new CGameObject();
-			FnAddGameObject(eLayerType::Player, camera);
-
-			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
-			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
-			cameraComp->FnTurnLayerMask(eLayerType::Player, false);
-			//camera->FnAddComponent<CCameraScript>();
-		}
+		//-------------------------------------
+		mCamera_UI = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, -10.0f), eLayerType::Player);
+		cameraComp = mCamera_UI->FnAddComponent<CCamera>();
+		cameraComp->FnTurnLayerMask(eLayerType::BG, false);
+		//mCamera_UI->FnAddComponent<CCameraScript>();
 
 		//==================================================================
 		// BG
 		//==================================================================
-		{
-			CGameObject* BG = new CGameObject();
-			FnAddGameObject(eLayerType::BG, BG);
+		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.999f), eLayerType::BG);
 
-			CMeshRenderer* mr = BG->FnAddComponent<CMeshRenderer>();
-			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_MainMenu"));
+		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_MainMenu"));
 
-			BG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0f));
-			BG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
-		}
+		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
 
 		//==================================================================
 		// UI
 		//==================================================================
-		{
-			mUI_btn_StartAdventure = new CGameObject();
-			FnAddGameObject(eLayerType::UI, mUI_btn_StartAdventure);
+		mUI_btn_StartAdventure = object::FnInstantiate<CGameObject>(Vector3(1.6f, 0.5f, 0.f), eLayerType::UI);
 
-			CMeshRenderer* mr = mUI_btn_StartAdventure->FnAddComponent<CMeshRenderer>();
-			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_StartAdventure"));
+		mr = mUI_btn_StartAdventure->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_StartAdventure"));
 
-			mUI_btn_StartAdventure->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.6f, 0.5f, 0.f));
-			mUI_btn_StartAdventure->FnGetComponent<CTransform>()->FnSetScale(Vector3(3.f, (146.f * 3.f) / 331.f, 0.f));
-		}
+		mUI_btn_StartAdventure->FnGetComponent<CTransform>()->FnSetScale(Vector3(3.f, (146.f * 3.f) / 331.f, 0.f));
 	}
+
+	void CSceneMainMenu::FnInitialize()
+	{
+	}
+
 	void CSceneMainMenu::FnUpdate()
 	{
 		if (CInput::FnGetKeyDown(eKeyCode::N))
@@ -95,11 +93,14 @@ namespace yha
 	}
 	void CSceneMainMenu::FnOnEnter()
 	{
-
+		FnDoInitialize();
 	}
 
 	void CSceneMainMenu::FnOnExit()
 	{
-
+		object::FnDestroy(mCamera_Main);
+		object::FnDestroy(mCamera_UI);
+		object::FnDestroy(mBG);
+		object::FnDestroy(mUI_btn_StartAdventure);
 	}
 }

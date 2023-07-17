@@ -105,7 +105,7 @@ namespace yha
 		FnRenderCutOut();
 		FnRenderTransparent();
 		FnEnableDepthStencilState();
-	}
+	}//END-void CCamera::FnRender
 
 	bool CCamera::FnCreateViewMatrix()
 	{

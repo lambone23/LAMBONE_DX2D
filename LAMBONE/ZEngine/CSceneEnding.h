@@ -9,6 +9,10 @@ namespace yha
 		CSceneEnding();
 		virtual ~CSceneEnding();
 
+	private:
+		void FnDoInitialize();
+
+	public:
 		virtual void FnInitialize() override;
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
@@ -17,5 +21,9 @@ namespace yha
 	public:
 		virtual void FnOnEnter() override;
 		virtual void FnOnExit() override;
+
+	private:
+		CGameObject* mCamera;
+		CGameObject* mBG;
 	};
 }

@@ -9,6 +9,10 @@ namespace yha
 		CSceneMainMenu();
 		virtual ~CSceneMainMenu();
 
+	private:
+		void FnDoInitialize();
+
+	public:
 		virtual void FnInitialize() override;
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
@@ -19,6 +23,9 @@ namespace yha
 		virtual void FnOnExit() override;
 
 	private:
+		CGameObject* mCamera_Main;
+		CGameObject* mCamera_UI;
+		CGameObject* mBG;
 		CGameObject* mUI_btn_StartAdventure;
 	};
 }
