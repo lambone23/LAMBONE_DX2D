@@ -3,6 +3,7 @@
 #include "CTime.h"
 #include "CRenderer.h"
 #include "CSceneManager.h"
+#include "CCollisionManager.h"
 #include <windowsx.h>
 
 namespace yha
@@ -41,6 +42,7 @@ namespace yha
 	{
 		CTime::FnUpdate();
 		CInput::FnUpdate();
+		CCollisionManager::FnUpdate();
 		CSceneManager::FnUpdate();
 
 		//====================================================================

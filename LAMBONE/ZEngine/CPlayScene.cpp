@@ -10,7 +10,8 @@
 #include "CObject.h"
 #include "CRenderer.h"
 #include "CCollider2D.h"
-
+#include "CPlayerScript.h"
+#include "CCollisionManager.h"
 #include "CApplication.h"
 #include <tchar.h>
 
@@ -29,6 +30,8 @@ namespace yha
 		//==================================================================
 		// Contents
 		//==================================================================
+		CCollisionManager::FnSetLayer(eLayerType::Player, eLayerType::Monster, true);
+
 		{// Zelda [Player]
 
 			//-------------------------------------
@@ -40,6 +43,7 @@ namespace yha
 			//¡áobject //FnAddGameObject(eLayerType::Player, player);
 
 			CCollider2D* cd = player->FnAddComponent<CCollider2D>();
+			cd->FnSetSize(Vector2(1.2f, 1.2f));
 
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
@@ -76,7 +80,8 @@ namespace yha
 		{// Smile [Player]
 			CGameObject* player = new CGameObject();
 			player->FnSetName(L"Smile");
-			FnAddGameObject(eLayerType::Player, player);
+			//FnAddGameObject(eLayerType::Player, player);
+			FnAddGameObject(eLayerType::Monster, player);
 
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
@@ -84,6 +89,10 @@ namespace yha
 
 			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0f)); // (Vector3(0.2f, 0.0f, 0.0f));
 			//player->AddComponent<CameraScript>();
+
+			CCollider2D* cd = player->FnAddComponent<CCollider2D>();
+			//cd->SetSize(Vector2(1.2f, 1.2f));
+			player->FnAddComponent<CPlayerScript>();
 		}
 
 		{// Smile [UI]

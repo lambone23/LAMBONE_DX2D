@@ -327,8 +327,10 @@ namespace renderer
 		std::shared_ptr<CShader> debugShader = std::make_shared<CShader>();
 		debugShader->FnCreate(eShaderStage::VS, L"DebugVS.hlsl", "main");
 		debugShader->FnCreate(eShaderStage::PS, L"DebugPS.hlsl", "main");
-		debugShader->FnSetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		debugShader->FnSetRSState(eRSType::SolidNone);
+		debugShader->FnSetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		debugShader->FnSetRSState(eRSType::WireframeNone);
+		//debugShader->FnSetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
+		//debugShader->FnSetRSState(eRSType::SolidNone);
 		//debugShader->SetDSState(eDSType::NoWrite);
 		yha::CResources::FnInsert(L"DebugShader", debugShader);
 	}//END-void FnLoadShader

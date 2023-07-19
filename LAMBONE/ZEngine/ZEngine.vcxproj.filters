@@ -35,6 +35,9 @@
     <ClCompile Include="CGridScript.cpp">
       <Filter>Contents\Script\Grid</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayerScript.cpp">
+      <Filter>Contents\Script\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="CGridScript.h">
       <Filter>Contents\Script\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerScript.h">
+      <Filter>Contents\Script\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +132,9 @@
     </Filter>
     <Filter Include="Contents\Script\Grid">
       <UniqueIdentifier>{345e9769-6397-4842-99b2-e3b0cd99d4d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Script\Player">
+      <UniqueIdentifier>{78d14473-a701-49b2-9e35-51fdc090d7f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

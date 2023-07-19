@@ -40,7 +40,7 @@ namespace yha
 		UINT mHeight;
 
 	public:
-		bool mFlagMyGame = true;
+		bool mFlagMyGame = false;
 
 		float ScaleWidth = 8.0f;
 		float ScaleHeight = 4.5f;

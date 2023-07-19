@@ -22,6 +22,7 @@ namespace yha
 		void FnOnCollisionExit(CCollider2D* other);
 
 		void FnSetType(eColliderType type) { mType = type; }
+		Vector2 FnGetSize() { return mSize; }
 		void FnSetSize(Vector2 size) { mSize = size; }
 		void FnSetCenter(Vector2 size) { mCenter = size; }
 		UINT FnGetColliderID() { return mColliderID; }

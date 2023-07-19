@@ -36,6 +36,7 @@ namespace yha
 
 		void FnSetParent(CTransform* transform) { mParent = transform; }
 		CTransform* FnGetParent() { return mParent; }
+		Matrix& FnGetMatrix() { return mWorld; }
 
 	private:
 		Vector3 mPosition;
