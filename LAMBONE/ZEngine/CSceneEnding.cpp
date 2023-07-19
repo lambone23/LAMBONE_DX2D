@@ -9,6 +9,7 @@
 #include "CSceneManager.h"
 #include "CApplication.h"
 #include "CObject.h"
+#include "CRenderer.h"
 #include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
@@ -32,6 +33,9 @@ namespace yha
 		mCamera = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, -10.0f), eLayerType::Player);
 		CCamera* cameraComp = mCamera->FnAddComponent<CCamera>();
 		mCamera->FnAddComponent<CCameraScript>();
+
+		renderer::cameras.push_back(cameraComp);
+		renderer::mainCamera = cameraComp;
 
 		//==================================================================
 		// BG

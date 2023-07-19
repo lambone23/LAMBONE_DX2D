@@ -10,6 +10,7 @@
 #include "CApplication.h"
 #include "CGridScript.h"
 #include "CObject.h"
+#include "CRenderer.h"
 #include "CCameraScript.h"
 #include "CTime.h"
 #include "CComponent.h"
@@ -42,6 +43,9 @@ namespace yha
 		cameraComp = mCamera_Main->FnAddComponent<CCamera>();
 		cameraComp->FnTurnLayerMask(eLayerType::UI, false);
 		mCamera_Main->FnAddComponent<CCameraScript>();
+
+		renderer::cameras.push_back(cameraComp);
+		renderer::mainCamera = cameraComp;
 
 		//-------------------------------------
 		// UI Camera

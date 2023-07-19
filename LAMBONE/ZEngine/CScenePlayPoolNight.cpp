@@ -8,7 +8,8 @@
 #include "CCamera.h"
 #include "CSceneManager.h"
 #include "CApplication.h"
-
+#include "CObject.h"
+#include "CRenderer.h"
 #include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
@@ -31,6 +32,9 @@ namespace yha
 		camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
 		CCamera* cameraComp = camera->FnAddComponent<CCamera>();
 		//camera->FnAddComponent<CCameraScript>();
+
+		renderer::cameras.push_back(cameraComp);
+		renderer::mainCamera = cameraComp;
 
 		//==================================================================
 		// BG

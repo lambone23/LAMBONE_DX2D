@@ -15,7 +15,7 @@ namespace yha
 	bool FnCompareZSort(CGameObject* a, CGameObject* b)
 	{ // 내림차순
 		if (a->FnGetComponent<CTransform>()->FnGetPosition().z
-			< b->FnGetComponent<CTransform>()->FnGetPosition().z)
+			<= b->FnGetComponent<CTransform>()->FnGetPosition().z)
 			return false;
 
 		return true;
@@ -232,6 +232,9 @@ namespace yha
 			if (gameObj == nullptr)
 				continue;
 
+			if (gameObj->FnGetState() != CGameObject::eState::Active)
+				continue;
+
 			gameObj->FnRender();
 		}
 	}//END-void CCamera::FnRenderOpaque
@@ -243,6 +246,9 @@ namespace yha
 			if (gameObj == nullptr)
 				continue;
 
+			if (gameObj->FnGetState() != CGameObject::eState::Active)
+				continue;
+
 			gameObj->FnRender();
 		}
 	}//END-void CCamera::FnRenderCutOut
@@ -252,6 +258,9 @@ namespace yha
 		for (CGameObject* gameObj : mTransparentGameObjects)
 		{
 			if (gameObj == nullptr)
+				continue;
+
+			if (gameObj->FnGetState() != CGameObject::eState::Active)
 				continue;
 
 			gameObj->FnRender();

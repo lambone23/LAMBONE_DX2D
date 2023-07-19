@@ -7,6 +7,7 @@ namespace yha::enums
 		None,
 		Transform,
 		Mesh,
+		Collider2D,
 		Particle,
 		MeshRenderer,
 		Script,
@@ -37,7 +38,7 @@ namespace yha::enums
 		Player,
 		Monster,
 		UI,
-		End,
+		End = 16,
 	};
 
 	enum class eResourceType
@@ -46,6 +47,15 @@ namespace yha::enums
 		Shader,
 		Material,
 		Mesh,
+		End,
+	};
+
+	enum class eColliderType
+	{
+		Rect,
+		Circle,
+		Sphere,
+		Cube,
 		End,
 	};
 }

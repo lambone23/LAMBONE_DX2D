@@ -1,6 +1,6 @@
 #pragma once
-#include <CScript.h>
-#include "CCamera.h"
+#include "..\\Engine_SOURCE\\CScript.h"
+#include "..\\Engine_SOURCE\\CCamera.h"
 
 namespace yha
 {

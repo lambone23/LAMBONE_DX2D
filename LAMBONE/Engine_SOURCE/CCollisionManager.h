@@ -1,39 +1,39 @@
-//#pragma once
-//#include "CommonInclude.h"
-//#include "CEnums.h"
-//#include "CCollider.h"
-//
-//namespace yha
-//{
-//	union ColliderID
-//	{
-//		struct
-//		{
-//			UINT32 Left;
-//			UINT32 Right;
-//		};
-//		UINT64 Id;
-//	};
-//
-//	class CScene;
-//
-//	class CCollisionMgr
-//	{
-//	public:
-//		static void Update();
-//
-//	public:
-//		static void FnLayerCollision(CScene* Scene, EGameObjectType Left, EGameObjectType Right);
-//		static void FnColliderCollision(CCollider* LeftCol, CCollider* RightCol, EGameObjectType Left, EGameObjectType Right);
-//		static bool FnIntersect(CCollider* Left, CCollider* Right);
-//
-//		static void FnSetLayer(EGameObjectType Left, EGameObjectType Right, bool Value);
-//		static void FnClear();
-//
-//	private:
-//		static WORD mMatrix[(UINT)EGameObjectType::End];
-//		static std::map<UINT64, bool> mCollisionMap;
-//	};
-//
-//}
-//
+#pragma once
+#include "ZEngine.h"
+
+namespace yha
+{
+#define LAYER_MAX (UINT)eLayerType::End 
+	using namespace enums;
+
+	class CCollider2D;
+
+	class CCollisionManager
+	{
+	public:
+		union ColliderID
+		{
+			struct
+			{
+				UINT left;
+				UINT right;
+			};
+			UINT64 id;
+		};
+
+	public:
+		static void FnInitialize();
+		static void FnUpdate();
+		static void FnLayerCollision(eLayerType left, eLayerType right);
+		static void FnColliderCollision(CCollider2D* left, CCollider2D* right);
+		static bool FnIntersect(CCollider2D* left, CCollider2D* right);
+
+		static void FnSetLayer(eLayerType left, eLayerType right, bool enable);
+		static void FnClear();
+
+	private:
+
+		static std::bitset<LAYER_MAX> mMatrix[LAYER_MAX];
+		static std::map<UINT64, bool> mCollisionMap;
+	};
+}

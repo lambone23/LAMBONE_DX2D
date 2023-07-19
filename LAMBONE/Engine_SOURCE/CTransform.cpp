@@ -66,10 +66,10 @@ namespace yha
 		trCB.mWorld = mWorld;
 
 		//trCB.mView = mWorld;
-		trCB.mView = CCamera::FnGetViewMatrix();
+		trCB.mView = CCamera::FnGetGpuViewMatrix();
 		 
 		//trCB.mProjection = mWorld;
-		trCB.mProjection = CCamera::FnGetProjectionMatrix();
+		trCB.mProjection = CCamera::FnGetGpuProjectionMatrix();
 
 		//CConstantBuffer* cb = renderer::constantBuffer;
 		CConstantBuffer* cb = renderer::constantBuffer[(UINT)eCBType::Transform];

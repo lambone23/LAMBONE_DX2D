@@ -9,6 +9,7 @@
 #include "CSceneManager.h"
 #include "CApplication.h"
 #include "CObject.h"
+#include "CRenderer.h"
 #include "CCameraScript.h"
 
 extern yha::CApplication MyApplication;
@@ -40,6 +41,9 @@ namespace yha
 		cameraComp = mCamera_Main->FnAddComponent<CCamera>();
 		cameraComp->FnTurnLayerMask(eLayerType::UI, false);
 		mCamera_Main->FnAddComponent<CCameraScript>();
+
+		renderer::cameras.push_back(cameraComp);
+		renderer::mainCamera = cameraComp;
 
 		//-------------------------------------
 		// UI Camera
