@@ -45,10 +45,11 @@ namespace yha
 			}
 
 			return nullptr;
-		}
+		}//END-T* FnGetComponent
 
 		template <typename T>
-		const std::vector<T*>& FnGetComponents()
+		//const std::vector<T*>& FnGetComponents()
+		const std::vector<T*> FnGetComponents()
 		{
 			std::vector<T*> comps;
 
@@ -68,7 +69,7 @@ namespace yha
 			}
 
 			return comps;
-		}
+		}//END-const std::vector<T*> FnGetComponents
 
 		template <typename T>
 		T* FnAddComponent()
@@ -89,7 +90,7 @@ namespace yha
 			comp->FnSetOwner(this);
 
 			return comp;
-		}
+		}//END-T* FnAddComponent
 
 		void FnSetState(eState state) { mState = state; }
 		eState FnGetState() { return mState; }

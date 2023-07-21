@@ -50,7 +50,7 @@ namespace yha
 		mesh.type = eColliderType::Rect;
 
 		renderer::FnPushDebugMeshAttribute(mesh);
-	}
+	}//END-void CCollider2D::FnLateUpdate
 
 	void CCollider2D::FnRender()
 	{
@@ -64,7 +64,7 @@ namespace yha
 		{
 			script->FnOnCollisionEnter(other);
 		}
-	}
+	}//END-void CCollider2D::FnOnCollisionEnter
 
 	void CCollider2D::FnOnCollisionStay(CCollider2D* other)
 	{
@@ -74,7 +74,7 @@ namespace yha
 		{
 			script->FnOnCollisionStay(other);
 		}
-	}
+	}//END-void CCollider2D::FnOnCollisionStay
 
 	void CCollider2D::FnOnCollisionExit(CCollider2D* other)
 	{
@@ -84,5 +84,5 @@ namespace yha
 		{
 			script->FnOnCollisionExit(other);
 		}
-	}
+	}//END-void CCollider2D::FnOnCollisionExit
 }
