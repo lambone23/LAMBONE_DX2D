@@ -12,6 +12,7 @@
 #include "CCollider2D.h"
 #include "CPlayerScript.h"
 #include "CCollisionManager.h"
+#include "CAnimator.h"
 #include "CApplication.h"
 #include <tchar.h>
 
@@ -47,7 +48,8 @@ namespace yha
 
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
+			//mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
 
 			//¡áobject //player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0001f));
 			//¡áobject ////player->FnAddComponent<CCameraScript>();
@@ -74,7 +76,15 @@ namespace yha
 			const float pi = 3.141592f;
 			float degree = pi / 8.0f; //float degree = pi / 2.0f;
 			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.0f, 0.0f, 1.0001f));
-			player->FnGetComponent<CTransform>()->FnSetRotation(Vector3(0.0f, 0.0f, degree));
+			//player->FnGetComponent<CTransform>()->FnSetRotation(Vector3(0.0f, 0.0f, degree));
+
+			std::shared_ptr<CTexture> atlas = CResources::FnLoad<CTexture>(L"LinkSprite", L"..\\Resources\\Texture\\linkSprites.png");
+
+			CAnimator* at = player->FnAddComponent<CAnimator>();
+			at->FnCreate(L"Idle", atlas, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), 3);
+			
+			at->FnPlayAnimation(L"Idle", true);
+			player->FnAddComponent<CPlayerScript>();
 		}
 
 		{// Smile [Player]
@@ -92,7 +102,7 @@ namespace yha
 
 			CCollider2D* cd = player->FnAddComponent<CCollider2D>();
 			//cd->SetSize(Vector2(1.2f, 1.2f));
-			player->FnAddComponent<CPlayerScript>();
+			//player->FnAddComponent<CPlayerScript>();
 		}
 
 		{// Smile [UI]
@@ -126,15 +136,16 @@ namespace yha
 			renderer::mainCamera = cameraComp;
 		}
 
-		{// UI Camera - [OFF : Player / ON : UI] - Move[X]
-			CGameObject* camera = new CGameObject();
-			FnAddGameObject(eLayerType::Player, camera);
+		//{// UI Camera - [OFF : Player / ON : UI] - Move[X]
+		//	CGameObject* camera = new CGameObject();
+		//	FnAddGameObject(eLayerType::Player, camera);
 
-			camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
-			CCamera* cameraComp = camera->FnAddComponent<CCamera>();
-			cameraComp->FnTurnLayerMask(eLayerType::Player, false);
-			//camera->FnAddComponent<CCameraScript>();
-		}
+		//	camera->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -10.0f));
+		//	CCamera* cameraComp = camera->FnAddComponent<CCamera>();
+		//	cameraComp->FnTurnLayerMask(eLayerType::Player, false);
+		//	cameraComp->FnTurnLayerMask(eLayerType::Monster, false);
+		//	//camera->FnAddComponent<CCameraScript>();
+		//}
 
 		//==================================================================
 		// Grid (After Camera Set)

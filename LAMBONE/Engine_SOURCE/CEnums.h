@@ -10,6 +10,7 @@ namespace yha::enums
 		Collider2D,
 		Particle,
 		MeshRenderer,
+		Animator,
 		Script,
 		Camera,
 		End,
@@ -47,6 +48,7 @@ namespace yha::enums
 		Shader,
 		Material,
 		Mesh,
+		Animation,
 		End,
 	};
 

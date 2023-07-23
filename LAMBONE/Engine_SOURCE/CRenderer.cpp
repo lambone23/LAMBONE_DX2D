@@ -75,6 +75,13 @@ namespace renderer
 			, 3
 			, shader->FnGetVSCode()
 			, shader->FnGetInputLayoutAddressOf());
+
+		shader = yha::CResources::FnFind<CShader>(L"SpriteAnimationShader");
+		yha::graphics::FnGetDevice()->FnCreateInputLayout(
+			arrLayout
+			, 3
+			, shader->FnGetVSCode()
+			, shader->FnGetInputLayoutAddressOf());
 #pragma endregion
 #pragma region Sampler State
 		// Sampler State
@@ -300,6 +307,12 @@ namespace renderer
 		constantBuffer[(UINT)eCBType::Grid] = new CConstantBuffer(eCBType::Grid);
 		constantBuffer[(UINT)eCBType::Grid]->FnCreate(sizeof(TransformCB));
 
+		//==================================================================
+		// Animator Buffer
+		//==================================================================
+		constantBuffer[(UINT)eCBType::Animator] = new CConstantBuffer(eCBType::Animator);
+		constantBuffer[(UINT)eCBType::Animator]->FnCreate(sizeof(AnimatorCB));
+
 	}//END-void FnLoadBuffer
 
 	void FnLoadShader()
@@ -318,6 +331,11 @@ namespace renderer
 		spriteShader->FnCreate(eShaderStage::VS, L"SpriteVS.hlsl", "main");
 		spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
 		yha::CResources::FnInsert(L"SpriteShader", spriteShader);
+
+		std::shared_ptr<CShader> spriteAniShader = std::make_shared<CShader>();
+		spriteAniShader->FnCreate(eShaderStage::VS, L"SpriteAnimationVS.hlsl", "main");
+		spriteAniShader->FnCreate(eShaderStage::PS, L"SpriteAnimationPS.hlsl", "main");
+		yha::CResources::FnInsert(L"SpriteAnimationShader", spriteAniShader);
 
 		std::shared_ptr<CShader> girdShader = std::make_shared<CShader>();
 		girdShader->FnCreate(eShaderStage::VS, L"GridVS.hlsl", "main");
@@ -345,7 +363,9 @@ namespace renderer
 		//==================================================================
 		// Sample Contents (spriteShader)
 		//==================================================================
+		//-------------------------------------
 		// SpriteMaterial (Link)
+		//-------------------------------------
 		//CTexture* texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 		//CMaterial* spriteMateiral = new yha::graphics::CMaterial();
@@ -354,13 +374,24 @@ namespace renderer
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"SpriteMaterial", material);
 		
+		//-------------------------------------
 		// SpriteMaterial02 (Smile)
+		//-------------------------------------
 		texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
 		material = std::make_shared<CMaterial>();
 		material->FnSetShader(spriteShader);
 		material->FnSetTexture(texture);
 		material->FnSetRenderingMode(eRenderingMode::Transparent);
 		CResources::FnInsert(L"SpriteMaterial02", material);
+
+		//-------------------------------------
+		// SpriteAnimaionMaterial
+		//-------------------------------------
+		spriteShader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(spriteShader);
+		material->FnSetRenderingMode(eRenderingMode::Transparent);
+		CResources::FnInsert(L"SpriteAnimaionMaterial", material);
 
 		//==================================================================
 		// gridShader

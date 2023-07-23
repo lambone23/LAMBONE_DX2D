@@ -2,6 +2,7 @@
 #include "CGameObject.h"
 #include "CTransform.h"
 #include "CRenderer.h"
+#include "CAnimator.h"
 
 namespace yha
 {
@@ -35,6 +36,11 @@ namespace yha
 
 		mMesh->FnBindBuffer();
 		mMaterial->FnBinds();
+
+		CAnimator* animator = FnGetOwner()->FnGetComponent<CAnimator>();
+		if (animator)
+			animator->FnBinds();
+
 		mMesh->FnRender();
 
 		mMaterial->FnClear();

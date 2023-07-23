@@ -4,9 +4,23 @@
 #include "CGameObject.h"
 #include "CTime.h"
 #include "CInput.h"
+#include "CAnimator.h"
 
 namespace yha
 {
+	CPlayerScript::CPlayerScript()
+	{
+	}
+	CPlayerScript::~CPlayerScript()
+	{
+	}
+
+	void CPlayerScript::FnInitialize()
+	{
+		CAnimator* at = FnGetOwner()->FnGetComponent<CAnimator>();
+		at->FnCompleteEvent(L"Idle") = std::bind(&CPlayerScript::FnComplete, this);
+	}
+
 	void CPlayerScript::FnUpdate()
 	{
 		CTransform* tr = FnGetOwner()->FnGetComponent<CTransform>();
@@ -32,5 +46,10 @@ namespace yha
 			pos.y += 5.0f * CTime::FnDeltaTime();
 			tr->FnSetPosition(pos);
 		}
+	}
+
+	void CPlayerScript::FnComplete()
+	{
+		int a = 0;
 	}
 }

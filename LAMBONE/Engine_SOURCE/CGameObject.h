@@ -88,6 +88,8 @@ namespace yha
 				mScripts.push_back(script);
 
 			comp->FnSetOwner(this);
+			//comp->FnDoInitialize();
+			comp->FnInitialize();
 
 			return comp;
 		}//END-T* FnAddComponent

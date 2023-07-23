@@ -24,6 +24,9 @@ namespace yha::graphics
 		void FnBindShader(eShaderStage stage, UINT startSlot);
 		void FnClear();
 
+		size_t FnGetWidth() { return mImage.GetMetadata().width; }
+		size_t FnGetHeight() { return mImage.GetMetadata().height; }
+
 	private:
 		ScratchImage mImage;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> mTexture;

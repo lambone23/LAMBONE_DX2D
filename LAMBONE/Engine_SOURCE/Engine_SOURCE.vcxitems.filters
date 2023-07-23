@@ -85,17 +85,23 @@
     <Filter Include="05_Component\5_MeshRenderer">
       <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\6_Script">
-      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\7_Camera">
-      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05_Component\3_Collider2D">
       <UniqueIdentifier>{532548d4-cf63-4429-9c20-c7df620bd68d}</UniqueIdentifier>
     </Filter>
     <Filter Include="05_Component\3_Collider2D\Manager">
       <UniqueIdentifier>{ffc5bfd3-abb8-4869-949a-4e78b9900eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\7_Script">
+      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\8_Camera">
+      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\6_Animator">
+      <UniqueIdentifier>{ce1b7a51-8d26-4575-a7ff-48088e5e26cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Animation">
+      <UniqueIdentifier>{12100713-5217-4bb2-9073-8c67e20dbcbc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,10 +172,10 @@
       <Filter>00_Common\Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h">
-      <Filter>05_Component\6_Script</Filter>
+      <Filter>05_Component\7_Script</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
-      <Filter>05_Component\7_Camera</Filter>
+      <Filter>05_Component\8_Camera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
@@ -188,6 +194,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
       <Filter>05_Component\3_Collider2D\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAnimator.h">
+      <Filter>05_Component\6_Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAnimation.h">
+      <Filter>00_Common\Resource\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -246,10 +258,10 @@
       <Filter>00_Common\Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp">
-      <Filter>05_Component\6_Script</Filter>
+      <Filter>05_Component\7_Script</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
-      <Filter>05_Component\7_Camera</Filter>
+      <Filter>05_Component\8_Camera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
@@ -265,6 +277,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
       <Filter>05_Component\3_Collider2D\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAnimator.cpp">
+      <Filter>05_Component\6_Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp">
+      <Filter>00_Common\Resource\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
