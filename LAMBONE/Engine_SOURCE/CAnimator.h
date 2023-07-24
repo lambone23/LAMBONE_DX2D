@@ -49,6 +49,8 @@ namespace yha
 			, Vector2 offset = Vector2::Zero
 			, float duration = 0.1f);
 
+		CAnimation* FnCreateAnimations(const std::wstring& path, float duration);
+
 		CAnimation* FindAnimation(const std::wstring& name);
 		Events* FnFindEvents(const std::wstring& name);
 		void FnPlayAnimation(const std::wstring& name, bool loop);
@@ -63,5 +65,7 @@ namespace yha
 		std::map<std::wstring, Events*> mEvents;
 		CAnimation* mActiveAnimation;
 		bool mbLoop;
+
+		std::shared_ptr<graphics::CTexture> mImageAtlas;
 	};
 }

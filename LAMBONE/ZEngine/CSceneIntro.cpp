@@ -12,6 +12,11 @@
 #include "CRenderer.h"
 #include "CCameraScript.h"
 #include "CTime.h"
+#include "CComponent.h"
+#include "CCollider2D.h"
+#include "CPlayerScript.h"
+#include "CCollisionManager.h"
+#include "CAnimator.h"
 
 extern yha::CApplication MyApplication;
 

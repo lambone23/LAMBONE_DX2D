@@ -109,6 +109,15 @@ namespace gui
 		tr->FnSetScale(mesh.scale);
 		tr->FnSetRotation(mesh.rotation);
 
+		if (mesh.color == eColor::Red)
+		{
+			debugObj->FnGetComponent<yha::CMeshRenderer>()->FnSetMesh(yha::CResources::FnFind<yha::CMesh>(L"DebugRedRect"));
+		}
+		else if (mesh.color == eColor::Green)
+		{
+			debugObj->FnGetComponent<yha::CMeshRenderer>()->FnSetMesh(yha::CResources::FnFind<yha::CMesh>(L"DebugRect"));
+		}
+
 		tr->FnLateUpdate();
 
 		/*yha::CMeshRenderer * mr = debugObj->FnGetComponent<yha::CMeshRenderer>();*/

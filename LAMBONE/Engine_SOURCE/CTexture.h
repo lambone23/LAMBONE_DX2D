@@ -27,6 +27,8 @@ namespace yha::graphics
 		size_t FnGetWidth() { return mImage.GetMetadata().width; }
 		size_t FnGetHeight() { return mImage.GetMetadata().height; }
 
+		HRESULT FnCreateTex(const std::wstring& path, UINT filecnt, size_t imageMaxWidth, size_t imageMaxHeight);
+
 	private:
 		ScratchImage mImage;
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> mTexture;

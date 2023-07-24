@@ -198,7 +198,7 @@ namespace renderer
 		vertexes.resize(4);
 
 		vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
-		vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+		vertexes[0].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		vertexes[0].uv = Vector2(0.0f, 0.0f);
 
 		vertexes[1].pos = Vector3(0.5f, 0.5f, 0.0f);
@@ -206,11 +206,11 @@ namespace renderer
 		vertexes[1].uv = Vector2(1.0f, 0.0f);
 
 		vertexes[2].pos = Vector3(0.5f, -0.5f, 0.0f);
-		vertexes[2].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+		vertexes[2].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		vertexes[2].uv = Vector2(1.0f, 1.0f);
 
 		vertexes[3].pos = Vector3(-0.5f, -0.5f, 0.0f);
-		vertexes[3].color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+		vertexes[3].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 		vertexes[3].uv = Vector2(0.0f, 1.0f);
 
 		//==================================================================
@@ -238,6 +238,15 @@ namespace renderer
 		//==================================================================
 		std::shared_ptr<CMesh> rectDebug = std::make_shared<CMesh>();
 		CResources::FnInsert(L"DebugRect", rectDebug);
+		rectDebug->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
+		rectDebug->FnCreateIndexBuffer(indexes.data(), indexes.size());
+
+		for (int i = 0; i < vertexes.size(); ++i)
+			vertexes[i].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+
+		rectDebug = std::make_shared<CMesh>();
+		CResources::FnInsert(L"DebugRedRect", rectDebug);
+		//rectDebug->FnSetVertexes(vertexes);
 		rectDebug->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
 		rectDebug->FnCreateIndexBuffer(indexes.data(), indexes.size());
 
@@ -356,9 +365,13 @@ namespace renderer
 	void FnLoadMaterial()
 	{
 		//==================================================================
-		// spriteShader
+		// Shader
 		//==================================================================
+		// Sample - spriteShader
 		std::shared_ptr<CShader> spriteShader = CResources::FnFind<CShader>(L"SpriteShader");
+		
+		// Animation적용 오브젝트 전용shader
+		std::shared_ptr<CShader> SpriteAnimationShader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
 
 		//==================================================================
 		// Sample Contents (spriteShader)
@@ -384,12 +397,12 @@ namespace renderer
 		material->FnSetRenderingMode(eRenderingMode::Transparent);
 		CResources::FnInsert(L"SpriteMaterial02", material);
 
-		//-------------------------------------
-		// SpriteAnimaionMaterial
-		//-------------------------------------
-		spriteShader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
+		//==================================================================
+		// SpriteAnimationShader
+		//==================================================================
+		SpriteAnimationShader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(SpriteAnimationShader);
 		material->FnSetRenderingMode(eRenderingMode::Transparent);
 		CResources::FnInsert(L"SpriteAnimaionMaterial", material);
 
@@ -561,7 +574,7 @@ namespace renderer
 		// UI Cards
 		//==================================================================
 		// btn_Play
-		texture = CResources::FnLoad<CTexture>(L"SunFlower", L"..\\Resources\\Texture\\MyGame\\UI\\Cards\\SunFlower.png");
+		texture = CResources::FnLoad<CTexture>(L"UI_SunFlower", L"..\\Resources\\Texture\\MyGame\\UI\\Cards\\SunFlower.png");
 		material = std::make_shared<CMaterial>();
 		material->FnSetShader(spriteShader);
 		material->FnSetTexture(texture);

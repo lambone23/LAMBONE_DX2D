@@ -11,6 +11,8 @@ namespace yha
 		, mTransform(nullptr)
 		, mSize(Vector2::One)
 		, mCenter(Vector2::Zero)
+		, mColliderState(eColliderStateType::None)
+		, mColor(eColor::Green)
 	{
 		mColliderNumber++;
 		mColliderID = mColliderNumber;
@@ -48,6 +50,8 @@ namespace yha
 		mesh.scale = scale;
 		mesh.rotation = tr->FnGetRotation();
 		mesh.type = eColliderType::Rect;
+		//mesh.isCollide = mColliderState;
+		mesh.color = mColor;
 
 		renderer::FnPushDebugMeshAttribute(mesh);
 	}//END-void CCollider2D::FnLateUpdate
@@ -58,16 +62,19 @@ namespace yha
 
 	void CCollider2D::FnOnCollisionEnter(CCollider2D* other)
 	{
+		mColliderState = eColliderStateType::Start;
 		const std::vector<CScript*>& scripts = FnGetOwner()->FnGetComponents<CScript>();
 
 		for (CScript* script : scripts)
 		{
 			script->FnOnCollisionEnter(other);
+			mColor = eColor::Red;
 		}
 	}//END-void CCollider2D::FnOnCollisionEnter
 
 	void CCollider2D::FnOnCollisionStay(CCollider2D* other)
 	{
+		mColliderState = eColliderStateType::Ing;
 		const std::vector<CScript*>& scripts = FnGetOwner()->FnGetComponents<CScript>();
 
 		for (CScript* script : scripts)
@@ -83,6 +90,8 @@ namespace yha
 		for (CScript* script : scripts)
 		{
 			script->FnOnCollisionExit(other);
+			mColor = eColor::Green;
 		}
+		mColliderState = eColliderStateType::Fin;
 	}//END-void CCollider2D::FnOnCollisionExit
 }

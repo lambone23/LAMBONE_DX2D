@@ -1,4 +1,5 @@
 #include "CAnimator.h"
+#include "CResources.h"
 
 namespace yha
 {
@@ -85,6 +86,47 @@ namespace yha
 		events = new Events();
 		mEvents.insert(std::make_pair(name, events));
 	}//END-void CAnimator::FnCreate
+
+	CAnimation* CAnimator::FnCreateAnimations(const std::wstring& path, float duration)
+	{
+		size_t maxwidth = 0;
+		size_t maxheight = 0;
+		UINT fileCount = 0;
+
+		std::filesystem::path fs(path);
+		std::vector<std::shared_ptr<CTexture>> textures = {};
+		for (const auto& p : std::filesystem::recursive_directory_iterator(path))
+		{
+			std::wstring fileName = p.path().filename();
+			std::wstring fullName = p.path().wstring(); // Use the full path from the iterator
+
+			const std::wstring ext = p.path().extension();
+
+			std::shared_ptr<CTexture> tex = CResources::FnLoad<CTexture>(fileName, fullName);
+
+			if (maxwidth < tex->FnGetWidth())
+			{
+				maxwidth = tex->FnGetWidth();
+			}
+			if (maxheight < tex->FnGetHeight())
+			{
+				maxheight = tex->FnGetHeight();
+			}
+
+			textures.push_back(tex);
+
+			fileCount++;
+		}
+
+		std::wstring key = fs.parent_path().filename();
+		key += fs.filename();
+
+		mImageAtlas = std::make_shared<graphics::CTexture>();
+		mImageAtlas->FnCreateTex(path, fileCount, maxwidth, maxheight);
+		FnCreate(key, mImageAtlas, Vector2(0.0), Vector2(maxwidth, maxheight), fileCount, Vector2::Zero, duration);
+
+		return nullptr;
+	}//END-CAnimation* CAnimator::FnCreateAnimations
 
 	CAnimation* CAnimator::FindAnimation(const std::wstring& name)
 	{

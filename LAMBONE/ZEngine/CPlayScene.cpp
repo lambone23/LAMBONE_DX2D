@@ -82,7 +82,7 @@ namespace yha
 
 			CAnimator* at = player->FnAddComponent<CAnimator>();
 			at->FnCreate(L"Idle", atlas, Vector2(0.0f, 0.0f), Vector2(120.0f, 130.0f), 3);
-			
+
 			at->FnPlayAnimation(L"Idle", true);
 			player->FnAddComponent<CPlayerScript>();
 		}

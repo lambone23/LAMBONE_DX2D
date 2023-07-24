@@ -25,5 +25,17 @@ namespace yha
 	private:
 		CGameObject* mCamera;
 		CGameObject* mBG;
+
+
+		CGameObject* player;
+		CGameObject* monster;
+		CGameObject* mUI_FlagMeterParts_Zombie;
+		CGameObject* mUI_FlagMeterParts_Flag;
+		CGameObject* mPl_Chomper;
+
+		//==================================================================
+		// Zombies
+		//==================================================================
+		CGameObject* mZb_NormalZombie;
 	};
 }

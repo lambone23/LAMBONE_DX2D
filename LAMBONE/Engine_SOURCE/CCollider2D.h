@@ -27,6 +27,9 @@ namespace yha
 		void FnSetCenter(Vector2 size) { mCenter = size; }
 		UINT FnGetColliderID() { return mColliderID; }
 
+		eColliderStateType FnGetColliderState() { return mColliderState; }
+		void FnSetRectColor(eColor color) { mColor = color; }
+
 	private:
 		static UINT mColliderNumber;
 		UINT mColliderID;
@@ -36,5 +39,9 @@ namespace yha
 		Vector3 mPosition;
 		Vector2 mSize;
 		Vector2 mCenter;
+
+		eColliderStateType mColliderState;
+
+		eColor mColor;
 	};
 }

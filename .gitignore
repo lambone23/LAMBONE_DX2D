@@ -399,6 +399,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-# Library Folder
-!External/DirectXTex/Lib/Debug/
-!External/DirectXTex/Lib/Release/
+# exception
+!/External/

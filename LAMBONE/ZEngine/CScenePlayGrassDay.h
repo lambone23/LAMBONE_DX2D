@@ -1,6 +1,6 @@
 #pragma once
 #include "..\Engine_SOURCE\CScene.h"
-
+#include "..\Engine_SOURCE\CAnimator.h"
 namespace yha
 {
 	class CScenePlayGrassDay : public CScene
@@ -28,6 +28,9 @@ namespace yha
 
 		CGameObject* mBG;
 
+		//==================================================================
+		// UI
+		//==================================================================
 		double mChkSecond = 0.0f;
 
 		bool mFlagChkEnterScene = false;
@@ -60,5 +63,26 @@ namespace yha
 		//CGameObject* mCard_Peashooter;
 		//CGameObject* mCard_WallNut;
 		//CGameObject* mCard_CherryBomb;
+
+		//==================================================================
+		// Plants
+		//==================================================================
+		CGameObject* mPl_SunFlower;
+		CGameObject* mPl_Peashooter;
+		CGameObject* mPl_Chomper;
+
+		CCollider2D* cd_Chomper;
+		CAnimator* at_Chomper;
+		bool FlagChomperOnceIdleDid = false;
+
+		//==================================================================
+		// Zombies
+		//==================================================================
+		CGameObject* mZb_NormalZombie;
+
+		CCollider2D* cd_NormalZombie;
+		CAnimator* at_NormalZombie;
+		bool FlagNormalZombieOnceIdleDid = false;
+		
 	};
 }

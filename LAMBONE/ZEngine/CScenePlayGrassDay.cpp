@@ -14,6 +14,10 @@
 #include "CCameraScript.h"
 #include "CTime.h"
 #include "CComponent.h"
+#include "CCollider2D.h"
+#include "CPlayerScript.h"
+#include "CCollisionManager.h"
+
 
 extern yha::CApplication MyApplication;
 
@@ -31,6 +35,8 @@ namespace yha
 
 	void CScenePlayGrassDay::FnDoInitialize()
 	{
+		CCollisionManager::FnSetLayer(eLayerType::Player, eLayerType::Monster, true);
+
 		//==================================================================
 		// Camera
 		//==================================================================
@@ -53,6 +59,8 @@ namespace yha
 		mCamera_UI = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, -10.0f), eLayerType::Player);
 		cameraComp = mCamera_UI->FnAddComponent<CCamera>();
 		cameraComp->FnTurnLayerMask(eLayerType::BG, false);
+		cameraComp->FnTurnLayerMask(eLayerType::Player, false);
+		cameraComp->FnTurnLayerMask(eLayerType::Monster, false);
 		//mCamera_UI->FnAddComponent<CCameraScript>();
 
 		//==================================================================
@@ -82,6 +90,7 @@ namespace yha
 			gridSc->FnSetCamera(cameraComp);
 		}
 
+#pragma region Resource_UI
 		//==================================================================
 		// UI
 		//==================================================================
@@ -212,7 +221,167 @@ namespace yha
 
 		//mCard_CherryBomb = new CGameObject();
 		//FnAddGameObject(eLayerType::UI, mCard_CherryBomb);
-	}
+#pragma endregion
+#pragma region Resource_Plants
+		//==================================================================
+		// Plants
+		//==================================================================
+		//-------------------------------------
+		// SunFlower
+		//-------------------------------------
+		mPl_SunFlower = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 1.01f), eLayerType::Player);
+		mPl_SunFlower->FnSetName(L"GrassDay_SunFlower");
+
+		//CCollider2D* cd = mPl_SunFlower->FnAddComponent<CCollider2D>();
+		//cd->FnSetSize(Vector2(1.f, 1.f));
+
+		mr = mPl_SunFlower->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+		//mPl_SunFlower->FnGetComponent<CTransform>()->FnSetScale(Vector3(3.5f, 28.f / 7.f, 0.f));
+
+		std::shared_ptr<CTexture> atlas_SunFlower = CResources::FnLoad<CTexture>(L"SunFlower", L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower\\SunFlower.png");
+		CAnimator* at_SunFlower = mPl_SunFlower->FnAddComponent<CAnimator>();
+		// name, atlas, leftTop, size, columnLength, offset, duration
+		at_SunFlower->FnCreate(
+			L"Idle"						// name
+			, atlas_SunFlower			// atlas
+			, Vector2(0.0f, 0.0f)		// leftTop
+			, Vector2(1314.0f / 18.f, 74.0f)		// size
+			, 18						// columnLength
+			, Vector2::Zero				// offset
+			, 0.08f						// duration
+		);
+
+		//CAnimator* at = mPl_SunFlower->FnAddComponent<CAnimator>();
+		//at->FnCreateAnimations(L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower", 0.1f);
+
+		at_SunFlower->FnPlayAnimation(L"Idle", true);
+		//mPl_SunFlower->FnAddComponent<CPlayerScript>();
+
+		//-------------------------------------
+		// Peashooter
+		//-------------------------------------
+		mPl_Peashooter = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 1.01f), eLayerType::Player);
+		mPl_Peashooter->FnSetName(L"GrassDay_Peashooter");
+
+		//CCollider2D* cd = mPl_Peashooter->FnAddComponent<CCollider2D>();
+		//cd->FnSetSize(Vector2(1.f, 1.f));
+
+		mr = mPl_Peashooter->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+		std::shared_ptr<CTexture> atlas_Peashooter = CResources::FnLoad<CTexture>(L"Peashooter", L"..\\Resources\\Texture\\MyGame\\Plants\\Peashooter\\Peashooter.png");
+		CAnimator* at_Peashooter = mPl_Peashooter->FnAddComponent<CAnimator>();
+		at_Peashooter->FnCreate(
+			L"Idle"						// name
+			, atlas_Peashooter			// atlas
+			, Vector2(0.0f, 0.0f)		// leftTop
+			, Vector2(923.0f / 13.f, 71.0f)		// size
+			, 13						// columnLength
+			, Vector2::Zero				// offset
+			, 0.08f						// duration
+		);
+
+		at_Peashooter->FnPlayAnimation(L"Idle", true);
+
+		//-------------------------------------
+		// Chomper
+		//-------------------------------------
+		mPl_Chomper = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 1.01f), eLayerType::Player);
+		mPl_Chomper->FnSetName(L"GrassDay_Chomper");
+
+		cd_Chomper = mPl_Chomper->FnAddComponent<CCollider2D>();
+		cd_Chomper->FnSetSize(Vector2(0.5f, 0.5f));
+		cd_Chomper->FnSetCenter(Vector2(-0.1f, -0.05f));
+
+		mr = mPl_Chomper->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+		// Animation
+		at_Chomper = mPl_Chomper->FnAddComponent<CAnimator>();
+
+		// Idle
+		std::shared_ptr<CTexture> atlas_Chomper_Idle = CResources::FnLoad<CTexture>(L"Chomper_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Idle.png");
+		at_Chomper->FnCreate(
+			L"Idle"			// name
+			, atlas_Chomper_Idle		// atlas
+			, Vector2(0.0f, 0.0f)		// leftTop
+			, Vector2(1690.0f / 13.f, 114.0f)		// size
+			, 13						// columnLength
+			, Vector2::Zero				// offset
+			, 0.08f						// duration
+		);
+		
+		// Attack
+		std::shared_ptr<CTexture> atlas_Chomper_Attack = CResources::FnLoad<CTexture>(L"Chomper_Attack", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Attack.png");
+		at_Chomper->FnCreate(
+			L"Attack"		// name
+			, atlas_Chomper_Attack		// atlas
+			, Vector2(0.0f, 0.0f)		// leftTop
+			, Vector2(1170.0f / 9.f, 114.0f)		// size
+			, 9							// columnLength
+			, Vector2::Zero				// offset
+			, 0.08f						// duration
+		);
+
+		at_Chomper->FnPlayAnimation(L"Idle", true);
+		//at_Chomper->FnPlayAnimation(L"Attack", true);
+		//mPl_Chomper->FnAddComponent<CPlayerScript>();
+
+#pragma endregion
+#pragma region Resource_Zombies
+		//==================================================================
+		// Zombies
+		//==================================================================
+		//-------------------------------------
+		// NormalZombie
+		//-------------------------------------
+		mZb_NormalZombie = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 1.01f), eLayerType::Monster);
+		mZb_NormalZombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, -1.0f, 0.f));
+		mZb_NormalZombie->FnSetName(L"GrassDay_NormalZombie");
+
+		cd_NormalZombie = mZb_NormalZombie->FnAddComponent<CCollider2D>();
+		cd_NormalZombie->FnSetSize(Vector2(0.5f, 0.5f));
+		cd_NormalZombie->FnSetCenter(Vector2(0.2f, -0.05f));
+
+		mr = mZb_NormalZombie->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+		// Animation
+		at_NormalZombie = mZb_NormalZombie->FnAddComponent<CAnimator>();
+
+		// Idle
+		std::shared_ptr<CTexture> atlas_NormalZombie_Idle = CResources::FnLoad<CTexture>(L"NormalZombie_Idle", L"..\\Resources\\Texture\\MyGame\\Zombies\\NormalZombie\\NormalZombie_Idle.png");
+		at_NormalZombie->FnCreate(
+			L"Idle"						// name
+			, atlas_NormalZombie_Idle	// atlas
+			, Vector2(0.0f, 0.0f)		// leftTop
+			, Vector2(3652.0f / 22.f, 144.0f)		// size
+			, 22						// columnLength
+			, Vector2::Zero				// offset
+			, 0.08f						// duration
+		);
+
+		// Attack
+		std::shared_ptr<CTexture> atlas_NormalZombie_Attack = CResources::FnLoad<CTexture>(L"NormalZombie_Attack", L"..\\Resources\\Texture\\MyGame\\Zombies\\NormalZombie\\NormalZombie_Attack.png");
+		at_NormalZombie->FnCreate(
+			L"Attack"					// name
+			, atlas_NormalZombie_Attack	// atlas
+			, Vector2(0.0f, 0.0f)		// leftTop
+			, Vector2(3486.0f / 21.f, 144.0f)		// size
+			, 21						// columnLength
+			, Vector2::Zero				// offset
+			, 0.08f						// duration
+		);
+
+		at_NormalZombie->FnPlayAnimation(L"Idle", true);
+		mZb_NormalZombie->FnAddComponent<CPlayerScript>();
+#pragma endregion
+	}//END-void CScenePlayGrassDay::FnDoInitialize
 
 	void CScenePlayGrassDay::FnInitialize()
 	{
@@ -348,7 +517,55 @@ namespace yha
 			mCard_SunFlower7->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.f, 0.f));
 			mCard_SunFlower8->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.5f, 0.f));
 #pragma endregion
+#pragma region Resource_Plants
+			//==================================================================
+			// Plants
+			//==================================================================
+			mPl_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, 0.5f, 0.f));
+			mPl_Peashooter->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, -0.2f, 0.f));
+			mPl_Chomper->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -1.0f, 0.f));
+
+			// Chomper Status
+			if (eColliderStateType::Start == cd_Chomper->FnGetColliderState())
+			{
+				at_Chomper->FnPlayAnimation(L"Attack", true);
+				FlagChomperOnceIdleDid = false;
+			}
+			else if(eColliderStateType::Fin == cd_Chomper->FnGetColliderState() && false == FlagChomperOnceIdleDid)
+			{
+				FlagChomperOnceIdleDid = true;
+				at_Chomper->FnPlayAnimation(L"Idle", true);
+			}
+
+			// at_NormalZombie Status
+			if (eColliderStateType::Start == cd_NormalZombie->FnGetColliderState())
+			{
+				at_NormalZombie->FnPlayAnimation(L"Attack", true);
+				FlagNormalZombieOnceIdleDid = false;
+			}
+			else if (eColliderStateType::Fin == cd_NormalZombie->FnGetColliderState() && false == FlagNormalZombieOnceIdleDid)
+			{
+				FlagNormalZombieOnceIdleDid = true;
+				at_NormalZombie->FnPlayAnimation(L"Idle", true);
+			}
+
+
+			if (CInput::FnGetKey(eKeyCode::F))
+			{
+				at_Chomper->FnPlayAnimation(L"Attack", true);
+			}
+			if (CInput::FnGetKey(eKeyCode::G))
+			{
+				at_Chomper->FnPlayAnimation(L"Idle", true);
+			}
+
+
+			//==================================================================
+			// Zombies
+			//==================================================================
+			//mZb_NormalZombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, -1.0f, 0.f));
 		}
+#pragma endregion
 
 		//==================================================================
 		// Load NextScene
@@ -360,6 +577,19 @@ namespace yha
 	}
 	void CScenePlayGrassDay::FnLateUpdate()
 	{
+		Vector3 pos(600, 450, 0.0f);
+		Vector3 pos2(600, 450, 1000.0f);
+		Viewport viewport;
+		viewport.width = 1600.0f;
+		viewport.height = 900.0f;
+		viewport.x = 0;
+		viewport.y = 0;
+		viewport.minDepth = 0.0f;
+		viewport.maxDepth = 1.0f;
+
+		pos = viewport.Unproject(pos, CCamera::FnGetGpuProjectionMatrix(), CCamera::FnGetGpuViewMatrix(), Matrix::Identity);
+		pos2 = viewport.Unproject(pos2, CCamera::FnGetGpuProjectionMatrix(), CCamera::FnGetGpuViewMatrix(), Matrix::Identity);
+
 		CScene::FnLateUpdate();
 	}
 	void CScenePlayGrassDay::FnRender()
@@ -410,5 +640,12 @@ namespace yha
 		object::FnDestroy(mCard_SunFlower6);
 		object::FnDestroy(mCard_SunFlower7);
 		object::FnDestroy(mCard_SunFlower8);
+
+		object::FnDestroy(mPl_SunFlower);
+		object::FnDestroy(mPl_Peashooter);
+		object::FnDestroy(mPl_Chomper);
+
+		object::FnDestroy(mZb_NormalZombie);
+		
 	}
 }

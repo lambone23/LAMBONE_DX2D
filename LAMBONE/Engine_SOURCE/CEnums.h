@@ -60,4 +60,21 @@ namespace yha::enums
 		Cube,
 		End,
 	};
+
+	enum class eColor
+	{
+		Red,
+		Green,
+		Blue,
+		End,
+	};
+
+	enum class eColliderStateType
+	{
+		None,
+		Start,
+		Ing,
+		Fin,
+		End,
+	};
 }

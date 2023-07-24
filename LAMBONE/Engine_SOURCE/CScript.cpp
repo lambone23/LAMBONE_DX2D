@@ -1,5 +1,9 @@
 #include "CScript.h"
 
+#include "../Engine_SOURCE/CGameObject.h"
+#include "../Engine_SOURCE/CConstantBuffer.h"
+#include "../Engine_SOURCE/CRenderer.h"
+
 namespace yha
 {
 	CScript::CScript()
@@ -29,7 +33,7 @@ namespace yha
 
 	void CScript::FnOnCollisionEnter(CCollider2D* other)
 	{
-		
+		//FnGetOwner()->FnGetComponent<CCollider2D>()->FnSetRectColor(eColor::Red);
 	}
 
 	void CScript::FnOnCollisionStay(CCollider2D* other)
@@ -39,6 +43,6 @@ namespace yha
 
 	void CScript::FnOnCollisionExit(CCollider2D* other)
 	{
-		
+		//FnGetOwner()->FnGetComponent<CCollider2D>()->FnSetRectColor(eColor::Green);
 	}
 }
