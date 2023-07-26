@@ -120,13 +120,30 @@ namespace yha
 		//	//player->AddComponent<CameraScript>();
 		//}
 
-		{// Light
+		{// Light [Directional]
 			CGameObject* light = new CGameObject();
-			light->FnSetName(L"Light");
+			light->FnSetName(L"Light_Directional");
 			FnAddGameObject(eLayerType::Light, light);
 			CLight* lightComp = light->FnAddComponent<CLight>();
 			lightComp->FnSetType(eLightType::Directional);
-			lightComp->FnSetColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
+			lightComp->FnSetColor(Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+			//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+
+			light->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.0f, 1.0f, 0.0f));
+			CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+		}
+
+		{// Light [Point]
+			CGameObject* light = new CGameObject();
+			light->FnSetName(L"Light_Point");
+			FnAddGameObject(eLayerType::Light, light);
+			CLight* lightComp = light->FnAddComponent<CLight>();
+			lightComp->FnSetType(eLightType::Point);
+			lightComp->FnSetColor(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+			lightComp->FnSetRadius(3.0f);
+
+			light->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.0f, -1.0f, 0.0f));
+			CCollider2D* cd = light->FnAddComponent<CCollider2D>();
 		}
 
 		//==================================================================

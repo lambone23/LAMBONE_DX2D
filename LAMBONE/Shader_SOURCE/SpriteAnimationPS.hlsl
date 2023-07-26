@@ -10,6 +10,7 @@ struct VSIn
 struct VSOut
 {
     float4 Pos : SV_Position;
+    float3 WorldPos : POSITION;
     float4 Color : COLOR;
     float2 UV : TEXCOORD;
 };
@@ -37,7 +38,25 @@ float4 main(VSOut In) : SV_TARGET
         color = atlasTexture.Sample(anisotropicSampler, UV);
     }
 
-    color *= lightsAttribute[0].color;
+    //color *= lightsAttribute[0].color;
+
+    /*
+        Ambient Light(간접광) 처리를 위하여
+        전부 0으로 처리하지 않고 값을 넣어줌.
+
+        float4 lightColor = (float4) 0.0f;
+        위와 같이 처리시,
+        조명이 하나도 없을 경우
+        오브젝트가 보이지 않는다.
+    */
+    float4 lightColor = float4(0.2f, 0.2f, 0.2f, 1.0f);
+
+    for (int i = 0; i < 2; i++)
+    {
+        CalculateLight2D(lightColor, In.WorldPos, i);
+    }
+
+    color *= lightColor;
 
     return color;
 }
