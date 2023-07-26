@@ -2,6 +2,7 @@
 #include "CResources.h"
 #include "CTexture.h"
 #include "CMaterial.h"
+#include "CStructedBuffer.h"
 
 namespace renderer
 {
@@ -15,8 +16,15 @@ namespace renderer
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[(UINT)eDSType::End] = {};
 	Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[(UINT)eBSType::End] = {};
 
+	// Light
+	std::vector<CLight*> lights = {};
+	CStructedBuffer* lightsBuffer = nullptr;
+
+	// Camera
 	yha::CCamera* mainCamera = nullptr;
 	std::vector<yha::CCamera*> cameras = {};
+	
+	// Collider
 	std::vector<DebugMesh> debugMeshs = {};
 
 	void FnSetupState()
@@ -321,6 +329,12 @@ namespace renderer
 		//==================================================================
 		constantBuffer[(UINT)eCBType::Animator] = new CConstantBuffer(eCBType::Animator);
 		constantBuffer[(UINT)eCBType::Animator]->FnCreate(sizeof(AnimatorCB));
+
+		//==================================================================
+		// Light Structed buffer
+		//==================================================================
+		lightsBuffer = new CStructedBuffer();
+		lightsBuffer->FnCreate(sizeof(LightAttribute), 2, eSRVType::None);
 
 	}//END-void FnLoadBuffer
 
@@ -630,8 +644,24 @@ namespace renderer
 		debugMeshs.push_back(mesh);
 	}//END-void FnPushDebugMeshAttribute
 
+	void FnBindLights()
+	{
+		std::vector<LightAttribute> lightsAttributes = {};
+		for (CLight* light : lights)
+		{
+			LightAttribute attribute = light->FnGetAttribute();
+			lightsAttributes.push_back(attribute);
+		}
+
+		lightsBuffer->FnSetData(lightsAttributes.data(), lightsAttributes.size());
+		lightsBuffer->FnBind(eShaderStage::VS, 13);
+		lightsBuffer->FnBind(eShaderStage::PS, 13);
+	}//END-void FnBindLights
+
 	void FnRender()
 	{
+		FnBindLights();
+
 		for (CCamera* cam : cameras)
 		{
 			if (cam == nullptr)
@@ -641,6 +671,7 @@ namespace renderer
 		}
 
 		cameras.clear();
+		lights.clear();
 	}//END-void FnRender
 
 	void FnRelease()
@@ -657,6 +688,9 @@ namespace renderer
 			delete buff;
 			buff = nullptr;
 		}
+
+		delete lightsBuffer;
+		lightsBuffer = nullptr;
 	}//END-void FnRelease
 }
 

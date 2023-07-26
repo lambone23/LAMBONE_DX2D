@@ -12,6 +12,7 @@ namespace yha::enums
 		MeshRenderer,
 		Animator,
 		Script,
+		Light,
 		Camera,
 		End,
 	};
@@ -38,6 +39,7 @@ namespace yha::enums
 		Grid,
 		Player,
 		Monster,
+		Light,
 		UI,
 		End = 16,
 	};
@@ -58,6 +60,14 @@ namespace yha::enums
 		Circle,
 		Sphere,
 		Cube,
+		End,
+	};
+
+	enum class eLightType
+	{
+		Directional,
+		Point,
+		Spot,
 		End,
 	};
 

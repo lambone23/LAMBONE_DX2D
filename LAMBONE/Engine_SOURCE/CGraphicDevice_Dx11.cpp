@@ -270,6 +270,14 @@ namespace yha::graphics
 		return true;
 	}//END-bool CGraphicDevice_Dx11::FnCreateBlendState
 
+	bool CGraphicDevice_Dx11::FnCreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView)
+	{
+		if (FAILED(mDevice->CreateShaderResourceView(pResource, pDesc, ppSRView)))
+			return false;
+
+		return true;
+	}//END-bool CGraphicDevice_Dx11::FnCreateShaderResourceView
+
 	void CGraphicDevice_Dx11::FnBindInputLayout(ID3D11InputLayout* pInputLayout)
 	{
 		mContext->IASetInputLayout(pInputLayout);
@@ -353,6 +361,14 @@ namespace yha::graphics
 		mContext->PSSetConstantBuffers((UINT)type, 1, &buffer);
 		mContext->CSSetConstantBuffers((UINT)type, 1, &buffer);
 	}//END-void CGraphicDevice_Dx11::FnBindsConstantBuffer
+
+	void CGraphicDevice_Dx11::FnBindBuffer(ID3D11Buffer* buffer, void* data, UINT size)
+	{
+		D3D11_MAPPED_SUBRESOURCE sub = {};
+		mContext->Map(buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &sub);
+		memcpy(sub.pData, data, size);
+		mContext->Unmap(buffer, 0);
+	}//END-void CGraphicDevice_Dx11::FnBindBuffer
 
 	void CGraphicDevice_Dx11::FnBindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV)
 	{

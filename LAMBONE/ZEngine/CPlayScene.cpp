@@ -13,6 +13,8 @@
 #include "CPlayerScript.h"
 #include "CCollisionManager.h"
 #include "CAnimator.h"
+#include "CLight.h"
+
 #include "CApplication.h"
 #include <tchar.h>
 
@@ -105,17 +107,26 @@ namespace yha
 			//player->FnAddComponent<CPlayerScript>();
 		}
 
-		{// Smile [UI]
-			CGameObject* player = new CGameObject();
-			player->FnSetName(L"Smile");
-			FnAddGameObject(eLayerType::UI, player);
+		//{// Smile [UI]
+		//	CGameObject* player = new CGameObject();
+		//	player->FnSetName(L"Smile");
+		//	FnAddGameObject(eLayerType::UI, player);
 
-			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
-			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial02"));
-			
-			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.2f, 0.0f, 0.0f));
-			//player->AddComponent<CameraScript>();
+		//	CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
+		//	mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		//	mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial02"));
+		//	
+		//	player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.2f, 0.0f, 0.0f));
+		//	//player->AddComponent<CameraScript>();
+		//}
+
+		{// Light
+			CGameObject* light = new CGameObject();
+			light->FnSetName(L"Light");
+			FnAddGameObject(eLayerType::Light, light);
+			CLight* lightComp = light->FnAddComponent<CLight>();
+			lightComp->FnSetType(eLightType::Directional);
+			lightComp->FnSetColor(Vector4(1.0f, 0.0f, 1.0f, 1.0f));
 		}
 
 		//==================================================================

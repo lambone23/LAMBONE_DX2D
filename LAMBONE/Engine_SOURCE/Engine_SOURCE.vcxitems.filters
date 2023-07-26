@@ -94,14 +94,20 @@
     <Filter Include="05_Component\7_Script">
       <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\8_Camera">
-      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="05_Component\6_Animator">
       <UniqueIdentifier>{ce1b7a51-8d26-4575-a7ff-48088e5e26cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="00_Common\Resource\Animation">
       <UniqueIdentifier>{12100713-5217-4bb2-9073-8c67e20dbcbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\9_Camera">
+      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\8_Light">
+      <UniqueIdentifier>{e0bf69b0-dc0b-4547-b172-b05f1a633726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Graphics\StructedBuffer">
+      <UniqueIdentifier>{470abeba-5463-41ce-9545-db2ad514f68a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,7 +181,7 @@
       <Filter>05_Component\7_Script</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
-      <Filter>05_Component\8_Camera</Filter>
+      <Filter>05_Component\9_Camera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
@@ -200,6 +206,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimation.h">
       <Filter>00_Common\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CLight.h">
+      <Filter>05_Component\8_Light</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CStructedBuffer.h">
+      <Filter>00_Common\Graphics\StructedBuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +273,7 @@
       <Filter>05_Component\7_Script</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
-      <Filter>05_Component\8_Camera</Filter>
+      <Filter>05_Component\9_Camera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
@@ -283,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp">
       <Filter>00_Common\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CLight.cpp">
+      <Filter>05_Component\8_Light</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CStructedBuffer.cpp">
+      <Filter>00_Common\Graphics\StructedBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CLight.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMaterial.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMesh.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CStructedBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ZEngine.h" />
@@ -61,6 +63,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CInput.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CLayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CLight.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMaterial.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp" />
@@ -72,6 +75,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CStructedBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp" />

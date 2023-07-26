@@ -5,6 +5,7 @@
 #include "CShader.h"
 #include "CConstantBuffer.h"
 #include "CCamera.h"
+#include "CLight.h"
 
 using namespace yha::math;
 using namespace yha::graphics;
@@ -49,11 +50,13 @@ namespace renderer
 	extern Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilStates[];
 	extern Microsoft::WRL::ComPtr<ID3D11BlendState> blendStates[];
 
+	extern std::vector<yha::CLight*> lights;
 	extern yha::CCamera* mainCamera;
 	extern std::vector<yha::CCamera*> cameras;
 	extern std::vector<DebugMesh> debugMeshs;
 
 	void FnInitialize();
+	void FnBindLights();
 	void FnRender();
 	void FnRelease();
 

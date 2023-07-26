@@ -27,6 +27,8 @@ namespace yha::graphics
 		bool FnCreateDepthStencilState(const D3D11_DEPTH_STENCIL_DESC* pDepthStencilDesc, ID3D11DepthStencilState** ppDepthStencilState);
 		bool FnCreateBlendState(const D3D11_BLEND_DESC* pBlendStateDesc, ID3D11BlendState** ppBlendState);
 
+		bool FnCreateShaderResourceView(ID3D11Resource* pResource, const D3D11_SHADER_RESOURCE_VIEW_DESC* pDesc, ID3D11ShaderResourceView** ppSRView);
+
 		void FnBindInputLayout(ID3D11InputLayout* pInputLayout);
 		void FnBindPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology);
 		
@@ -40,6 +42,8 @@ namespace yha::graphics
 		void FnSetConstantBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 		void FnBindConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
 		void FnBindsConstantBuffer(eShaderStage stage, eCBType type, ID3D11Buffer* buffer);
+
+		void FnBindBuffer(ID3D11Buffer* buffer, void* data, UINT size);
 
 		void FnBindShaderResource(eShaderStage stage, UINT startSlot, ID3D11ShaderResourceView** ppSRV);
 		void FnBindSampler(eShaderStage stage, UINT StartSlot, ID3D11SamplerState** ppSamplers);
