@@ -37,7 +37,10 @@ namespace yha::enums
 	{
 		BG,
 		Grid,
+		Camera,
 		Player,
+		PlayerNearbyAttack,
+		PlayerFarAttack,
 		Monster,
 		Light,
 		UI,
@@ -51,6 +54,7 @@ namespace yha::enums
 		Material,
 		Mesh,
 		Animation,
+		ComputeShader,
 		End,
 	};
 
@@ -87,4 +91,13 @@ namespace yha::enums
 		Fin,
 		End,
 	};
+
+	enum class eAttackType
+	{
+		None,
+		Nearby,
+		Far,
+		End,
+	};
+
 }

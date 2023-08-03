@@ -27,6 +27,7 @@ namespace yha
 		CGameObject* mCamera_UI;
 
 		CGameObject* mBG;
+		CGameObject* mlight;
 
 		//==================================================================
 		// UI
@@ -68,12 +69,19 @@ namespace yha
 		// Plants
 		//==================================================================
 		CGameObject* mPl_SunFlower;
-		CGameObject* mPl_Peashooter;
-		CGameObject* mPl_Chomper;
 
+		CGameObject* mPl_Peashooter1;
+		CCollider2D* cd_Peashooter1;
+
+		CGameObject* mPl_Chomper;
 		CCollider2D* cd_Chomper;
 		CAnimator* at_Chomper;
 		bool FlagChomperOnceIdleDid = false;
+
+		CGameObject* mPl_WallNut;
+		CCollider2D* cd_WallNut;
+		CAnimator* at_WallNut;
+		bool FlagWallNut = false;
 
 		//==================================================================
 		// Zombies
@@ -82,6 +90,7 @@ namespace yha
 
 		CCollider2D* cd_NormalZombie;
 		CAnimator* at_NormalZombie;
+		bool FlagNormalZombie = false;
 		bool FlagNormalZombieOnceIdleDid = false;
 		
 	};

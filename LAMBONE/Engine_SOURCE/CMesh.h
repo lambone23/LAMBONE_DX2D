@@ -20,6 +20,7 @@ namespace yha
 
 		void FnBindBuffer(); //Buffer 파이프라인에 묶어준다.
 		void FnRender();
+		void FnRenderInstanced(UINT startIndexLocation);
 
 		UINT FnGetIndexCount() { return mIndexCount; }
 

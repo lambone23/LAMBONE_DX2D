@@ -3,6 +3,7 @@
 #include "CTexture.h"
 #include "CMaterial.h"
 #include "CStructedBuffer.h"
+#include "CPaintShader.h"
 
 namespace renderer
 {
@@ -85,6 +86,13 @@ namespace renderer
 			, shader->FnGetInputLayoutAddressOf());
 
 		shader = yha::CResources::FnFind<CShader>(L"SpriteAnimationShader");
+		yha::graphics::FnGetDevice()->FnCreateInputLayout(
+			arrLayout
+			, 3
+			, shader->FnGetVSCode()
+			, shader->FnGetInputLayoutAddressOf());
+
+		shader = yha::CResources::FnFind<CShader>(L"ParticleShader");
 		yha::graphics::FnGetDevice()->FnCreateInputLayout(
 			arrLayout
 			, 3
@@ -202,6 +210,19 @@ namespace renderer
 		std::vector<Vertex> vertexes = {};
 		std::vector<UINT> indexes = {};
 
+		// PointMesh
+		Vertex v = {};
+		v.pos = Vector3(0.0f, 0.0f, 0.0f);
+		vertexes.push_back(v);
+		indexes.push_back(0);
+		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
+		mesh->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
+		mesh->FnCreateIndexBuffer(indexes.data(), indexes.size());
+		CResources::FnInsert(L"PointMesh", mesh);
+
+		vertexes.clear();
+		indexes.clear();
+
 		// RectMesh
 		vertexes.resize(4);
 
@@ -224,7 +245,8 @@ namespace renderer
 		//==================================================================
 		// Vertex Buffer
 		//==================================================================
-		std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
+		//std::shared_ptr<CMesh> mesh = std::make_shared<CMesh>();
+		mesh = std::make_shared<CMesh>();
 		CResources::FnInsert(L"RectMesh", mesh);
 		mesh->FnCreateVertexBuffer(vertexes.data(), vertexes.size());
 
@@ -342,6 +364,9 @@ namespace renderer
 	{
 		//yha::graphics::FnGetDevice()->FnCreateShader();
 
+		//==================================================================
+		// Triangle Shader
+		//==================================================================
 		//shader = new yha::CShader();
 		//CShader* shader = new yha::CShader();
 		std::shared_ptr<CShader> shader = std::make_shared<CShader>();
@@ -349,22 +374,38 @@ namespace renderer
 		shader->FnCreate(eShaderStage::PS, L"TrianglePS.hlsl", "main");
 		yha::CResources::FnInsert(L"TriangleShader", shader);
 
+		//==================================================================
+		// Sprite Shader
+		//==================================================================
 		//CShader* spriteShader = new yha::CShader();
-		std::shared_ptr<CShader> spriteShader = std::make_shared<CShader>();
-		spriteShader->FnCreate(eShaderStage::VS, L"SpriteVS.hlsl", "main");
-		spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
-		yha::CResources::FnInsert(L"SpriteShader", spriteShader);
+		//std::shared_ptr<CShader> spriteShader = std::make_shared<CShader>();
+		//spriteShader->FnCreate(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		//spriteShader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
+		//yha::CResources::FnInsert(L"SpriteShader", spriteShader);
+		shader = std::make_shared<CShader>();
+		shader->FnCreate(eShaderStage::VS, L"SpriteVS.hlsl", "main");
+		shader->FnCreate(eShaderStage::PS, L"SpritePS.hlsl", "main");
+		yha::CResources::FnInsert(L"SpriteShader", shader);
 
+		//==================================================================
+		// SpriteAnimation Shader
+		//==================================================================
 		std::shared_ptr<CShader> spriteAniShader = std::make_shared<CShader>();
 		spriteAniShader->FnCreate(eShaderStage::VS, L"SpriteAnimationVS.hlsl", "main");
 		spriteAniShader->FnCreate(eShaderStage::PS, L"SpriteAnimationPS.hlsl", "main");
 		yha::CResources::FnInsert(L"SpriteAnimationShader", spriteAniShader);
 
+		//==================================================================
+		// Grid Shader
+		//==================================================================
 		std::shared_ptr<CShader> girdShader = std::make_shared<CShader>();
 		girdShader->FnCreate(eShaderStage::VS, L"GridVS.hlsl", "main");
 		girdShader->FnCreate(eShaderStage::PS, L"GridPS.hlsl", "main");
 		yha::CResources::FnInsert(L"GridShader", girdShader);
 
+		//==================================================================
+		// Debug Shader
+		//==================================================================
 		std::shared_ptr<CShader> debugShader = std::make_shared<CShader>();
 		debugShader->FnCreate(eShaderStage::VS, L"DebugVS.hlsl", "main");
 		debugShader->FnCreate(eShaderStage::PS, L"DebugPS.hlsl", "main");
@@ -374,7 +415,35 @@ namespace renderer
 		//debugShader->FnSetRSState(eRSType::SolidNone);
 		//debugShader->SetDSState(eDSType::NoWrite);
 		yha::CResources::FnInsert(L"DebugShader", debugShader);
+
+		//==================================================================
+		// Paint Shader
+		//==================================================================
+		std::shared_ptr<CPaintShader> paintShader = std::make_shared<CPaintShader>();
+		paintShader->FnCreate(L"PaintCS.hlsl", "main");
+		yha::CResources::FnInsert(L"PaintShader", paintShader);
+
+		//==================================================================
+		// Particle Shader
+		//==================================================================
+		std::shared_ptr<CShader> paritcleShader = std::make_shared<CShader>();
+		paritcleShader->FnCreate(eShaderStage::VS, L"ParticleVS.hlsl", "main");
+		paritcleShader->FnCreate(eShaderStage::GS, L"ParticleGS.hlsl", "main");
+		paritcleShader->FnCreate(eShaderStage::PS, L"ParticlePS.hlsl", "main");
+		paritcleShader->FnSetRSState(eRSType::SolidNone);
+		paritcleShader->FnSetDSState(eDSType::NoWrite);
+		paritcleShader->FnSetBSState(eBSType::AlphaBlend);
+		paritcleShader->FnSetTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
+		yha::CResources::FnInsert(L"ParticleShader", paritcleShader);
 	}//END-void FnLoadShader
+
+	void FnLoadTexture()
+	{
+		//paint texture
+		std::shared_ptr<CTexture> uavTexture = std::make_shared<CTexture>();
+		uavTexture->FnCreate(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
+		yha::CResources::FnInsert(L"PaintTexuture", uavTexture);
+	}//END-void LoadTexture
 
 	void FnLoadMaterial()
 	{
@@ -382,7 +451,8 @@ namespace renderer
 		// Shader
 		//==================================================================
 		// Sample - spriteShader
-		std::shared_ptr<CShader> spriteShader = CResources::FnFind<CShader>(L"SpriteShader");
+		//std::shared_ptr<CShader> spriteShader = CResources::FnFind<CShader>(L"SpriteShader");
+		std::shared_ptr<CShader> shader = CResources::FnFind<CShader>(L"SpriteShader");
 		
 		// Animation적용 오브젝트 전용shader
 		std::shared_ptr<CShader> SpriteAnimationShader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
@@ -397,200 +467,187 @@ namespace renderer
 		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Link", L"..\\Resources\\Texture\\Link.png");
 		//CMaterial* spriteMateiral = new yha::graphics::CMaterial();
 		std::shared_ptr<CMaterial> material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		//material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"SpriteMaterial", material);
-		
+
 		//-------------------------------------
 		// SpriteMaterial02 (Smile)
 		//-------------------------------------
 		texture = CResources::FnLoad<CTexture>(L"Smile", L"..\\Resources\\Texture\\Smile.png");
+		//texture = CResources::FnFind<CTexture>(L"PaintTexuture");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		//material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		material->FnSetRenderingMode(eRenderingMode::Transparent);
 		CResources::FnInsert(L"SpriteMaterial02", material);
 
 		//==================================================================
-		// SpriteAnimationShader
+		// SpriteAnimation Shader
 		//==================================================================
 		SpriteAnimationShader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
+		//shader = CResources::FnFind<CShader>(L"SpriteAnimationShader");
 		material = std::make_shared<CMaterial>();
 		material->FnSetShader(SpriteAnimationShader);
+		//material->FnSetShader(shader);
 		material->FnSetRenderingMode(eRenderingMode::Transparent);
 		CResources::FnInsert(L"SpriteAnimaionMaterial", material);
 
-		//==================================================================
-		// gridShader
-		//==================================================================
-		std::shared_ptr<CShader> gridShader = CResources::FnFind<CShader>(L"GridShader");
-
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(gridShader);
-		CResources::FnInsert(L"GridMaterial", material);
-
-		//==================================================================
-		// DebugShader
-		//==================================================================
-		std::shared_ptr<CShader> debugShader = CResources::FnFind<CShader>(L"DebugShader");
-
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(debugShader);
-		CResources::FnInsert(L"DebugMaterial", material);
-
 #pragma region Resource_BG
 		//==================================================================
-		// 00_Title (spriteShader)
+		// 00_Title (SpriteShader)
 		//==================================================================
 		// Intro
 		texture = CResources::FnLoad<CTexture>(L"Intro", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_Intro.jpg");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_Intro", material);
 
 		// LoadingPage
 		texture = CResources::FnLoad<CTexture>(L"LoadingPage", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_Loading.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_Loading", material);
 
 		// MainMenu
 		texture = CResources::FnLoad<CTexture>(L"MainMenu", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_MainMenu.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_MainMenu", material);
 
 		// Ending
 		texture = CResources::FnLoad<CTexture>(L"Ending", L"..\\Resources\\Texture\\MyGame\\BG\\00_Title\\pvz_Ending.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_Ending", material);
 
 		//==================================================================
-		// 01_PlayGrass
+		// 01_PlayGrass (SpriteShader)
 		//==================================================================
 		// GrassDay
 		texture = CResources::FnLoad<CTexture>(L"GrassDay", L"..\\Resources\\Texture\\MyGame\\BG\\01_PlayGrass\\Grassday.jpg");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_GrassDay", material);
 
 		// GrassDay
 		texture = CResources::FnLoad<CTexture>(L"GrassNight", L"..\\Resources\\Texture\\MyGame\\BG\\01_PlayGrass\\Grassnight.jpg");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_GrassNight", material);
 
 		//==================================================================
-		// 02_PlayPool
+		// 02_PlayPool (SpriteShader)
 		//==================================================================
 		// PoolDay
 		texture = CResources::FnLoad<CTexture>(L"PoolDay", L"..\\Resources\\Texture\\MyGame\\BG\\02_PlayPool\\PVZBackground_7.jpg");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_PoolDay", material);
 
 		// PoolNight
 		texture = CResources::FnLoad<CTexture>(L"PoolNight", L"..\\Resources\\Texture\\MyGame\\BG\\02_PlayPool\\PVZBackground_8.jpg");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"BG_PoolNight", material);
 
 #pragma endregion
 #pragma region Resource_UI
 		//==================================================================
-		// UI
+		// UI (SpriteShader)
 		//==================================================================
 		// SeedChooserBG
 		texture = CResources::FnLoad<CTexture>(L"SeedChooserBG", L"..\\Resources\\Texture\\MyGame\\UI\\SeedChooserBG_edit.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_SeedChooserBG", material);
 
 		// SunPointChk
 		texture = CResources::FnLoad<CTexture>(L"SunPointChk", L"..\\Resources\\Texture\\MyGame\\UI\\SunPointChk.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_SunPointChk", material);
 
 		// ShovelBG
 		texture = CResources::FnLoad<CTexture>(L"ShovelBG", L"..\\Resources\\Texture\\MyGame\\UI\\ShovelBG.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_ShovelBG", material);
 
 		// Shovel
 		texture = CResources::FnLoad<CTexture>(L"Shovel", L"..\\Resources\\Texture\\MyGame\\UI\\Shovel.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_Shovel", material);
 
 		// FlagMeterEmpty
 		texture = CResources::FnLoad<CTexture>(L"FlagMeterEmpty", L"..\\Resources\\Texture\\MyGame\\UI\\FlagMeterEmpty.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_FlagMeterEmpty", material);
 
 		// FlagMeterParts_Zombie
 		texture = CResources::FnLoad<CTexture>(L"FlagMeterParts_Zombie", L"..\\Resources\\Texture\\MyGame\\UI\\FlagMeterParts_Zombie.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_FlagMeterParts_Zombie", material);
 
 		// FlagMeterParts_Flag
 		texture = CResources::FnLoad<CTexture>(L"FlagMeterParts_Flag", L"..\\Resources\\Texture\\MyGame\\UI\\FlagMeterParts_Flag.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_FlagMeterParts_Flag", material);
 
 		//==================================================================
-		// UI Button
+		// UI Button (SpriteShader)
 		//==================================================================
 		// btn_Play
 		texture = CResources::FnLoad<CTexture>(L"btn_Play", L"..\\Resources\\Texture\\MyGame\\UI\\btn_Play.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_btn_Play", material);
 
 		// btn_Menu
 		texture = CResources::FnLoad<CTexture>(L"btn_Menu", L"..\\Resources\\Texture\\MyGame\\UI\\btn_Menu.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_btn_Menu", material);
 
 		// btn_StartAdventure
 		texture = CResources::FnLoad<CTexture>(L"btn_StartAdventure", L"..\\Resources\\Texture\\MyGame\\UI\\btn_StartAdventure_Highlight.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_btn_StartAdventure", material);
 
 #pragma endregion
 #pragma region Resource_UI_Cards
 		//==================================================================
-		// UI Cards
+		// UI Cards (SpriteShader)
 		//==================================================================
 		// btn_Play
 		texture = CResources::FnLoad<CTexture>(L"UI_SunFlower", L"..\\Resources\\Texture\\MyGame\\UI\\Cards\\SunFlower.png");
 		material = std::make_shared<CMaterial>();
-		material->FnSetShader(spriteShader);
+		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_Card_SunFlower", material);
 
@@ -598,7 +655,7 @@ namespace renderer
 		//	// Card_SunFlower
 		//	std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"SunFlower", L"..\\Resources\\Texture\\MyGame\\Cards\\SunFlower.png");
 		//	std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
-		//	spriteMateiral->FnSetShader(spriteShader);
+		//	spriteMateiral->FnSetShader(shader);
 		//	spriteMateiral->FnSetTexture(texture);
 		//	CResources::FnInsert(L"Card_SunFlower", spriteMateiral);
 		//}
@@ -606,7 +663,7 @@ namespace renderer
 		//	// Card_Peashooter
 		//	std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Card_Peashooter", L"..\\Resources\\Texture\\MyGame\\Cards\\Card_Peashooter.png");
 		//	std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
-		//	spriteMateiral->FnSetShader(spriteShader);
+		//	spriteMateiral->FnSetShader(shader);
 		//	spriteMateiral->FnSetTexture(texture);
 		//	CResources::FnInsert(L"Card_Peashooter", spriteMateiral);
 		//}
@@ -614,7 +671,7 @@ namespace renderer
 		//	// Card_WallNut
 		//	std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Card_WallNut", L"..\\Resources\\Texture\\MyGame\\Cards\\Card_WallNut.png");
 		//	std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
-		//	spriteMateiral->FnSetShader(spriteShader);
+		//	spriteMateiral->FnSetShader(shader);
 		//	spriteMateiral->FnSetTexture(texture);
 		//	CResources::FnInsert(L"Card_WallNut", spriteMateiral);
 		//}
@@ -622,10 +679,35 @@ namespace renderer
 		//	// Card_CherryBomb
 		//	std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"Card_CherryBomb", L"..\\Resources\\Texture\\MyGame\\Cards\\Card_CherryBomb.png");
 		//	std::shared_ptr<CMaterial> spriteMateiral = std::make_shared<CMaterial>();
-		//	spriteMateiral->FnSetShader(spriteShader);
+		//	spriteMateiral->FnSetShader(shader);
 		//	spriteMateiral->FnSetTexture(texture);
 		//	CResources::FnInsert(L"Card_CherryBomb", spriteMateiral);
 		//}
+
+		//==================================================================
+		// grid Shader
+		//==================================================================
+		std::shared_ptr<CShader> gridShader = CResources::FnFind<CShader>(L"GridShader");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(gridShader);
+		CResources::FnInsert(L"GridMaterial", material);
+
+		//==================================================================
+		// Debug Shader
+		//==================================================================
+		std::shared_ptr<CShader> debugShader = CResources::FnFind<CShader>(L"DebugShader");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(debugShader);
+		CResources::FnInsert(L"DebugMaterial", material);
+
+		//==================================================================
+		// Particle Shader
+		//==================================================================
+		shader = CResources::FnFind<CShader>(L"ParticleShader");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetRenderingMode(eRenderingMode::Transparent);
+		CResources::FnInsert(L"ParticleMaterial", material);
 
 	}//END-void FnLoadMaterial
 
@@ -635,6 +717,7 @@ namespace renderer
 		FnLoadBuffer();
 		FnLoadShader();
 		FnSetupState();
+		FnLoadTexture();
 		FnLoadMaterial();
 
 	}//END-void FnInitialize

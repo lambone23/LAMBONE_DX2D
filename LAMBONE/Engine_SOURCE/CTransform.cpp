@@ -80,6 +80,9 @@ namespace yha
 		cb->FnSetData(&trCB);
 
 		cb->FnBind(eShaderStage::VS);
+		cb->FnBind(eShaderStage::HS);
+		cb->FnBind(eShaderStage::DS);
+		cb->FnBind(eShaderStage::GS);
+		cb->FnBind(eShaderStage::PS);
 	}
-
 }

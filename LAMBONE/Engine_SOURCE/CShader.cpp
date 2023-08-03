@@ -45,6 +45,14 @@ namespace yha
 				, mVSBlob->GetBufferSize()
 				, mVS.GetAddressOf());
 		}
+		else if (stage == eShaderStage::GS)
+		{
+			FnGetDevice()->FnCompileFromfile(fullPath, funcName, "gs_5_0", mGSBlob.GetAddressOf());
+			FnGetDevice()->FnCreateGeometryShader(
+				mGSBlob->GetBufferPointer()
+				, mGSBlob->GetBufferSize()
+				, mGS.GetAddressOf());
+		}
 		else if (stage == eShaderStage::PS)
 		{
 			FnGetDevice()->FnCompileFromfile(fullPath, funcName, "ps_5_0", mPSBlob.GetAddressOf());
@@ -62,14 +70,15 @@ namespace yha
 		FnGetDevice()->FnBindInputLayout(mInputLayout);
 
 		FnGetDevice()->FnBindVertexShader(mVS.Get());
+		FnGetDevice()->FnBindGeometryShader(mGS.Get());
 		FnGetDevice()->FnBindPixelShader(mPS.Get());
 
 		Microsoft::WRL::ComPtr<ID3D11RasterizerState> rsState = renderer::rasterizerStates[(UINT)mRSType];
-		//Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dsState = renderer::depthStencilStates[(UINT)mDSType];
+		Microsoft::WRL::ComPtr<ID3D11DepthStencilState> dsState = renderer::depthStencilStates[(UINT)mDSType];
 		Microsoft::WRL::ComPtr<ID3D11BlendState> bsState = renderer::blendStates[(UINT)mBSType];
 
 		FnGetDevice()->FnBindRasterizeState(rsState.Get());
-		//FnGetDevice()->FnBindDepthStencilState(dsState.Get());
+		FnGetDevice()->FnBindDepthStencilState(dsState.Get());
 		FnGetDevice()->FnBindBlendState(bsState.Get());
 	}
 }

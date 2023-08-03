@@ -20,6 +20,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollider2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CComputeShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
@@ -36,6 +37,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphics.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CInput.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMath.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CPaintShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CParticleSystem.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h" />
@@ -57,6 +60,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollider2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CComputeShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp" />
@@ -68,6 +72,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CMath.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CPaintShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CParticleSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResources.cpp" />

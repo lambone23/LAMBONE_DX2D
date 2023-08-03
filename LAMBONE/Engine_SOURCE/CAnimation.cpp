@@ -83,7 +83,7 @@ namespace yha
 	void CAnimation::FnBinds()
 	{
 		// texture bind
-		mAtlas->FnBindShader(graphics::eShaderStage::PS, 12);
+		mAtlas->FnBindShaderResource(graphics::eShaderStage::PS, 12);
 
 		// AnimationCB
 		renderer::AnimatorCB data = {};

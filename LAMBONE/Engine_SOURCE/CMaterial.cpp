@@ -23,7 +23,7 @@ namespace yha::graphics
 	void CMaterial::FnBinds()
 	{
 		if (mTexture)
-			mTexture->FnBindShader(eShaderStage::PS, 0);
+			mTexture->FnBindShaderResource(eShaderStage::PS, 0);
 
 		if (mShader)
 			mShader->FnBinds();

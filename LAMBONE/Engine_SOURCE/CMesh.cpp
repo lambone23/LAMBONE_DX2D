@@ -69,4 +69,9 @@ namespace yha
 	{
 		FnGetDevice()->FnDrawIndexed(mIndexCount, 0, 0);
 	}//END-void CMesh::FnRender
+
+	void CMesh::FnRenderInstanced(UINT startIndexLocation)
+	{
+		FnGetDevice()->FnDrawIndexedInstanced(mIndexCount, startIndexLocation, 0, 0, 0);
+	}//END-void CMesh::FnRenderInstanced
 }

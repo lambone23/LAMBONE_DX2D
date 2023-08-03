@@ -7,6 +7,12 @@
     <Filter Include="Pixel">
       <UniqueIdentifier>{84c73051-b50f-4c94-a1e8-f6401efb72d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Compute">
+      <UniqueIdentifier>{35c3366c-35aa-4b42-9c89-7bbb0d62430b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{6e7ef93b-d8ea-460d-a8eb-36b6f4156bb2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="$(MSBuildThisFileDirectory)TriangleVS.hlsl">
@@ -38,6 +44,18 @@
     </FxCompile>
     <FxCompile Include="$(MSBuildThisFileDirectory)SpriteAnimationVS.hlsl">
       <Filter>Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)PaintCS.hlsl">
+      <Filter>Compute</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticlePS.hlsl">
+      <Filter>Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleVS.hlsl">
+      <Filter>Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="$(MSBuildThisFileDirectory)ParticleGS.hlsl">
+      <Filter>Geometry</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

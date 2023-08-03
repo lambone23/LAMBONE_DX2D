@@ -109,6 +109,12 @@
     <Filter Include="00_Common\Graphics\StructedBuffer">
       <UniqueIdentifier>{470abeba-5463-41ce-9545-db2ad514f68a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00_Common\Resource\Shader\ComputeShader">
+      <UniqueIdentifier>{3a6ccb58-1a16-4213-8064-e4dcc2aa23bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\Shader\PaintShader">
+      <UniqueIdentifier>{5604bc71-2295-4e32-b492-b5b244617145}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -213,6 +219,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CStructedBuffer.h">
       <Filter>00_Common\Graphics\StructedBuffer</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CComputeShader.h">
+      <Filter>00_Common\Resource\Shader\ComputeShader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CPaintShader.h">
+      <Filter>00_Common\Resource\Shader\PaintShader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CParticleSystem.h">
+      <Filter>05_Component\4_Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -301,6 +316,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CStructedBuffer.cpp">
       <Filter>00_Common\Graphics\StructedBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CComputeShader.cpp">
+      <Filter>00_Common\Resource\Shader\ComputeShader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CPaintShader.cpp">
+      <Filter>00_Common\Resource\Shader\PaintShader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CParticleSystem.cpp">
+      <Filter>05_Component\4_Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

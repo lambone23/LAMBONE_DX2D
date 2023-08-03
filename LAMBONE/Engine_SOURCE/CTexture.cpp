@@ -17,6 +17,74 @@ namespace yha::graphics
 	{
 	}
 
+	bool CTexture::FnCreate(UINT width, UINT height, DXGI_FORMAT format, UINT bindFlag)
+	{
+		if (mTexture == nullptr)
+		{
+			mDesc.BindFlags			= bindFlag;
+			mDesc.Usage				= D3D11_USAGE_DEFAULT;
+			mDesc.CPUAccessFlags	= 0;
+			mDesc.Format			= format;
+			mDesc.Width				= width;
+			mDesc.Height			= height;
+			mDesc.ArraySize			= 1;
+
+			mDesc.SampleDesc.Count		= 1;
+			mDesc.SampleDesc.Quality	= 0;
+
+			mDesc.MipLevels	= 0;
+			mDesc.MiscFlags	= 0;
+
+			mWidth			= width;
+			mHeight			= height;
+
+			if (!FnGetDevice()->FnCreateTexture2D(&mDesc, nullptr, mTexture.GetAddressOf()))
+				return false;
+		}
+
+		if (bindFlag & (UINT)D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL)
+		{
+			if (!FnGetDevice()->FnCraeteDepthStencilView(mTexture.Get(), nullptr, mDSV.GetAddressOf()))
+				return false;
+		}
+
+		if (bindFlag & (UINT)D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE)
+		{
+			D3D11_SHADER_RESOURCE_VIEW_DESC tSRVDesc = {};
+			tSRVDesc.Format						= mDesc.Format;
+			tSRVDesc.Texture2D.MipLevels		= 1;
+			tSRVDesc.Texture2D.MostDetailedMip	= 0;
+			tSRVDesc.ViewDimension = D3D11_SRV_DIMENSION::D3D11_SRV_DIMENSION_TEXTURE2D;
+
+			if (!FnGetDevice()->FnCreateShaderResourceView(mTexture.Get(), &tSRVDesc, mSRV.GetAddressOf()))
+				return false;
+		}
+
+		if (bindFlag & (UINT)D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET)
+		{
+			D3D11_RENDER_TARGET_VIEW_DESC tSRVDesc = {};
+			tSRVDesc.Format				= mDesc.Format;
+			tSRVDesc.Texture2D.MipSlice	= 0;
+			tSRVDesc.ViewDimension = D3D11_RTV_DIMENSION::D3D11_RTV_DIMENSION_TEXTURE2D;
+
+			if (!FnGetDevice()->FnCreateRenderTargetView(mTexture.Get(), nullptr, mRTV.GetAddressOf()))
+				return false;
+		}
+
+		if (bindFlag & (UINT)D3D11_BIND_FLAG::D3D11_BIND_UNORDERED_ACCESS)
+		{
+			D3D11_UNORDERED_ACCESS_VIEW_DESC tUAVDesc = {};
+			tUAVDesc.Format				= mDesc.Format;
+			tUAVDesc.Texture2D.MipSlice	= 0;
+			tUAVDesc.ViewDimension = D3D11_UAV_DIMENSION::D3D11_UAV_DIMENSION_TEXTURE2D;
+
+			if (!FnGetDevice()->FnCreateUnordedAccessView(mTexture.Get(), &tUAVDesc, mUAV.GetAddressOf()))
+				return false;
+		}
+
+		return true;
+	}//END-bool CTexture::FnCreate
+
 	HRESULT CTexture::FnLoad(const std::wstring& path)
 	{
 		wchar_t szExtension[50] = {};
@@ -49,13 +117,30 @@ namespace yha::graphics
 		);
 		mSRV->GetResource((ID3D11Resource**)mTexture.GetAddressOf());
 
+		mWidth	= mImage.GetMetadata().width;
+		mHeight	= mImage.GetMetadata().height;
+
 		return S_OK;
 	}//END-HRESULT CTexture::FnLoad
 
-	void CTexture::FnBindShader(eShaderStage stage, UINT startSlot)
+	//void CTexture::FnBindShader(eShaderStage stage, UINT startSlot)
+	void CTexture::FnBindShaderResource(eShaderStage stage, UINT startSlot)
 	{
 		FnGetDevice()->FnBindShaderResource(stage, startSlot, mSRV.GetAddressOf());
-	}//END-void CTexture::FnBindShader
+	}//END-void CTexture::FnBindShaderResource
+
+	void CTexture::FnBindUnorderedAccessViews(UINT slot)
+	{
+		UINT i = -1;
+		FnGetDevice()->FnBindUnorderedAccess(slot, mUAV.GetAddressOf(), &i);
+	}//END-void CTexture::FnBindUnorderedAccessViews
+
+	void CTexture::FnClearUnorderedAccessViews(UINT slot)
+	{
+		ID3D11UnorderedAccessView* p = nullptr;
+		UINT i = -1;
+		FnGetDevice()->FnBindUnorderedAccess(slot, &p, &i);
+	}//END-void CTexture::FnClearUnorderedAccessViews
 
 	void CTexture::FnClear()
 	{

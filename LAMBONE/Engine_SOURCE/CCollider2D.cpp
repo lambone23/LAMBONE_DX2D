@@ -44,6 +44,7 @@ namespace yha
 		pos.y += mCenter.y;
 
 		mPosition = pos;
+		tr->FnSetPosition(pos);
 
 		graphics::DebugMesh mesh = {};
 		mesh.position = pos;
@@ -63,6 +64,10 @@ namespace yha
 	void CCollider2D::FnOnCollisionEnter(CCollider2D* other)
 	{
 		mColliderState = eColliderStateType::Start;
+		
+		if (eAttackType::Far == other->FnGetAttackType())
+			mIsAttackTypeFar = true;
+
 		const std::vector<CScript*>& scripts = FnGetOwner()->FnGetComponents<CScript>();
 
 		for (CScript* script : scripts)
@@ -75,6 +80,10 @@ namespace yha
 	void CCollider2D::FnOnCollisionStay(CCollider2D* other)
 	{
 		mColliderState = eColliderStateType::Ing;
+
+		if (eAttackType::Far == other->FnGetAttackType())
+			mIsAttackTypeFar = true;
+
 		const std::vector<CScript*>& scripts = FnGetOwner()->FnGetComponents<CScript>();
 
 		for (CScript* script : scripts)
@@ -93,5 +102,8 @@ namespace yha
 			mColor = eColor::Green;
 		}
 		mColliderState = eColliderStateType::Fin;
+
+		if (eAttackType::Far == other->FnGetAttackType())
+			mIsAttackTypeFar = false;
 	}//END-void CCollider2D::FnOnCollisionExit
 }

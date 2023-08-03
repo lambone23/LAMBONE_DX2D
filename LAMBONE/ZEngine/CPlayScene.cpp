@@ -14,6 +14,9 @@
 #include "CCollisionManager.h"
 #include "CAnimator.h"
 #include "CLight.h"
+#include "CComputeShader.h"
+#include "CPaintShader.h"
+#include "CParticleSystem.h"
 
 #include "CApplication.h"
 #include <tchar.h>
@@ -34,6 +37,11 @@ namespace yha
 		// Contents
 		//==================================================================
 		CCollisionManager::FnSetLayer(eLayerType::Player, eLayerType::Monster, true);
+
+		std::shared_ptr<CPaintShader> paintShader	= CResources::FnFind<CPaintShader>(L"PaintShader");
+		std::shared_ptr<CTexture> paintTexture		= CResources::FnFind<CTexture>(L"PaintTexuture");
+		paintShader->FnSetTarget(paintTexture);
+		paintShader->FnOnExcute();
 
 		{// Zelda [Player]
 
@@ -90,6 +98,8 @@ namespace yha
 		}
 
 		{// Smile [Player]
+			//CGameObject* player = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 1.0f), eLayerType::Monster);
+
 			CGameObject* player = new CGameObject();
 			player->FnSetName(L"Smile");
 			//FnAddGameObject(eLayerType::Player, player);
@@ -119,6 +129,18 @@ namespace yha
 		//	player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.2f, 0.0f, 0.0f));
 		//	//player->AddComponent<CameraScript>();
 		//}
+
+		{// Particle [Monster]
+			CGameObject* player = new CGameObject();
+			player->FnSetName(L"Particle");
+			FnAddGameObject(eLayerType::Monster, player);
+			CParticleSystem* mr = player->FnAddComponent<CParticleSystem>();
+			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0f));
+			player->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.2f, 0.2f, 0.2f));
+			//Collider2D* cd = player->AddComponent<Collider2D>();
+			//cd->SetSize(Vector2(1.2f, 1.2f));
+			//player->AddComponent<PlayerScript>();
+		}
 
 		{// Light [Directional]
 			CGameObject* light = new CGameObject();
@@ -178,17 +200,17 @@ namespace yha
 		//==================================================================
 		// Grid (After Camera Set)
 		//==================================================================
-		{
-			CGameObject* grid = new CGameObject();
-			grid->FnSetName(L"Grid");
-			FnAddGameObject(eLayerType::Grid, grid);
-			
-			CMeshRenderer* mr = grid->FnAddComponent<CMeshRenderer>();
-			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"GridMaterial"));
-			CGridScript* gridSc = grid->FnAddComponent<CGridScript>();
-			gridSc->FnSetCamera(cameraComp);
-		}
+		//{
+		//	CGameObject* grid = new CGameObject();
+		//	grid->FnSetName(L"Grid");
+		//	FnAddGameObject(eLayerType::Grid, grid);
+		//	
+		//	CMeshRenderer* mr = grid->FnAddComponent<CMeshRenderer>();
+		//	mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		//	mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"GridMaterial"));
+		//	CGridScript* gridSc = grid->FnAddComponent<CGridScript>();
+		//	gridSc->FnSetCamera(cameraComp);
+		//}
 
 		//CGameObject* player2 = new CGameObject();
 		//FnAddGameObject(eLayerType::Player, player2);

@@ -29,6 +29,11 @@ namespace yha
 
 		eColliderStateType FnGetColliderState() { return mColliderState; }
 		void FnSetRectColor(eColor color) { mColor = color; }
+		Vector2 FnGetCenter() { return mCenter; }
+		
+		void FnSetAttackType(eAttackType type) { mAttackType = type; }
+		eAttackType FnGetAttackType() { return mAttackType; }
+		bool FnGetIsAttackTypeFar() { return mIsAttackTypeFar; }
 
 	private:
 		static UINT mColliderNumber;
@@ -43,5 +48,7 @@ namespace yha
 		eColliderStateType mColliderState;
 
 		eColor mColor;
+		eAttackType mAttackType;
+		bool mIsAttackTypeFar;
 	};
 }
