@@ -4,6 +4,7 @@
 #include "CMaterial.h"
 #include "CStructedBuffer.h"
 #include "CPaintShader.h"
+#include "CParticleShader.h"
 
 namespace renderer
 {
@@ -353,11 +354,16 @@ namespace renderer
 		constantBuffer[(UINT)eCBType::Animator]->FnCreate(sizeof(AnimatorCB));
 
 		//==================================================================
+		// ParticleCB
+		//==================================================================
+		constantBuffer[(UINT)eCBType::Particle] = new CConstantBuffer(eCBType::Particle);
+		constantBuffer[(UINT)eCBType::Particle]->FnCreate(sizeof(ParticleCB));
+
+		//==================================================================
 		// Light Structed buffer
 		//==================================================================
 		lightsBuffer = new CStructedBuffer();
-		lightsBuffer->FnCreate(sizeof(LightAttribute), 2, eSRVType::None);
-
+		lightsBuffer->FnCreate(sizeof(LightAttribute), 2, eViewType::SRV, nullptr, true);
 	}//END-void FnLoadBuffer
 
 	void FnLoadShader()
@@ -426,6 +432,10 @@ namespace renderer
 		//==================================================================
 		// Particle Shader
 		//==================================================================
+		std::shared_ptr<CParticleShader> psSystemShader = std::make_shared<CParticleShader>();
+		psSystemShader->FnCreate(L"ParticleCS.hlsl", "main");
+		yha::CResources::FnInsert(L"ParticleSystemShader", psSystemShader);
+		
 		std::shared_ptr<CShader> paritcleShader = std::make_shared<CShader>();
 		paritcleShader->FnCreate(eShaderStage::VS, L"ParticleVS.hlsl", "main");
 		paritcleShader->FnCreate(eShaderStage::GS, L"ParticleGS.hlsl", "main");
@@ -443,6 +453,9 @@ namespace renderer
 		std::shared_ptr<CTexture> uavTexture = std::make_shared<CTexture>();
 		uavTexture->FnCreate(1024, 1024, DXGI_FORMAT_R8G8B8A8_UNORM, D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS);
 		yha::CResources::FnInsert(L"PaintTexuture", uavTexture);
+
+		std::shared_ptr<CTexture> particle = std::make_shared<CTexture>();
+		CResources::FnLoad<CTexture>(L"CartoonSmoke", L"..\\Resources\\particle\\CartoonSmoke.png");
 	}//END-void LoadTexture
 
 	void FnLoadMaterial()
@@ -707,6 +720,8 @@ namespace renderer
 		material = std::make_shared<CMaterial>();
 		material->FnSetShader(shader);
 		material->FnSetRenderingMode(eRenderingMode::Transparent);
+		std::shared_ptr<CTexture> particleTexx = CResources::FnFind<CTexture>(L"CartoonSmoke");
+		material->FnSetTexture(particleTexx);
 		CResources::FnInsert(L"ParticleMaterial", material);
 
 	}//END-void FnLoadMaterial
@@ -737,8 +752,8 @@ namespace renderer
 		}
 
 		lightsBuffer->FnSetData(lightsAttributes.data(), lightsAttributes.size());
-		lightsBuffer->FnBind(eShaderStage::VS, 13);
-		lightsBuffer->FnBind(eShaderStage::PS, 13);
+		lightsBuffer->FnBindSRV(eShaderStage::VS, 13);
+		lightsBuffer->FnBindSRV(eShaderStage::PS, 13);
 	}//END-void FnBindLights
 
 	void FnRender()
@@ -776,27 +791,3 @@ namespace renderer
 		lightsBuffer = nullptr;
 	}//END-void FnRelease
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

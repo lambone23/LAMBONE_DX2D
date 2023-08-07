@@ -26,6 +26,8 @@ namespace yha
 		CGameObject* mCamera_Main;
 		CGameObject* mCamera_UI;
 		CGameObject* mBG;
+		CGameObject* mlight;
+
 		CGameObject* mUI_btn_StartAdventure;
 	};
 }

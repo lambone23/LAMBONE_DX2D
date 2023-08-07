@@ -538,6 +538,11 @@ namespace yha::graphics
 		mContext->OMSetBlendState(pBlendState, nullptr, 0xffffffff);
 	}//END-void CGraphicDevice_Dx11::FnBindBlendState
 
+	void CGraphicDevice_Dx11::FnCopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource)
+	{
+		mContext->CopyResource(pDstResource, pSrcResource);
+	}//END-void CGraphicDevice_Dx11::FnCopyResource
+
 	void CGraphicDevice_Dx11::FnDrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation)
 	{
 		mContext->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);

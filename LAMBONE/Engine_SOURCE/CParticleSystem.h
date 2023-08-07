@@ -1,6 +1,7 @@
 #pragma once
 #include "CMeshRenderer.h"
 #include "CStructedBuffer.h"
+#include "CParticleShader.h"
 
 namespace yha
 {
@@ -18,12 +19,17 @@ namespace yha
 
 	private:
 		graphics::CStructedBuffer* mBuffer;
+		graphics::CStructedBuffer* mSharedBuffer;
 
-		UINT    mCount;
+		std::shared_ptr<CParticleShader> mCS;
+
+		UINT	mCount;
 		Vector4 mStartSize;
 		Vector4 mEndSize;
 		Vector4 mStartColor;
 		Vector4 mEndColor;
-		float   mLifeTime;
+		float	mLifeTime;
+		float	mFrequency;
+		float	mTime;
 	};
 }

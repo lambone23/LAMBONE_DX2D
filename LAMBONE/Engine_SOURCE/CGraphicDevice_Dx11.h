@@ -66,6 +66,7 @@ namespace yha::graphics
 		void FnBindRasterizeState(ID3D11RasterizerState* pRasterizerState);
 		void FnBindDepthStencilState(ID3D11DepthStencilState* pDepthStencilState);
 		void FnBindBlendState(ID3D11BlendState* pBlendState);
+		void FnCopyResource(ID3D11Resource* pDstResource, ID3D11Resource* pSrcResource);
 
 		void FnDrawIndexed(UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
 		void FnDrawIndexedInstanced(UINT IndexCountPerInstance, UINT InstanceCount, UINT StartIndexLocation, INT BaseVertexLocation, UINT StartInstanceLocation);

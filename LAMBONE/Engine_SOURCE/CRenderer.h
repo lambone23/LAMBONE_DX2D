@@ -42,6 +42,14 @@ namespace renderer
 		UINT animationType;
 	};
 
+	CBUFFER(ParticleCB, CBSLOT_PARTICLE)
+	{
+		UINT elementCount;
+		float elpasedTime;
+		int padd;
+		int padd2;
+	};
+
 	//extern Vertex vertexes[];
 	extern yha::graphics::CConstantBuffer* constantBuffer[(UINT)eCBType::End];
 

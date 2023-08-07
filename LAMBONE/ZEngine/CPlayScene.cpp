@@ -54,7 +54,7 @@ namespace yha
 			//¡áobject //FnAddGameObject(eLayerType::Player, player);
 
 			CCollider2D* cd = player->FnAddComponent<CCollider2D>();
-			cd->FnSetSize(Vector2(1.2f, 1.2f));
+			cd->FnSetSize(Vector2(1.f, 1.f));
 
 			CMeshRenderer* mr = player->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));

@@ -38,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CInput.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CMath.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CPaintShader.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CParticleShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CParticleSystem.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h" />
@@ -73,6 +74,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CMesh.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CPaintShader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CParticleShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CParticleSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp" />

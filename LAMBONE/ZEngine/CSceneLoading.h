@@ -27,5 +27,6 @@ namespace yha
 		CGameObject* mCamera_UI;
 
 		CGameObject* mBG;
+		CGameObject* mlight;
 	};
 }

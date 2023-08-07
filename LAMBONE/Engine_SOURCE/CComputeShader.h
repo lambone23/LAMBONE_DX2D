@@ -7,6 +7,7 @@ namespace yha::graphics
 	class CComputeShader : public CResource
 	{
 	public:
+		CComputeShader(int x, int y, int z);
 		CComputeShader();
 		virtual ~CComputeShader();
 

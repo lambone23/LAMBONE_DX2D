@@ -3,6 +3,14 @@
 
 namespace yha::graphics
 {
+	CComputeShader::CComputeShader(int x, int y, int z)
+		: CResource(enums::eResourceType::ComputeShader)
+	{
+		mThreadGroupCountX = x;
+		mThreadGroupCountY = y;
+		mThreadGroupCountZ = z;
+	}
+
 	CComputeShader::CComputeShader()
 		: CResource(enums::eResourceType::ComputeShader)
 	{

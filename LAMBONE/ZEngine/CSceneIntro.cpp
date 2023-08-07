@@ -17,6 +17,7 @@
 #include "CPlayerScript.h"
 #include "CCollisionManager.h"
 #include "CAnimator.h"
+#include "CLight.h"
 
 extern yha::CApplication MyApplication;
 
@@ -25,6 +26,7 @@ namespace yha
 	CSceneIntro::CSceneIntro()
 		: mCamera(nullptr)
 		, mBG(nullptr)
+		, mlight(nullptr)
 	{
 	}
 	CSceneIntro::~CSceneIntro()
@@ -47,12 +49,23 @@ namespace yha
 		// BG
 		//==================================================================
 		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.0f), eLayerType::BG);
-
 		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Intro"));
-
 		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
+
+		//==================================================================
+		// Light
+		//==================================================================
+		mlight = new CGameObject();
+		mlight->FnSetName(L"Light_Directional");
+		FnAddGameObject(eLayerType::Light, mlight);
+		CLight* lightComp = mlight->FnAddComponent<CLight>();
+		lightComp->FnSetType(eLightType::Directional);
+		lightComp->FnSetColor(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+		//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+		mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
 	}
 
 	void CSceneIntro::FnInitialize()
@@ -127,5 +140,6 @@ namespace yha
 
 		object::FnDestroy(mCamera);
 		object::FnDestroy(mBG);
+		object::FnDestroy(mlight);
 	}
 }
