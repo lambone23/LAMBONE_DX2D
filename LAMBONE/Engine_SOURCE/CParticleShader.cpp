@@ -42,7 +42,8 @@ namespace yha::graphics
 
 		renderer::ParticleCB data = {};
 		data.elementCount = mParticleBuffer->FnGetStride();
-		data.elpasedTime = CTime::FnDeltaTime();
+		data.elapsedTime = elapsedTime;
+		data.deltaTime = CTime::FnDeltaTime();
 
 		cb->FnSetData(&data);
 		cb->FnBind(eShaderStage::CS);

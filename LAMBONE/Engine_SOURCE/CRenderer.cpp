@@ -360,6 +360,12 @@ namespace renderer
 		constantBuffer[(UINT)eCBType::Particle]->FnCreate(sizeof(ParticleCB));
 
 		//==================================================================
+		// NoiseCB
+		//==================================================================
+		constantBuffer[(UINT)eCBType::Noise] = new CConstantBuffer(eCBType::Noise);
+		constantBuffer[(UINT)eCBType::Noise]->FnCreate(sizeof(NoiseCB));
+
+		//==================================================================
 		// Light Structed buffer
 		//==================================================================
 		lightsBuffer = new CStructedBuffer();
@@ -456,6 +462,10 @@ namespace renderer
 
 		std::shared_ptr<CTexture> particle = std::make_shared<CTexture>();
 		CResources::FnLoad<CTexture>(L"CartoonSmoke", L"..\\Resources\\particle\\CartoonSmoke.png");
+
+		CResources::FnLoad<CTexture>(L"Noise01", L"..\\Resources\\noise\\noise_01.png");
+		CResources::FnLoad<CTexture>(L"Noise02", L"..\\Resources\\noise\\noise_02.png");
+		CResources::FnLoad<CTexture>(L"Noise03", L"..\\Resources\\noise\\noise_03.png");
 	}//END-void LoadTexture
 
 	void FnLoadMaterial()
@@ -756,8 +766,32 @@ namespace renderer
 		lightsBuffer->FnBindSRV(eShaderStage::PS, 13);
 	}//END-void FnBindLights
 
+	void FnBindNoiseTexture()
+	{
+		std::shared_ptr<CTexture> texture = CResources::FnFind<CTexture>(L"Noise01");
+
+		texture->FnBindShaderResource(eShaderStage::VS, 15);
+		texture->FnBindShaderResource(eShaderStage::HS, 15);
+		texture->FnBindShaderResource(eShaderStage::DS, 15);
+		texture->FnBindShaderResource(eShaderStage::GS, 15);
+		texture->FnBindShaderResource(eShaderStage::PS, 15);
+		texture->FnBindShaderResource(eShaderStage::CS, 15);
+
+		CConstantBuffer* cb = constantBuffer[(UINT)eCBType::Noise];
+		NoiseCB data = {};
+		data.size.x = texture->FnGetWidth();
+		data.size.y = texture->FnGetHeight();
+
+		cb->FnSetData(&data);
+		cb->FnBind(eShaderStage::VS);
+		cb->FnBind(eShaderStage::GS);
+		cb->FnBind(eShaderStage::PS);
+		cb->FnBind(eShaderStage::CS);
+	}//END-void FnBindNoiseTexture
+
 	void FnRender()
 	{
+		FnBindNoiseTexture();
 		FnBindLights();
 
 		for (CCamera* cam : cameras)

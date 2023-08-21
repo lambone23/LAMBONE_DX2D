@@ -45,9 +45,14 @@ namespace renderer
 	CBUFFER(ParticleCB, CBSLOT_PARTICLE)
 	{
 		UINT elementCount;
-		float elpasedTime;
-		int padd;
+		float elapsedTime;
+		float deltaTime;
 		int padd2;
+	};
+
+	CBUFFER(NoiseCB, CBSLOT_NOISE)
+	{
+		Vector4 size;
 	};
 
 	//extern Vertex vertexes[];

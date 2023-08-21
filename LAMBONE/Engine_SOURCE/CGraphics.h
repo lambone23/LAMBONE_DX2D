@@ -16,6 +16,7 @@
 #define CBSLOT_GRID				2
 #define CBSLOT_ANIMATION2D		3
 #define CBSLOT_PARTICLE			4
+#define CBSLOT_NOISE			5
 //#define CBSLOT_PARTICLE			1
 
 namespace yha::graphics
@@ -39,6 +40,7 @@ namespace yha::graphics
 		Grid,
 		Animator,
 		Particle,
+		Noise,
 		End,
 	};
 
