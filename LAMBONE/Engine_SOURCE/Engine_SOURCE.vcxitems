@@ -26,6 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CComputeShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CFmod.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFontWrapper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLight.h" />
@@ -72,6 +73,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CFmod.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFontWrapper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CInput.cpp" />

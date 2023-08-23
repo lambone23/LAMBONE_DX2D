@@ -130,6 +130,9 @@
     <Filter Include="00_Common\Resource\AudioClip">
       <UniqueIdentifier>{82563802-245c-450f-b612-6ee6188352b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="00_Common\Text">
+      <UniqueIdentifier>{8b8c0851-89bb-4983-ae77-125d351da148}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CResource.h">
@@ -258,6 +261,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CAudioClip.h">
       <Filter>00_Common\Resource\AudioClip</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFontWrapper.h">
+      <Filter>00_Common\Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CResource.cpp">
@@ -370,6 +376,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAudioClip.cpp">
       <Filter>00_Common\Resource\AudioClip</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFontWrapper.cpp">
+      <Filter>00_Common\Text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

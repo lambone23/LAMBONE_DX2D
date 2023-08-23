@@ -5,6 +5,7 @@
 #include "CSceneManager.h"
 #include "CCollisionManager.h"
 #include "CFmod.h"
+#include "CFontWrapper.h"
 #include <windowsx.h>
 
 namespace yha
@@ -35,6 +36,7 @@ namespace yha
 		CTime::FnInitiailize();
 		CInput::FnInitialize();
 		CFmod::FnInitialize();
+		CFontWrapper::FnInitialize();
 
 		renderer::FnInitialize();
 		CSceneManager::FnInitialize();
@@ -73,10 +75,12 @@ namespace yha
 
 	void CApplication::FnRender()
 	{
-		CTime::FnRender();
-
 		graphicDevice->FnClearTarget();
 		graphicDevice->FnUpdateViewPort();
+
+		CTime::FnRender();
+
+		CFontWrapper::FnDrawFont(L"Sample_Application", 100.f, 100.f, 100, FONT_RGBA(255, 255, 255, 255));
 
 		//CSceneManager::FnRender();
 		renderer::FnRender();

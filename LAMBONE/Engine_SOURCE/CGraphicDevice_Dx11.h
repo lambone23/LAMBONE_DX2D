@@ -76,6 +76,7 @@ namespace yha::graphics
 		void FnPresent();
 
 		ID3D11Device* FnGetID3D11Device() { return mDevice.Get(); }
+		ID3D11DeviceContext* FnGetID3D11DeviceContext() { return mContext.Get(); }
 
 	private:
 		Microsoft::WRL::ComPtr<ID3D11Device> mDevice;						// 실제 그래픽카드 하드웨어 객체

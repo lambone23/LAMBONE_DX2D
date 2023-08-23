@@ -7,6 +7,7 @@
 #include "..\Engine_SOURCE\CRenderer.h"
 #include "..\Engine_SOURCE\CResources.h"
 #include "..\Engine_SOURCE\CFmod.h"
+#include "..\Engine_SOURCE\CFontWrapper.h"
 
 //#include "CSceneManager.h"
 #include "LoadScenes.h"
@@ -88,6 +89,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     renderer::FnRelease();
     yha::CSceneManager::FnRelease();
     yha::CFmod::FnRelease();
+    yha::CFontWrapper::FnRelease();
     gui::Editor::FnRelease();
 
     return (int)msg.wParam;

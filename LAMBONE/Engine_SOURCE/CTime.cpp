@@ -1,6 +1,7 @@
 #include "CTime.h"
 #include "CApplication.h"
 #include "CSceneManager.h"
+#include "CFontWrapper.h"
 
 extern yha::CApplication MyApplication;
 extern yha::CSceneManager MySceneManager;
@@ -36,6 +37,7 @@ namespace yha
 	void CTime::FnRender()
 	{
 		mSecond += mDeltaTime;
+		wchar_t szFloat[50] = L"Sample_Time";
 
 		if (mSecond > 1.0f)
 		{
@@ -72,5 +74,7 @@ namespace yha
 			//TextOut(hdc, 0, 0, szFloat, 20);
 			mSecond = 0.0f;
 		}
+
+		CFontWrapper::FnDrawFont(szFloat, 10.f, 30.f, 20, FONT_RGBA(255, 0, 255, 255));
 	}
 }
