@@ -4,6 +4,7 @@
 #include "CRenderer.h"
 #include "CSceneManager.h"
 #include "CCollisionManager.h"
+#include "CFmod.h"
 #include <windowsx.h>
 
 namespace yha
@@ -33,6 +34,7 @@ namespace yha
 	{
 		CTime::FnInitiailize();
 		CInput::FnInitialize();
+		CFmod::FnInitialize();
 
 		renderer::FnInitialize();
 		CSceneManager::FnInitialize();

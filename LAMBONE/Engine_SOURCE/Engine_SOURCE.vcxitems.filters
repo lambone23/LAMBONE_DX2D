@@ -67,44 +67,11 @@
     <Filter Include="00_Common\Resource\Texture">
       <UniqueIdentifier>{60063b9c-c69e-4744-aeef-754220eadfcb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\1_Transform">
-      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\2_Mesh %28Resource%29">
-      <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\0_Base">
-      <UniqueIdentifier>{0d113f36-e56b-47e1-86e5-0480614df306}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00_Common\Object">
       <UniqueIdentifier>{b7e2b2f3-7cac-4a9c-8dec-8ae7bd0c07b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05_Component\4_Particle">
-      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\5_MeshRenderer">
-      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\3_Collider2D">
-      <UniqueIdentifier>{532548d4-cf63-4429-9c20-c7df620bd68d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\3_Collider2D\Manager">
-      <UniqueIdentifier>{ffc5bfd3-abb8-4869-949a-4e78b9900eb9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\7_Script">
-      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\6_Animator">
-      <UniqueIdentifier>{ce1b7a51-8d26-4575-a7ff-48088e5e26cc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="00_Common\Resource\Animation">
       <UniqueIdentifier>{12100713-5217-4bb2-9073-8c67e20dbcbc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\9_Camera">
-      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05_Component\8_Light">
-      <UniqueIdentifier>{e0bf69b0-dc0b-4547-b172-b05f1a633726}</UniqueIdentifier>
     </Filter>
     <Filter Include="00_Common\Graphics\StructedBuffer">
       <UniqueIdentifier>{470abeba-5463-41ce-9545-db2ad514f68a}</UniqueIdentifier>
@@ -117,6 +84,51 @@
     </Filter>
     <Filter Include="00_Common\Resource\Shader\ParticleShader">
       <UniqueIdentifier>{87d16930-2607-4644-9112-b407b04bff6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Sound">
+      <UniqueIdentifier>{154a65a6-33c5-4908-a404-805d44af956f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\00_Base">
+      <UniqueIdentifier>{0d113f36-e56b-47e1-86e5-0480614df306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\01_Transform">
+      <UniqueIdentifier>{dd4017f0-a75c-437d-9799-d1f1e71c536d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\02_Mesh %28Resource%29">
+      <UniqueIdentifier>{c715d5be-90e1-4e6e-8631-a7d9d50df605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\03_Collider2D">
+      <UniqueIdentifier>{532548d4-cf63-4429-9c20-c7df620bd68d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\03_Collider2D\Manager">
+      <UniqueIdentifier>{ffc5bfd3-abb8-4869-949a-4e78b9900eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\04_Particle">
+      <UniqueIdentifier>{a5524231-e377-4e42-a3f4-28637d2b384d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\05_MeshRenderer">
+      <UniqueIdentifier>{e1ef3602-6774-4237-81f4-458b81d17712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\06_Animator">
+      <UniqueIdentifier>{ce1b7a51-8d26-4575-a7ff-48088e5e26cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\07_Script">
+      <UniqueIdentifier>{6c52e0ba-797d-444c-9441-57f6cf8ecd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\08_Light">
+      <UniqueIdentifier>{e0bf69b0-dc0b-4547-b172-b05f1a633726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\09_Camera">
+      <UniqueIdentifier>{c94a1636-3123-4b50-b2d6-edf9ef399c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\10_AudioListener">
+      <UniqueIdentifier>{9ae4fc3b-2bd3-4d8a-b6e0-939c24bf096c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05_Component\11_AudioSource">
+      <UniqueIdentifier>{bc8fa09e-7d25-42a6-b491-b79bf0dc50bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00_Common\Resource\AudioClip">
+      <UniqueIdentifier>{82563802-245c-450f-b612-6ee6188352b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -172,13 +184,13 @@
       <Filter>00_Common\Graphics\ConstantBuffer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTransform.h">
-      <Filter>05_Component\1_Transform</Filter>
+      <Filter>05_Component\01_Transform</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScene.h">
       <Filter>02_Scene\Base</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CMeshRenderer.h">
-      <Filter>05_Component\5_MeshRenderer</Filter>
+      <Filter>05_Component\05_MeshRenderer</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CTexture.h">
       <Filter>00_Common\Resource\Texture</Filter>
@@ -187,16 +199,16 @@
       <Filter>00_Common\Resource\Material</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CScript.h">
-      <Filter>05_Component\7_Script</Filter>
+      <Filter>05_Component\07_Script</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h">
-      <Filter>05_Component\9_Camera</Filter>
+      <Filter>05_Component\09_Camera</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.h">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h">
-      <Filter>05_Component\0_Base</Filter>
+      <Filter>05_Component\00_Base</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CSceneManager.h">
       <Filter>02_Scene\Manager</Filter>
@@ -205,19 +217,19 @@
       <Filter>00_Common\Object</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollider2D.h">
-      <Filter>05_Component\3_Collider2D</Filter>
+      <Filter>05_Component\03_Collider2D</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h">
-      <Filter>05_Component\3_Collider2D\Manager</Filter>
+      <Filter>05_Component\03_Collider2D\Manager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimator.h">
-      <Filter>05_Component\6_Animator</Filter>
+      <Filter>05_Component\06_Animator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimation.h">
       <Filter>00_Common\Resource\Animation</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CLight.h">
-      <Filter>05_Component\8_Light</Filter>
+      <Filter>05_Component\08_Light</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CStructedBuffer.h">
       <Filter>00_Common\Graphics\StructedBuffer</Filter>
@@ -229,10 +241,22 @@
       <Filter>00_Common\Resource\Shader\PaintShader</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CParticleSystem.h">
-      <Filter>05_Component\4_Particle</Filter>
+      <Filter>05_Component\04_Particle</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CParticleShader.h">
       <Filter>00_Common\Resource\Shader\ParticleShader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFmod.h">
+      <Filter>00_Common\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAudioListener.h">
+      <Filter>05_Component\10_AudioListener</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAudioSource.h">
+      <Filter>05_Component\11_AudioSource</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAudioClip.h">
+      <Filter>00_Common\Resource\AudioClip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,13 +300,13 @@
       <Filter>00_Common\Graphics\ConstantBuffer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTransform.cpp">
-      <Filter>05_Component\1_Transform</Filter>
+      <Filter>05_Component\01_Transform</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScene.cpp">
       <Filter>02_Scene\Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CMeshRenderer.cpp">
-      <Filter>05_Component\5_MeshRenderer</Filter>
+      <Filter>05_Component\05_MeshRenderer</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CTexture.cpp">
       <Filter>00_Common\Resource\Texture</Filter>
@@ -291,34 +315,34 @@
       <Filter>00_Common\Resource\Material</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CScript.cpp">
-      <Filter>05_Component\7_Script</Filter>
+      <Filter>05_Component\07_Script</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp">
-      <Filter>05_Component\9_Camera</Filter>
+      <Filter>05_Component\09_Camera</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp">
       <Filter>00_Common\Graphics\GraphicDevice</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CComponent.cpp">
-      <Filter>05_Component\0_Base</Filter>
+      <Filter>05_Component\00_Base</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CSceneManager.cpp">
       <Filter>02_Scene\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollider2D.cpp">
-      <Filter>05_Component\3_Collider2D</Filter>
+      <Filter>05_Component\03_Collider2D</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp">
-      <Filter>05_Component\3_Collider2D\Manager</Filter>
+      <Filter>05_Component\03_Collider2D\Manager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimator.cpp">
-      <Filter>05_Component\6_Animator</Filter>
+      <Filter>05_Component\06_Animator</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp">
       <Filter>00_Common\Resource\Animation</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CLight.cpp">
-      <Filter>05_Component\8_Light</Filter>
+      <Filter>05_Component\08_Light</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CStructedBuffer.cpp">
       <Filter>00_Common\Graphics\StructedBuffer</Filter>
@@ -330,10 +354,22 @@
       <Filter>00_Common\Resource\Shader\PaintShader</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CParticleSystem.cpp">
-      <Filter>05_Component\4_Particle</Filter>
+      <Filter>05_Component\04_Particle</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CParticleShader.cpp">
       <Filter>00_Common\Resource\Shader\ParticleShader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFmod.cpp">
+      <Filter>00_Common\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAudioListener.cpp">
+      <Filter>05_Component\10_AudioListener</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAudioSource.cpp">
+      <Filter>05_Component\11_AudioSource</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAudioClip.cpp">
+      <Filter>00_Common\Resource\AudioClip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

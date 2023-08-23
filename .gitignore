@@ -400,4 +400,9 @@ FodyWeavers.xsd
 *.sln.iml
 
 # exception
-!/External/
+!LAMBONE/External/DirectXTex/Lib/Debug/
+!LAMBONE/External/DirectXTex/Lib/Release/
+!LAMBONE/External/Fmod/Library/Debug/
+!LAMBONE/External/Fmod/Library/Release/
+!LAMBONE/External/FW1FontWrapper/Library/Debug/
+!LAMBONE/External/FW1FontWrapper/Library/Release/

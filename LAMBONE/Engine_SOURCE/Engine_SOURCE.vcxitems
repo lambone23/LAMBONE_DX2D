@@ -16,12 +16,16 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimation.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CAnimator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAudioClip.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAudioListener.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CAudioSource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollider2D.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CCollisionManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CComputeShader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CConstantBuffer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CFmod.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CGameObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CLight.h" />
@@ -57,6 +61,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimation.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CAnimator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CApplication.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAudioClip.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAudioListener.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CAudioSource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollider2D.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CCollisionManager.cpp" />
@@ -64,6 +71,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CComputeShader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CConstantBuffer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CEntity.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CFmod.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CGameObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CGraphicDevice_Dx11.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CInput.cpp" />

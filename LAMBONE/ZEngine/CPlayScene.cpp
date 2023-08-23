@@ -18,6 +18,10 @@
 #include "CPaintShader.h"
 #include "CParticleSystem.h"
 
+#include "CAudioListener.h"
+#include "CAudioClip.h"
+#include "CAudioSource.h"
+
 #include "CApplication.h"
 #include <tchar.h>
 
@@ -109,12 +113,19 @@ namespace yha
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteMaterial02"));
 
-			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 1.0f)); // (Vector3(0.2f, 0.0f, 0.0f));
+			player->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, -9.0f)); //Vector3(0.0f, 0.0f, 1.0f) //Vector3(0.2f, 0.0f, 0.0f);
 			//player->AddComponent<CameraScript>();
 
 			CCollider2D* cd = player->FnAddComponent<CCollider2D>();
 			//cd->SetSize(Vector2(1.2f, 1.2f));
 			//player->FnAddComponent<CPlayerScript>();
+
+			//-------------------------------------
+			// Sound - CAudioSource & CAudioClip
+			//-------------------------------------
+			CAudioSource* as = player->FnAddComponent<CAudioSource>();
+			as->FnSetClip(CResources::FnLoad<CAudioClip>(L"TestSound", L"..\\Resources\\Sound\\0.mp3"));
+			as->FnPlay();
 		}
 
 		//{// Smile [UI]
@@ -184,6 +195,11 @@ namespace yha
 
 			renderer::cameras.push_back(cameraComp);
 			renderer::mainCamera = cameraComp;
+
+			//-------------------------------------
+			// Sound - CAudioListener
+			//-------------------------------------
+			camera->FnAddComponent<CAudioListener>();
 		}
 
 		//{// UI Camera - [OFF : Player / ON : UI] - Move[X]
