@@ -28,5 +28,11 @@ namespace yha
 
 		CGameObject* mBG;
 		CGameObject* mlight;
+
+		float mChkSecond;
+
+		CGameObject* mUI_Loading_Floor;
+		CGameObject* mUI_Loading_Grass;
+		CGameObject* mUI_Loading_Tag;
 	};
 }

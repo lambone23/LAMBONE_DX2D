@@ -80,6 +80,9 @@
     <ClInclude Include="CPlayerScript.h">
       <Filter>Contents\Script\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\Engine_SOURCE\CCommon.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">

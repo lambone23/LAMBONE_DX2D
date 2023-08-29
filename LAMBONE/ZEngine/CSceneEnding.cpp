@@ -1,24 +1,13 @@
 #include "CSceneEnding.h"
 
-#include "CGameObject.h"
-#include "CInput.h"
-#include "CTransform.h"
-#include "CMeshRenderer.h"
-#include "CResources.h"
-#include "CCamera.h"
-#include "CSceneManager.h"
-#include "CApplication.h"
-#include "CObject.h"
-#include "CRenderer.h"
-#include "CCameraScript.h"
-
-extern yha::CApplication MyApplication;
+#include "CCommon.h"
 
 namespace yha
 {
 	CSceneEnding::CSceneEnding()
 		: mCamera(nullptr)
 		, mBG(nullptr)
+		, mlight(nullptr)
 	{
 	}
 	CSceneEnding::~CSceneEnding()
@@ -38,15 +27,29 @@ namespace yha
 		renderer::mainCamera = cameraComp;
 
 		//==================================================================
+		// Light
+		//==================================================================
+		mlight = new CGameObject();
+		mlight->FnSetName(L"Light_Directional");
+		FnAddGameObject(eLayerType::Light, mlight);
+		CLight* lightComp = mlight->FnAddComponent<CLight>();
+		lightComp->FnSetType(eLightType::Directional);
+		lightComp->FnSetColor(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+		//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+		mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+		// 
+		//==================================================================
 		// BG
 		//==================================================================
 		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.0f), eLayerType::BG);
 
 		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Ending"));
+		//mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Ending_Win"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Ending_Lose"));
 
-		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
+		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(CApplication::FnGetScaleFullWidth(), CApplication::FnGetScaleFullHeight(), 0.f));
 	}
 
 	void CSceneEnding::FnInitialize()
@@ -78,5 +81,6 @@ namespace yha
 	{
 		object::FnDestroy(mCamera);
 		object::FnDestroy(mBG);
+		object::FnDestroy(mlight);
 	}
 }

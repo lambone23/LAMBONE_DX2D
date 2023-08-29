@@ -25,5 +25,6 @@ namespace yha
 	private:
 		CGameObject* mCamera;
 		CGameObject* mBG;
+		CGameObject* mlight;
 	};
 }

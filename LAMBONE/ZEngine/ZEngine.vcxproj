@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Engine_SOURCE\CCommon.h" />
     <ClInclude Include="CCameraScript.h" />
     <ClInclude Include="CGridScript.h" />
     <ClInclude Include="CPlayerScript.h" />

@@ -27,15 +27,6 @@ namespace yha
 		CGameObject* mBG;
 		CGameObject* mlight;
 
-		CGameObject* player;
-		CGameObject* monster;
-		CGameObject* mUI_FlagMeterParts_Zombie;
-		CGameObject* mUI_FlagMeterParts_Flag;
-		CGameObject* mPl_Chomper;
-
-		//==================================================================
-		// Zombies
-		//==================================================================
-		CGameObject* mZb_NormalZombie;
+		float mChkSecond;
 	};
 }

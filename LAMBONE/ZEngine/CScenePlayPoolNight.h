@@ -13,5 +13,14 @@ namespace yha
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
+
+	public:
+		virtual void FnOnEnter() override;
+		virtual void FnOnExit() override;
+
+	private:
+		CGameObject* mCamera;
+		CGameObject* mBG;
+		CGameObject* mlight;
 	};
 }

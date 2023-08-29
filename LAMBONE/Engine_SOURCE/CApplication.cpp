@@ -80,7 +80,7 @@ namespace yha
 
 		CTime::FnRender();
 
-		CFontWrapper::FnDrawFont(L"Sample_Application", 100.f, 100.f, 100, FONT_RGBA(255, 255, 255, 255));
+		//CFontWrapper::FnDrawFont(L"Sample_Application", 100.f, 100.f, 100, FONT_RGBA(255, 255, 255, 255));
 
 		//CSceneManager::FnRender();
 		renderer::FnRender();

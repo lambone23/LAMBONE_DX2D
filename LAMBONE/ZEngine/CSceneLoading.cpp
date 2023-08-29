@@ -1,19 +1,6 @@
 #include "CSceneLoading.h"
 
-#include "CGameObject.h"
-#include "CInput.h"
-#include "CTransform.h"
-#include "CMeshRenderer.h"
-#include "CResources.h"
-#include "CCamera.h"
-#include "CSceneManager.h"
-#include "CApplication.h"
-#include "CObject.h"
-#include "CRenderer.h"
-#include "CCameraScript.h"
-#include "CLight.h"
-
-extern yha::CApplication MyApplication;
+#include "CCommon.h"
 
 namespace yha
 {
@@ -22,6 +9,7 @@ namespace yha
 		, mCamera_UI(nullptr)
 		, mBG(nullptr)
 		, mlight(nullptr)
+		, mChkSecond(0.f)
 	{
 	}
 	CSceneLoading::~CSceneLoading()
@@ -55,15 +43,6 @@ namespace yha
 		//mCamera_UI->FnAddComponent<CCameraScript>();
 
 		//==================================================================
-		// BG
-		//==================================================================
-		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.0f), eLayerType::BG);
-		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Loading"));
-		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
-
-		//==================================================================
 		// Light
 		//==================================================================
 		mlight = new CGameObject();
@@ -75,6 +54,36 @@ namespace yha
 		//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
 		mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+
+		//==================================================================
+		// BG
+		//==================================================================
+		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.999f), eLayerType::BG);
+		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_Loading"));
+		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(CApplication::FnGetScaleFullWidth(), CApplication::FnGetScaleFullHeight(), 0.f));
+
+		//==================================================================
+		// Loading Progress Bar
+		//==================================================================
+		mUI_Loading_Floor = object::FnInstantiate<CGameObject>(Vector3(0.0f, -1.5f, 0.010f), eLayerType::UI);
+		mr = mUI_Loading_Floor->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Loading_Floor"));
+		mUI_Loading_Floor->FnGetComponent<CTransform>()->FnSetScale(Vector3(3.f, (53.f * 3.f) / 320.f, 0.f));
+
+		mUI_Loading_Grass = object::FnInstantiate<CGameObject>(Vector3(0.0f, -1.3f, 0.009f), eLayerType::UI);
+		mr = mUI_Loading_Grass->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Loading_Grass"));
+		mUI_Loading_Grass->FnGetComponent<CTransform>()->FnSetScale(Vector3(3.f, (27.f * 3.f) / 310.f, 0.f));
+
+		mUI_Loading_Tag = object::FnInstantiate<CGameObject>(Vector3(0.0f, -0.9f, 0.008f), eLayerType::UI);
+		mr = mUI_Loading_Tag->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Loading_Tag"));
+		mUI_Loading_Tag->FnGetComponent<CTransform>()->FnSetScale(Vector3(1.f, (73.f * 1.f) / 73.f, 0.f));
 	}
 
 	void CSceneLoading::FnInitialize()
@@ -83,8 +92,22 @@ namespace yha
 
 	void CSceneLoading::FnUpdate()
 	{
+		//==================================================================
+		// Way1 - Load NextScene
+		//==================================================================
 		if (CInput::FnGetKeyDown(eKeyCode::N))
 			CSceneManager::FnLoadScene(L"Scene_MainMenu");
+
+		//==================================================================
+		// Way2 - Load NextScene
+		//==================================================================
+		//mChkSecond += CTime::FnDeltaTime();
+
+		//if (mChkSecond > 2.0f)
+		//{
+		//	//object::FnDestroy(mBG);
+		//	CSceneManager::FnLoadScene(L"Scene_MainMenu");
+		//}
 
 		CScene::FnUpdate();
 	}
@@ -99,6 +122,7 @@ namespace yha
 
 	void CSceneLoading::FnOnEnter()
 	{
+		mChkSecond = 0.f;
 		FnDoInitialize();
 	}
 

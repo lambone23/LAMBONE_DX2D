@@ -29,6 +29,9 @@ namespace yha
 		UINT FnGetHeight() { return mHeight; }
 		HWND FnGetHwnd() { return mHwnd; }
 
+		static float FnGetScaleFullWidth() { return 8.f; }
+		static float FnGetScaleFullHeight() { return 4.5f; }
+
 	private:
 		bool mbInitialize = false;
 		// 오로지 한개의 객체만 만들수 있는 스마트 포인터
@@ -40,11 +43,6 @@ namespace yha
 		UINT mHeight;
 
 	public:
-		bool mFlagMyGame = false;
-
-		float ScaleWidth = 8.0f;
-		float ScaleHeight = 4.5f;
-
-		bool mFlagChkFirst = true;
+		bool mFlagMyGame = true;
 	};
 }

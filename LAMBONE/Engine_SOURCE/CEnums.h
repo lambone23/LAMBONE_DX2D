@@ -46,6 +46,7 @@ namespace yha::enums
 		Monster,
 		Light,
 		UI,
+		UI2,
 		End = 16,
 	};
 
@@ -100,6 +101,31 @@ namespace yha::enums
 		None,
 		Nearby,
 		Far,
+		End,
+	};
+
+	enum class eDirection
+	{
+		Right,
+		Left,
+		End,
+	};
+
+	enum class ePlantsType
+	{
+		SunFlower,
+		PeaShooter,
+		WallNut,
+		Chomper,
+		Jalapeno,
+		CherryBomb,
+		End,
+	};
+
+	enum class eStepMode
+	{
+		Choose,
+		Play,
 		End,
 	};
 

@@ -37,7 +37,7 @@ namespace yha
 	void CTime::FnRender()
 	{
 		mSecond += mDeltaTime;
-		wchar_t szFloat[50] = L"Sample_Time";
+		//wchar_t szFloat[50] = L"Sample_Time";
 
 		if (mSecond > 1.0f)
 		{
@@ -75,6 +75,6 @@ namespace yha
 			mSecond = 0.0f;
 		}
 
-		CFontWrapper::FnDrawFont(szFloat, 10.f, 30.f, 20, FONT_RGBA(255, 0, 255, 255));
+		//CFontWrapper::FnDrawFont(szFloat, 10.f, 30.f, 20, FONT_RGBA(255, 0, 255, 255));
 	}
 }

@@ -74,4 +74,8 @@ namespace renderer
 	void FnRelease();
 
 	void FnPushDebugMeshAttribute(DebugMesh mesh);
+
+	void FnLoadMaterial_BG();
+	void FnLoadMaterial_UI();
+	void FnLoadMaterial_Cards();
 }

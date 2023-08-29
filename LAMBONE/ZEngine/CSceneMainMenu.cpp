@@ -1,19 +1,6 @@
 #include "CSceneMainMenu.h"
 
-#include "CGameObject.h"
-#include "CInput.h"
-#include "CTransform.h"
-#include "CMeshRenderer.h"
-#include "CResources.h"
-#include "CCamera.h"
-#include "CSceneManager.h"
-#include "CApplication.h"
-#include "CObject.h"
-#include "CRenderer.h"
-#include "CCameraScript.h"
-#include "CLight.h"
-
-extern yha::CApplication MyApplication;
+#include "CCommon.h"
 
 namespace yha
 {
@@ -56,15 +43,6 @@ namespace yha
 		//mCamera_UI->FnAddComponent<CCameraScript>();
 
 		//==================================================================
-		// BG
-		//==================================================================
-		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.999f), eLayerType::BG);
-		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_MainMenu"));
-		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(MyApplication.ScaleWidth, MyApplication.ScaleHeight, 0.f));
-
-		//==================================================================
 		// Light
 		//==================================================================
 		mlight = new CGameObject();
@@ -76,6 +54,15 @@ namespace yha
 		//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
 		mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 		//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+
+		//==================================================================
+		// BG
+		//==================================================================
+		mBG = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, 0.999f), eLayerType::BG);
+		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_MainMenu"));
+		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(CApplication::FnGetScaleFullWidth(), CApplication::FnGetScaleFullHeight(), 0.f));
 
 		//==================================================================
 		// UI

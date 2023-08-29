@@ -1,27 +1,16 @@
+/* 
+	************
+	* Flow
+	************
+	0. Main Camera Move to RIGHT
+	1. Choose Plants
+	2. Main Camera Move to LEFT
+	3. Play
+*/
+
 #include "CScenePlayGrassDay.h"
 
-#include "CGameObject.h"
-#include "CInput.h"
-#include "CTransform.h"
-#include "CMeshRenderer.h"
-#include "CResources.h"
-#include "CCamera.h"
-#include "CSceneManager.h"
-#include "CApplication.h"
-#include "CGridScript.h"
-#include "CObject.h"
-#include "CRenderer.h"
-#include "CCameraScript.h"
-#include "CTime.h"
-#include "CComponent.h"
-#include "CCollider2D.h"
-#include "CPlayerScript.h"
-#include "CCollisionManager.h"
-#include "CAnimator.h"
-#include "CLight.h"
-#include "CComputeShader.h"
-#include "CPaintShader.h"
-#include "CParticleSystem.h"
+#include "CCommon.h"
 
 extern yha::CApplication MyApplication;
 
@@ -31,8 +20,10 @@ namespace yha
 		: mCamera_Main(nullptr)
 		, mCamera_UI(nullptr)
 		, mBG(nullptr)
+		, mCntPickedCard(0)
 	{
 	}
+
 	CScenePlayGrassDay::~CScenePlayGrassDay()
 	{
 	}
@@ -58,8 +49,8 @@ namespace yha
 		mCamera_Main = object::FnInstantiate<CGameObject>(Vector3(0.0f, 0.0f, -10.0f), eLayerType::Camera);
 		cameraComp = mCamera_Main->FnAddComponent<CCamera>();
 		cameraComp->FnTurnLayerMask(eLayerType::UI, false);
+		cameraComp->FnTurnLayerMask(eLayerType::UI2, false);
 		mCamera_Main->FnAddComponent<CCameraScript>();
-
 		renderer::cameras.push_back(cameraComp);
 		renderer::mainCamera = cameraComp;
 
@@ -75,14 +66,38 @@ namespace yha
 		//mCamera_UI->FnAddComponent<CCameraScript>();
 
 		//==================================================================
+		// Light [Directional]
+		//==================================================================
+		mlight = new CGameObject();
+		mlight->FnSetName(L"Light_Directional");
+		FnAddGameObject(eLayerType::Light, mlight);
+		CLight* lightComp = mlight->FnAddComponent<CLight>();
+		lightComp->FnSetType(eLightType::Directional);
+		lightComp->FnSetColor(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+		//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+		mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
+		//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+
+		//{// Light [Point]
+		//	CGameObject* light = new CGameObject();
+		//	light->FnSetName(L"Light_Point");
+		//	FnAddGameObject(eLayerType::Light, light);
+		//	CLight* lightComp = light->FnAddComponent<CLight>();
+		//	lightComp->FnSetType(eLightType::Point);
+		//	lightComp->FnSetColor(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+		//	lightComp->FnSetRadius(3.0f);
+
+		//	light->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.0f, -1.0f, 0.0f));
+		//	CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+		//}
+
+		//==================================================================
 		// BG
 		//==================================================================
 		mBG = object::FnInstantiate<CGameObject>(Vector3(1.5f, 0.0f, 0.999f), eLayerType::BG);
-
 		CMeshRenderer* mr = mBG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"BG_GrassDay"));
-
 		//mBG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.5f, 0.0f, 0.999f));
 		mBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(11.f, 33.f / 7.f, 0.f));
 
@@ -102,173 +117,320 @@ namespace yha
 		//}
 
 		//==================================================================
-		// Light
-		//==================================================================
-		{// Light [Directional]
-			mlight = new CGameObject();
-			mlight->FnSetName(L"Light_Directional");
-			FnAddGameObject(eLayerType::Light, mlight);
-			CLight* lightComp = mlight->FnAddComponent<CLight>();
-			lightComp->FnSetType(eLightType::Directional);
-			lightComp->FnSetColor(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
-			//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
-
-			mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
-			//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
-		}
-
-		//{// Light [Point]
-		//	CGameObject* light = new CGameObject();
-		//	light->FnSetName(L"Light_Point");
-		//	FnAddGameObject(eLayerType::Light, light);
-		//	CLight* lightComp = light->FnAddComponent<CLight>();
-		//	lightComp->FnSetType(eLightType::Point);
-		//	lightComp->FnSetColor(Vector4(0.0f, 0.0f, 1.0f, 1.0f));
-		//	lightComp->FnSetRadius(3.0f);
-
-		//	light->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.0f, -1.0f, 0.0f));
-		//	CCollider2D* cd = light->FnAddComponent<CCollider2D>();
-		//}
-
-#pragma region Resource_UI
-		//==================================================================
 		// UI
 		//==================================================================
+#pragma region Resource_UI
+		//-------------------------------------
+		// Choose Plants
+		//-------------------------------------
 		// UI_SeedChooserBG
-		mUI_SeedChooserBG = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
+		mUI_SeedChooserBG = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_SeedChooserBG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_SeedChooserBG"));
 		mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(3.5f, 28.f / 7.f, 0.f));
 
 		// UI_btn_Play
-		mUI_btn_Play = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
+		mUI_btn_Play = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_btn_Play->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_Play"));
 		mUI_btn_Play->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (80.f * 0.8f) / 180.f, 0.f));
 
-		// mUI_SunPointChk
-		mUI_SunPointChk = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
+		// UI_btn_Play_Disabled
+		mUI_btn_Play_Disabled = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mUI_btn_Play_Disabled->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_Play_Disabled"));
+		mUI_btn_Play_Disabled->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (80.f * 0.8f) / 180.f, 0.f));
+
+		// UI_btn_ResetChoose
+		mUI_btn_ResetChoose = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mUI_btn_ResetChoose->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_ResetChoose"));
+		mUI_btn_ResetChoose->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.25f, (53.f * 0.25f) / 55.f, 0.f));
+
+		//-------------------------------------
+		// Play
+		//-------------------------------------
+		// UI_SunPointChk
+		mUI_SunPointChk = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_SunPointChk->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_SunPointChk"));
 		mUI_SunPointChk->FnGetComponent<CTransform>()->FnSetScale(Vector3(1.5f, (34.f * 1.5f) / 123.f, 0.f));
 
 		// UI_ShovelBG
-		mUI_ShovelBG = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
+		mUI_ShovelBG = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_ShovelBG->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_ShovelBG"));
 		mUI_ShovelBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.4f, (72.f * 0.4f) / 70.f, 0.f));
 
 		// UI_Shovel
-		mUI_Shovel = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.009f), eLayerType::UI);
+		mUI_Shovel = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_Shovel->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Shovel"));
 		mUI_Shovel->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.35f, (125.f * 0.35f) / 116.f, 0.f));
 
-		// UI_btn_Menu
-		mUI_btn_Menu = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mUI_btn_Menu->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_Menu"));
-		mUI_btn_Menu->FnGetComponent<CTransform>()->FnSetScale(Vector3(1.33f, (48.f * 1.33f) / 120.f, 0.f));
-
 		// UI_FlagMeterEmpty
-		mUI_FlagMeterEmpty = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
+		mUI_FlagMeterEmpty = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_FlagMeterEmpty->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_FlagMeterEmpty"));
 		mUI_FlagMeterEmpty->FnGetComponent<CTransform>()->FnSetScale(Vector3(2.5f, (21.f * 2.5f) / 157.f, 0.f));
 
 		// UI_FlagMeterParts_Zombie
-		mUI_FlagMeterParts_Zombie = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.008f), eLayerType::UI);
+		mUI_FlagMeterParts_Zombie = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_FlagMeterParts_Zombie->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_FlagMeterParts_Zombie"));
 		mUI_FlagMeterParts_Zombie->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.4f, (25.f * 0.4f) / 25.f, 0.f));
 
 		// UI_FlagMeterParts_Flag
-		mUI_FlagMeterParts_Flag = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.009f), eLayerType::UI);
+		mUI_FlagMeterParts_Flag = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_FlagMeterParts_Flag->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_FlagMeterParts_Flag"));
 		mUI_FlagMeterParts_Flag->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.4f, (41.f * 0.4f) / 38.f, 0.f));
 
 		// UI_FlagMeterParts_FlagFin
-		mUI_FlagMeterParts_FlagFin = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.009f), eLayerType::UI);
+		mUI_FlagMeterParts_FlagFin = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mUI_FlagMeterParts_FlagFin->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_FlagMeterParts_Flag"));
 		mUI_FlagMeterParts_FlagFin->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.4f, (41.f * 0.4f) / 38.f, 0.f));
 
+		// UI_btn_Menu
+		mUI_btn_Menu = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mUI_btn_Menu->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_btn_Menu"));
+		mUI_btn_Menu->FnGetComponent<CTransform>()->FnSetScale(Vector3(1.33f, (48.f * 1.33f) / 120.f, 0.f));
+
+		// UI_SelectedCard
+		mUI_SelectedCard = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI2);
+		mr = mUI_SelectedCard->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_SelectedCard"));
+		mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetScale(Vector3(1.f, (177.f * 0.3f) / 108.f, 0.f));
+
+		// UI_SelectedShovel
+		mUI_SelectedShovel = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI2);
+		mr = mUI_SelectedShovel->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_SelectedCard"));
+		mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.5f, (177.f * 0.3f) / 108.f, 0.f));
+#pragma endregion
+
+		//==================================================================
+		// UI Cards
+		//==================================================================
+#pragma region Resource_UI_Cards
+		//-------------------------------------
+		// Card_EmptySpace
+		//-------------------------------------
+		mCard_EmptySpace1 = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_EmptySpace1->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_EmptySpace"));
+		mCard_EmptySpace1->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.9f, (96.f * 0.8f) / 153.f, 0.f));
+
+		mCard_EmptySpace2 = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_EmptySpace2->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_EmptySpace"));
+		mCard_EmptySpace2->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.9f, (96.f * 0.8f) / 153.f, 0.f));
+
+		mCard_EmptySpace3 = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_EmptySpace3->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_EmptySpace"));
+		mCard_EmptySpace3->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.9f, (96.f * 0.8f) / 153.f, 0.f));
+
+		mCard_EmptySpace4 = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_EmptySpace4->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_EmptySpace"));
+		mCard_EmptySpace4->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.9f, (96.f * 0.8f) / 153.f, 0.f));
+
+		mCard_EmptySpace5 = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_EmptySpace5->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_EmptySpace"));
+		mCard_EmptySpace5->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.9f, (96.f * 0.8f) / 153.f, 0.f));
+
+		//-------------------------------------
+		// Card_Plants
+		//-------------------------------------
 		// Card_SunFlower
-		mCard_SunFlower = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
+		mCard_SunFlower = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
 		mr = mCard_SunFlower->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mCard_SunFlower->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower2 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower2->FnAddComponent<CMeshRenderer>();
+		// Card_PeaShooter
+		mCard_PeaShooter = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_PeaShooter->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_PeaShooter"));
+		mCard_PeaShooter->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		// Card_WallNut
+		mCard_WallNut = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_WallNut->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_WallNut"));
+		mCard_WallNut->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		// Card_Chomper
+		mCard_Chomper = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Chomper->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_Chomper"));
+		mCard_Chomper->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		// Card_Jalapeno
+		mCard_Jalapeno = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Jalapeno->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_Jalapeno"));
+		mCard_Jalapeno->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		// Card_CherryBomb
+		mCard_CherryBomb = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_CherryBomb->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_CherryBomb"));
+		mCard_CherryBomb->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		//-------------------------------------
+		// Card_Picked
+		//-------------------------------------
+		// Card_SunFlower
+		mCard_Picked_SunFlower = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_SunFlower->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
 		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower2->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower3 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower3->FnAddComponent<CMeshRenderer>();
+		// Card_PeaShooter
+		mCard_Picked_PeaShooter = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_PeaShooter->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower3->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_PeaShooter"));
+		mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower4 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower4->FnAddComponent<CMeshRenderer>();
+		// Card_WallNut
+		mCard_Picked_WallNut = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_WallNut->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower4->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_WallNut"));
+		mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower5 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower5->FnAddComponent<CMeshRenderer>();
+		// Card_Chomper
+		mCard_Picked_Chomper = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_Chomper->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower5->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_Chomper"));
+		mCard_Picked_Chomper->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower6 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower6->FnAddComponent<CMeshRenderer>();
+		// Card_Jalapeno
+		mCard_Picked_Jalapeno = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_Jalapeno->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower6->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_Jalapeno"));
+		mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower7 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower7->FnAddComponent<CMeshRenderer>();
+		// Card_CherryBomb
+		mCard_Picked_CherryBomb = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_CherryBomb->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower7->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_CherryBomb"));
+		mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		mCard_SunFlower8 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.010f), eLayerType::UI);
-		mr = mCard_SunFlower8->FnAddComponent<CMeshRenderer>();
+		//-------------------------------------
+		// Card_Picked_Disalbed
+		//-------------------------------------
+		// Card_SunFlower_Disalbed
+		mCard_Picked_SunFlower_Disalbed = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_SunFlower_Disalbed->FnAddComponent<CMeshRenderer>();
 		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower"));
-		mCard_SunFlower8->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.8f, (60.f * 0.8f) / 100.f, 0.f));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_SunFlower_Disabled"));
+		mCard_Picked_SunFlower_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		//mCard_Peashooter = new CGameObject();
-		//FnAddGameObject(eLayerType::UI, mCard_Peashooter);
+		// Card_PeaShooter_Disalbed
+		mCard_Picked_PeaShooter_Disalbed = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_PeaShooter_Disalbed->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_PeaShooter_Disabled"));
+		mCard_Picked_PeaShooter_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		//mCard_WallNut = new CGameObject();
-		//FnAddGameObject(eLayerType::UI, mCard_WallNut);
+		// Card_WallNut_Disalbed
+		mCard_Picked_WallNut_Disalbed = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_WallNut_Disalbed->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_WallNut_Disabled"));
+		mCard_Picked_WallNut_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 
-		//mCard_CherryBomb = new CGameObject();
-		//FnAddGameObject(eLayerType::UI, mCard_CherryBomb);
+		// Card_Chomper_Disalbed
+		mCard_Picked_Chomper_Disalbed = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_Chomper_Disalbed->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_Chomper_Disabled"));
+		mCard_Picked_Chomper_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		// Card_Jalapeno_Disalbed
+		mCard_Picked_Jalapeno_Disalbed = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_Jalapeno_Disalbed->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_Jalapeno_Disabled"));
+		mCard_Picked_Jalapeno_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+
+		// Card_CherryBomb_Disalbed
+		mCard_Picked_CherryBomb_Disalbed = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI);
+		mr = mCard_Picked_CherryBomb_Disalbed->FnAddComponent<CMeshRenderer>();
+		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"UI_Card_CherryBomb_Disabled"));
+		mCard_Picked_CherryBomb_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
 #pragma endregion
-#pragma region Resource_Plants
+
 		//==================================================================
 		// Plants
 		//==================================================================
+#pragma region Resource_Plants
 		//-------------------------------------
 		// SunFlower
 		//-------------------------------------
+		mPlants_SunFlowers.resize(45);
+		//mPlants_SunFlowers[0] = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::PlayerNearbyAttack);
+
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mPlants_SunFlowers[idx] = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::PlayerNearbyAttack);
+			mr = mPlants_SunFlowers[idx]->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+			std::shared_ptr<CTexture> atlas_SunFlower = CResources::FnLoad<CTexture>(L"SunFlower", L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower\\SunFlower.png");
+			CAnimator* at_SunFlower = mPlants_SunFlowers[idx]->FnAddComponent<CAnimator>();
+			// name, atlas, leftTop, size, columnLength, offset, duration
+			at_SunFlower->FnCreate(
+				L"Idle"						// name
+				, atlas_SunFlower			// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1314.0f / 18.f, 74.0f)		// size
+				, 18						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+			at_SunFlower->FnPlayAnimation(L"Idle", true);
+		}
+
+
 		mPl_SunFlower = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::PlayerNearbyAttack);
 		mPl_SunFlower->FnSetName(L"GrassDay_SunFlower");
 
@@ -481,253 +643,38 @@ namespace yha
 
 	void CScenePlayGrassDay::FnInitialize()
 	{
-	}
+	}//END-void CScenePlayGrassDay::FnInitialize
 
 	void CScenePlayGrassDay::FnUpdate()
 	{
-		//==================================================================
-		// Main Camera Move
-		//==================================================================
-		CTransform* tr = mCamera_Main->FnGetComponent<CTransform>();
-		Vector3 pos = tr->FnGetPosition();
-
-		// 화면 이동 ( -->> )
-		while (MyApplication.mFlagChkFirst)
-		{
-			mChkSecond += CTime::FnDeltaTime();
-
-			if (mChkSecond > 1.0f)
-			{
-				pos.x += 2.0f * CTime::FnDeltaTime();
-				tr->FnSetPosition(pos);
-				break;
-			}
-		}
-
-		// 화면 고정
-		if (pos.x > 3.f)
-			MyApplication.mFlagChkFirst = false;
-
-		//==================================================================
-		// Choose Plants
-		//==================================================================
-		if (!MyApplication.mFlagChkFirst)
-		{
-			if (mFlagShowSeedChooser)
-			{
-				// UI_SeedChooserBG
-				mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, 0.2f, 0.010f));
-
-				// UI_btn_Play
-				mUI_btn_Play->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -2.0f, 0.010f));
-			}
-
-			// UI_btn_Play 클릭하면
-			if (CInput::FnGetKey(eKeyCode::LBUTTON))
-			{
-				HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
-
-				//VectorXY MousePos = CInput::FnGetMousePos();
-				::POINT MousePos = {};
-				::GetCursorPos(&MousePos);
-				::ScreenToClient(Tmp_mHwnd, &MousePos);
-
-				if ((MousePos.x >= 520.f) && (MousePos.x <= 675.f)
-					&& (MousePos.y >= 819.f) && (MousePos.y <= 880.f))
-				{
-					mFlagClickEvent_BtnPlay = true;
-					mFlagShowSeedChooser = false;
-
-					mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, 0.010f));
-					mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.f, 0.f, 0.f));
-					mUI_btn_Play->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, 0.010f));
-					mUI_btn_Play->FnGetComponent<CTransform>()->FnSetScale(Vector3(0.f, 0.f, 0.f));
-				}
-			}
-
-			// 화면 이동 ( <<-- )
-			while (!MyApplication.mFlagChkFirst && mFlagClickEvent_BtnPlay)
-			{
-				mChkSecond += CTime::FnDeltaTime();
-
-				if (mChkSecond > 1.0f)
-				{
-					pos.x -= 2.0f * CTime::FnDeltaTime();
-					tr->FnSetPosition(pos);
-					break;
-				}
-			}
-
-			// 화면 고정
-			if (pos.x < 0.f)
-			{
-				mFlagClickEvent_BtnPlay = false;
-				mFlagPlay = true;
-			}
-		}
-
-		//==================================================================
-		// Play
-		//==================================================================
-		if (mFlagPlay && mFlagChkEnterScene)
-		{
-#pragma region Resource_UI
-			//==================================================================
-			// UI
-			//==================================================================
-			// mUI_SunPointChk
-			mUI_SunPointChk->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.7f, 2.f, 0.010f));
-
-			// UI_ShovelBG
-			mUI_ShovelBG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, 0.010f));
-
-			// UI_Shovel
-			mUI_Shovel->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, 0.009f));
-
-			// UI_btn_Menu
-			mUI_btn_Menu->FnGetComponent<CTransform>()->FnSetPosition(Vector3(3.3f, 1.98f, 0.010f));
-
-			// UI_FlagMeterEmpty
-			mUI_FlagMeterEmpty->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.38f, 2.05f, 0.010f));
-
-			// UI_FlagMeterParts_Zombie
-			mUI_FlagMeterParts_Zombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.45f, 2.05f, 0.008f));
-
-			// UI_FlagMeterParts_Flag
-			mUI_FlagMeterParts_Flag->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.38f, 2.05f, 0.009f));
-
-			// UI_FlagMeterParts_FlagFin
-			mUI_FlagMeterParts_FlagFin->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.33f, 2.05f, 0.009f));
-#pragma endregion
-#pragma region Resource_Cards
-			//==================================================================
-			// Cards
-			//==================================================================
-			// Card_SunFlower
-			mCard_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 2.f, 0.010f));
-			mCard_SunFlower2->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 1.5f, 0.010f));
-			mCard_SunFlower3->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 1.f, 0.010f));
-			mCard_SunFlower4->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 0.5f, 0.010f));
-			mCard_SunFlower5->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, 0.f, 0.010f));
-			mCard_SunFlower6->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -0.5f, 0.010f));
-			mCard_SunFlower7->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.f, 0.010f));
-			mCard_SunFlower8->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.5f, 0.010f));
-#pragma endregion
-#pragma region Resource_Plants
-			//==================================================================
-			// Plants
-			//==================================================================
-			mPl_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, 0.5f, 0.3f));
-
-			//-------------------------------------
-			// Peashooter Status
-			//-------------------------------------
-			mPl_Peashooter1->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, -0.2f, 0.3f));
-
-			if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
-				if(eColliderStateType::Ing == cd_Peashooter1->FnGetColliderState())
-				 int a = 0;
-			
-			//-------------------------------------
-			// Chomper Status
-			//-------------------------------------
-			mPl_Chomper->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -1.0f, 0.3f));
-
-			if (eColliderStateType::Start == cd_Chomper->FnGetColliderState())
-			{
-				at_Chomper->FnPlayAnimation(L"Attack", true);
-				FlagChomperOnceIdleDid = false;
-			}
-			else if(eColliderStateType::Fin == cd_Chomper->FnGetColliderState() && false == FlagChomperOnceIdleDid)
-			{
-				FlagChomperOnceIdleDid = true;
-				at_Chomper->FnPlayAnimation(L"Idle", true);
-			}
-
-			//-------------------------------------
-			// WallNut Status
-			//-------------------------------------
-			if (false == FlagWallNut)
-				mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.5f, 0.5f, 0.3f));
-
-			if (eColliderStateType::Start == cd_WallNut->FnGetColliderState())
-				at_WallNut->FnPlayAnimation(L"Cracked1", true);
-
-			mChkSecond += (float)CTime::FnDeltaTime();
-
-			if ((mChkSecond >= 10.0f)
-				&& (eColliderStateType::Ing == cd_WallNut->FnGetColliderState()))
-			{
-				at_WallNut->FnPlayAnimation(L"Cracked2", true);
-				FlagWallNut = true;
-				mChkSecond = 0.f;
-			}
-
-			if ((mChkSecond >= 2.0f)
-				&& true == FlagWallNut
-				&& eColliderStateType::Ing == cd_WallNut->FnGetColliderState())
-			{
-				mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, 0.3f));
-			}
-#pragma endregion
-#pragma region Resource_Zombies
-			//==================================================================
-			// Zombies
-			//==================================================================
-			//-------------------------------------
-			// NormalZombie Status
-			//-------------------------------------
-			if (false == FlagNormalZombie)
-			{
-				mZb_NormalZombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, -1.0f, 0.2f));
-				FlagNormalZombie = true;
-			}
-
-/*			if (eColliderStateType::Start == cd_NormalZombie->FnGetColliderState())
-			{
-				if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
-				{
-					at_NormalZombie->FnPlayAnimation(L"Idle", true);
-				}
-				else
-				{
-					at_NormalZombie->FnPlayAnimation(L"Attack", true);
-					FlagNormalZombieOnceIdleDid = false;
-				}
-
-			}
-			else */
-			if (eColliderStateType::Ing == cd_NormalZombie->FnGetColliderState() && false == FlagNormalZombieOnceIdleDid)
-			{
-				FlagNormalZombieOnceIdleDid = true;
-				at_NormalZombie->FnPlayAnimation(L"Attack", true);
-			}
-			else if (eColliderStateType::Fin == cd_NormalZombie->FnGetColliderState() && true == FlagNormalZombieOnceIdleDid)
-			{
-				FlagNormalZombieOnceIdleDid = false;
-				at_NormalZombie->FnPlayAnimation(L"Idle", true);
-			}
-#pragma endregion
-
-			if (CInput::FnGetKey(eKeyCode::F))
-			{
-				at_Chomper->FnPlayAnimation(L"Attack", true);
-			}
-			if (CInput::FnGetKey(eKeyCode::G))
-			{
-				at_Chomper->FnPlayAnimation(L"Idle", true);
-			}
-
-		}
-
 		//==================================================================
 		// Load NextScene
 		//==================================================================
 		if (CInput::FnGetKeyDown(eKeyCode::N))
 			CSceneManager::FnLoadScene(L"Scene_PlayGrassNight");
 
+		//==================================================================
+		// 0. Main Camera Move to RIGHT
+		//==================================================================
+		if (mFlagChkEnter && FnMoveCamera(eDirection::Right))
+			mFlagChkEnter = false;
+		
+		//==================================================================
+		// 1. Choose Plants
+		//==================================================================
+		if (!mFlagChkEnter && !mFlagPlay)
+			FnChoosePlants();
+
+		//==================================================================
+		// 2. Main Camera Move to LEFT
+		// 3. Play
+		//==================================================================
+		if (mFlagPlay && FnMoveCamera(eDirection::Left))
+			FnPlay();
+
 		CScene::FnUpdate();
-	}
+	}//END-void CScenePlayGrassDay::FnUpdate
+
 	void CScenePlayGrassDay::FnLateUpdate()
 	{
 		Vector3 pos(600, 450, 0.0f);
@@ -744,37 +691,99 @@ namespace yha
 		pos2 = viewport.Unproject(pos2, CCamera::FnGetGpuProjectionMatrix(), CCamera::FnGetGpuViewMatrix(), Matrix::Identity);
 
 		CScene::FnLateUpdate();
-	}
+	}//END-void CScenePlayGrassDay::FnLateUpdate
+
 	void CScenePlayGrassDay::FnRender()
 	{
 		CScene::FnRender();
-	}
+	}//END-void CScenePlayGrassDay::FnRender
+
 	void CScenePlayGrassDay::FnOnEnter()
 	{
-		MyApplication.mFlagChkFirst = true;
-		mFlagChkEnterScene = true;
+		mSunScore		= 125;
+		mChkSecond		= 0.0f;
+		mFlagChkEnter	= true;
+		mFlagPlay		= false;
+		mCntPickedCard	= 0;
+
+		for (int idx = 0; idx < MAXPICKED; idx++)
+		{
+			mPickedList[idx] = ePlantsType::End;
+		}
+
+		for (int idx = 0; idx < MAXPICKED; idx++)
+		{
+			mPickedCardIsDisabledList[idx] = false;
+		}
+
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mBoard[idx].flagIsPlants = false;
+			mBoard[idx].plantsType = ePlantsType::End;
+			mBoard[idx].IdxPlants = 0;
+		}
+
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mIdxList_SunFlowers[idx] = false;
+		}
 
 		FnDoInitialize();
-	}
+	}//END-void CScenePlayGrassDay::FnOnEnter
 
 	void CScenePlayGrassDay::FnOnExit()
 	{
-		MyApplication.mFlagChkFirst = true;
-		mChkSecond = 0.0f;
-
-		mFlagChkEnterScene = false;
-		mFlagPlay = false;
-		mFlagClickEvent_BtnPlay = false;
-		mFlagShowSeedChooser = true;
-
 		object::FnDestroy(mCamera_Main);
 		object::FnDestroy(mCamera_UI);
 		object::FnDestroy(mBG);
 		object::FnDestroy(mlight);
 
+		//==================================================================
+		// Both
+		// 0. Choose Plants
+		// 1. Play
+		//==================================================================
+		object::FnDestroy(mCard_Picked_SunFlower);
+		object::FnDestroy(mCard_Picked_PeaShooter);
+		object::FnDestroy(mCard_Picked_WallNut);
+		object::FnDestroy(mCard_Picked_Chomper);
+		object::FnDestroy(mCard_Picked_Jalapeno);
+		object::FnDestroy(mCard_Picked_CherryBomb);
+
+		object::FnDestroy(mCard_Picked_SunFlower_Disalbed);
+		object::FnDestroy(mCard_Picked_PeaShooter_Disalbed);
+		object::FnDestroy(mCard_Picked_WallNut_Disalbed);
+		object::FnDestroy(mCard_Picked_Chomper_Disalbed);
+		object::FnDestroy(mCard_Picked_Jalapeno_Disalbed);
+		object::FnDestroy(mCard_Picked_CherryBomb_Disalbed);
+
+		//==================================================================
+		// 0. Choose Plants
+		//==================================================================
 		object::FnDestroy(mUI_SeedChooserBG);
 		object::FnDestroy(mUI_btn_Play);
+		object::FnDestroy(mUI_btn_Play_Disabled);
+		object::FnDestroy(mUI_btn_ResetChoose);
 
+		object::FnDestroy(mCard_SunFlower);
+		object::FnDestroy(mCard_PeaShooter);
+		object::FnDestroy(mCard_WallNut);
+		object::FnDestroy(mCard_Chomper);
+		object::FnDestroy(mCard_Jalapeno);
+		object::FnDestroy(mCard_CherryBomb);
+
+		object::FnDestroy(mCard_EmptySpace1);
+		object::FnDestroy(mCard_EmptySpace2);
+		object::FnDestroy(mCard_EmptySpace3);
+		object::FnDestroy(mCard_EmptySpace4);
+		object::FnDestroy(mCard_EmptySpace5);
+
+		//==================================================================
+		// 1. Play
+		//==================================================================
+		//-------------------------------------
+		// UI
+		//-------------------------------------
 		object::FnDestroy(mUI_SunPointChk);
 		object::FnDestroy(mUI_ShovelBG);
 		object::FnDestroy(mUI_Shovel);
@@ -786,14 +795,12 @@ namespace yha
 
 		object::FnDestroy(mUI_btn_Menu);
 
-		object::FnDestroy(mCard_SunFlower);
-		object::FnDestroy(mCard_SunFlower2);
-		object::FnDestroy(mCard_SunFlower3);
-		object::FnDestroy(mCard_SunFlower4);
-		object::FnDestroy(mCard_SunFlower5);
-		object::FnDestroy(mCard_SunFlower6);
-		object::FnDestroy(mCard_SunFlower7);
-		object::FnDestroy(mCard_SunFlower8);
+		object::FnDestroy(mUI_SelectedCard);
+
+		//-------------------------------------
+		// Plants
+		//-------------------------------------
+		mPlants_SunFlowers.clear();
 
 		object::FnDestroy(mPl_SunFlower);
 		object::FnDestroy(mPl_Peashooter1);
@@ -801,6 +808,1517 @@ namespace yha
 		object::FnDestroy(mPl_WallNut);
 
 		object::FnDestroy(mZb_NormalZombie);
+	}//END-void CScenePlayGrassDay::FnOnExit
+
+	bool CScenePlayGrassDay::FnMoveCamera(eDirection _dir)
+	{
+		bool returnValue = false;
+
+		CTransform* tr = mCamera_Main->FnGetComponent<CTransform>();
+		Vector3 pos = tr->FnGetPosition();
+
+		if (_dir == eDirection::Right)
+		{ // 화면 이동 ( -->> )
+			while (pos.x <= 3.f)
+			{
+				mChkSecond += CTime::FnDeltaTime();
+				if (mChkSecond > 1.0f)
+				{
+					pos.x += 2.0f * CTime::FnDeltaTime();
+					tr->FnSetPosition(pos);
+					break;
+				}
+			}
+
+			if (pos.x > 3.f)
+				returnValue = true;
+		}
+		else if (_dir == eDirection::Left)
+		{ // 화면 이동 ( <<-- )
+			while (pos.x >= 0.f)
+			{
+				mChkSecond += CTime::FnDeltaTime();
+				if (mChkSecond > 1.0f)
+				{
+					pos.x -= 2.0f * CTime::FnDeltaTime();
+					tr->FnSetPosition(pos);
+					break;
+				}
+			}
+
+			if (pos.x < 0.f)
+				returnValue = true;
+		}
+
+		return returnValue;
+	}//END-bool CScenePlayGrassDay::FnMoveCamera
+
+	void CScenePlayGrassDay::FnChoosePlants()
+	{
+		//==================================================================
+		// 셋팅
+		//==================================================================
+		//-------------------------------------
+		// UI - 전체 카드 목록
+		//-------------------------------------
+		/* <form>
+			SunFlower	PeaShooter	WallNut
+			Chomper		Jalapeno	CherryBomb
+		*/
+		// 전체 카드 목록 창 배경 셋팅
+		mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, 0.2f, 0.010f));
+
+		// 전체 카드 목록 배치
+		FnDrawWholeCardList();
 		
-	}
+		//-------------------------------------
+		// UI - 선택한 카드 목록
+		//-------------------------------------
+		/* <form>
+			1st Selected
+			2nd Selected
+			3rd Selected
+			4th Selected
+			5th Selected
+		*/
+		// 선택카드목록 창 배경 셋팅
+		mCard_EmptySpace1->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_1, POS_Z_DEFAULT));
+		mCard_EmptySpace2->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_2, POS_Z_DEFAULT));
+		mCard_EmptySpace3->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_3, POS_Z_DEFAULT));
+		mCard_EmptySpace4->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_4, POS_Z_DEFAULT));
+		mCard_EmptySpace5->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_5, POS_Z_DEFAULT));
+
+		//-------------------------------------
+		// UI - 버튼
+		//-------------------------------------
+		// Play버튼 - 활성화 조건 확인 후 배치
+		if (mCntPickedCard == MAXPICKED)
+		{
+			mUI_btn_Play->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -2.0f, POS_Z_DEFAULT));
+			mUI_btn_Play_Disabled->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, POS_Z_DEFAULT));
+		}
+		else
+		{
+			mUI_btn_Play_Disabled->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -2.0f, POS_Z_DEFAULT));
+			mUI_btn_Play->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, POS_Z_DEFAULT));
+		}
+
+		// Reset버튼 - 선택목록 초기화 버튼 배치
+		mUI_btn_ResetChoose->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.5f, POS_Z_DEFAULT));
+
+		//==================================================================
+		// 버튼 클릭시
+		//==================================================================
+		//-------------------------------------
+		// Play버튼
+		//-------------------------------------
+		FnClickEvent_BtnPlay();
+
+		//-------------------------------------
+		// Reset버튼
+		//-------------------------------------
+		FnClickEvent_BtnResetChoose();
+
+		//==================================================================
+		// 전체 카드 목록에서 Card 선택시
+		//==================================================================
+		FnClickEvent_CardFrom_WholeCardList();
+
+		//==================================================================
+		// 선택한 카드 목록에서 Card 선택시
+		//==================================================================
+		FnClickEvent_CardFrom_PickedCardList();
+
+	}//END-void CScenePlayGrassDay::FnChoosePlants
+
+	void CScenePlayGrassDay::FnPlay()
+	{
+		//==================================================================
+		// 셋팅
+		//==================================================================
+		//-------------------------------------
+		// Cards
+		//-------------------------------------
+		FnDrawPickedCardList(eStepMode::Play);
+		
+		//-------------------------------------
+		// UI
+		//-------------------------------------
+		mUI_SunPointChk->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.7f, 2.f, POS_Z_DEFAULT));
+		mUI_ShovelBG->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, POS_Z_DEFAULT));
+		mUI_Shovel->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, POS_Z_FRONT_1));
+		mUI_btn_Menu->FnGetComponent<CTransform>()->FnSetPosition(Vector3(3.3f, 1.98f, POS_Z_DEFAULT));
+		mUI_FlagMeterEmpty->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.38f, 2.05f, POS_Z_DEFAULT));
+		mUI_FlagMeterParts_Zombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.45f, 2.05f, POS_Z_FRONT_2));
+		mUI_FlagMeterParts_Flag->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.38f, 2.05f, POS_Z_FRONT_1));
+		mUI_FlagMeterParts_FlagFin->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.33f, 2.05f, POS_Z_FRONT_1));
+
+		//==================================================================
+		// Card 선택시
+		//==================================================================
+		FnClickEvent_Card();
+
+		//==================================================================
+		// 뽑기 삽을 선택시
+		//==================================================================
+		FnClickEvent_Shovel();
+
+		//==================================================================
+		// Plants
+		//==================================================================
+#pragma region Resource_Plants
+		//-------------------------------------
+		// SunFlower Status
+		//-------------------------------------
+		//mPl_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, 0.5f, 0.3f));
+		//mPlants_SunFlowers[0]->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, 0.5f, 0.3f));
+
+		//-------------------------------------
+		// Peashooter Status
+		//-------------------------------------
+		mPl_Peashooter1->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, -0.2f, 0.3f));
+
+		if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
+			if (eColliderStateType::Ing == cd_Peashooter1->FnGetColliderState())
+				int a = 0;
+
+		//-------------------------------------
+		// Chomper Status
+		//-------------------------------------
+		mPl_Chomper->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -1.0f, 0.3f));
+
+		if (eColliderStateType::Start == cd_Chomper->FnGetColliderState())
+		{
+			at_Chomper->FnPlayAnimation(L"Attack", true);
+			FlagChomperOnceIdleDid = false;
+		}
+		else if (eColliderStateType::Fin == cd_Chomper->FnGetColliderState() && false == FlagChomperOnceIdleDid)
+		{
+			FlagChomperOnceIdleDid = true;
+			at_Chomper->FnPlayAnimation(L"Idle", true);
+		}
+
+		//-------------------------------------
+		// WallNut Status
+		//-------------------------------------
+		if (false == FlagWallNut)
+			mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.5f, 0.5f, 0.3f));
+
+		if (eColliderStateType::Start == cd_WallNut->FnGetColliderState())
+			at_WallNut->FnPlayAnimation(L"Cracked1", true);
+
+		mChkSecond += (float)CTime::FnDeltaTime();
+
+		if ((mChkSecond >= 10.0f)
+			&& (eColliderStateType::Ing == cd_WallNut->FnGetColliderState()))
+		{
+			at_WallNut->FnPlayAnimation(L"Cracked2", true);
+			FlagWallNut = true;
+			mChkSecond = 0.f;
+		}
+
+		if ((mChkSecond >= 2.0f)
+			&& true == FlagWallNut
+			&& eColliderStateType::Ing == cd_WallNut->FnGetColliderState())
+		{
+			mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, 0.3f));
+		}
+#pragma endregion
+#pragma region Resource_Zombies
+		//==================================================================
+		// Zombies
+		//==================================================================
+		//-------------------------------------
+		// NormalZombie Status
+		//-------------------------------------
+		if (false == FlagNormalZombie)
+		{
+			mZb_NormalZombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, -1.0f, 0.2f));
+			FlagNormalZombie = true;
+		}
+
+		/*			if (eColliderStateType::Start == cd_NormalZombie->FnGetColliderState())
+					{
+						if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
+						{
+							at_NormalZombie->FnPlayAnimation(L"Idle", true);
+						}
+						else
+						{
+							at_NormalZombie->FnPlayAnimation(L"Attack", true);
+							FlagNormalZombieOnceIdleDid = false;
+						}
+
+					}
+					else */
+		if (eColliderStateType::Ing == cd_NormalZombie->FnGetColliderState() && false == FlagNormalZombieOnceIdleDid)
+		{
+			FlagNormalZombieOnceIdleDid = true;
+			at_NormalZombie->FnPlayAnimation(L"Attack", true);
+		}
+		else if (eColliderStateType::Fin == cd_NormalZombie->FnGetColliderState() && true == FlagNormalZombieOnceIdleDid)
+		{
+			FlagNormalZombieOnceIdleDid = false;
+			at_NormalZombie->FnPlayAnimation(L"Idle", true);
+		}
+#pragma endregion
+
+		if (CInput::FnGetKey(eKeyCode::F))
+		{
+			at_Chomper->FnPlayAnimation(L"Attack", true);
+		}
+		if (CInput::FnGetKey(eKeyCode::G))
+		{
+			at_Chomper->FnPlayAnimation(L"Idle", true);
+		}
+
+	}//END-void CScenePlayGrassDay::FnPlay
+
+	void CScenePlayGrassDay::FnMakePickedCardList()
+	{
+		// mPickedList 목록 채우기
+		for (int idx = 0; idx < MAXPICKED; idx++)
+		{
+			if (ePlantsType::End == mPickedList[idx])
+			{
+				mPickedList[idx] = mPickedCardType;
+				++mCntPickedCard;
+				break;
+			}
+		}
+
+		// Player로 사용할 목록 그리기
+		FnDrawPickedCardList(eStepMode::Choose);
+	}//END-void CScenePlayGrassDay::FnMakePickedCardList
+
+	bool CScenePlayGrassDay::FnChkPickedBefore(int _idx)
+	{
+		bool returnValue = false;
+
+		for (size_t idx = 0; idx < MAXPICKED; idx++)
+		{
+			if ((ePlantsType)_idx == mPickedList[idx])
+			{
+				returnValue = true;
+				break;
+			}
+		}
+
+		return returnValue;
+	}//END-bool CScenePlayGrassDay::FnChkPickedBefore
+
+	void CScenePlayGrassDay::FnDrawWholeCardList()
+	{
+		for (int chkidx = 0; chkidx < MAXCARDS; chkidx++)
+		{
+			bool FlagChkPickedBefore = FnChkPickedBefore(chkidx);
+
+			if (FlagChkPickedBefore)
+			{// 선택된 경우 - Disalbed로 표시
+				switch (chkidx)
+				{
+				case (int)ePlantsType::SunFlower:
+					mCard_Picked_SunFlower_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.5f, POS_Z_FRONT_2));
+					mCard_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.5f, POS_Z_FRONT_1));
+					break;
+				case (int)ePlantsType::PeaShooter:
+					mCard_Picked_PeaShooter_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.5f, POS_Z_FRONT_2));
+					mCard_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.5f, POS_Z_FRONT_1));
+					break;
+				case (int)ePlantsType::WallNut:
+					mCard_Picked_WallNut_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.5f, POS_Z_FRONT_2));
+					mCard_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.5f, POS_Z_FRONT_1));
+					break;
+				case (int)ePlantsType::Chomper:
+					mCard_Picked_Chomper_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.f, POS_Z_FRONT_2));
+					mCard_Chomper->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.f, POS_Z_FRONT_1));
+					break;
+				case (int)ePlantsType::Jalapeno:
+					mCard_Picked_Jalapeno_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.f, POS_Z_FRONT_2));
+					mCard_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.f, POS_Z_FRONT_1));
+					break;
+				case (int)ePlantsType::CherryBomb:
+					mCard_Picked_CherryBomb_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.f, POS_Z_FRONT_2));
+					mCard_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.f, POS_Z_FRONT_1));
+					break;
+				default:
+					break;
+				}
+			}
+			else
+			{// 선택되지 않은 경우 - Disalbed가 아닌 카드로 표시
+				switch (chkidx)
+				{
+				case (int)ePlantsType::SunFlower:
+					mCard_Picked_SunFlower_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.5f, POS_Z_FRONT_1));
+					mCard_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.5f, POS_Z_FRONT_2));
+					break;
+				case (int)ePlantsType::PeaShooter:
+					mCard_Picked_PeaShooter_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.5f, POS_Z_FRONT_1));
+					mCard_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.5f, POS_Z_FRONT_2));
+					break;
+				case (int)ePlantsType::WallNut:
+					mCard_Picked_WallNut_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.5f, POS_Z_FRONT_1));
+					mCard_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.5f, POS_Z_FRONT_2));
+					break;
+				case (int)ePlantsType::Chomper:
+					mCard_Picked_Chomper_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.f, POS_Z_FRONT_1));
+					mCard_Chomper->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-2.f, 1.f, POS_Z_FRONT_2));
+					break;
+				case (int)ePlantsType::Jalapeno:
+					mCard_Picked_Jalapeno_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.f, POS_Z_FRONT_1));
+					mCard_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.f, 1.f, POS_Z_FRONT_2));
+					break;
+				case (int)ePlantsType::CherryBomb:
+					mCard_Picked_CherryBomb_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.f, POS_Z_FRONT_1));
+					mCard_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.f, 1.f, POS_Z_FRONT_2));
+					break;
+				default:
+					break;
+				}
+			}
+		}//end-for (int Chkidx = 0; Chkidx < MAXCARDS; Chkidx++)
+	}//END-void CScenePlayGrassDay::FnDrawWholeCardList
+	
+	void CScenePlayGrassDay::FnDrawPickedCardList(eStepMode _step)
+	{
+		CGameObject* card_Picked_Tmp = nullptr;
+
+		// 초기화 - 기존 Card목록
+		mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mCard_Picked_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+		// mPickedList를 통해, Player로 사용할 Card목록 그리기
+		for (int idx = 0; idx < MAXPICKED; idx++)
+		{
+			// 해당 인덱스에 값이 없으면 그리기 패스
+			if (ePlantsType::End == mPickedList[idx])
+				continue;
+
+			// 선택된 카드 타입으로 card_Picked_Tmp 설정
+			switch (mPickedList[idx])
+			{
+			case ePlantsType::SunFlower:
+				if ((eStepMode::Play == _step && 50 <= mSunScore)
+					|| eStepMode::Choose == _step)
+				{
+					card_Picked_Tmp = mCard_Picked_SunFlower;
+					mPickedCardIsDisabledList[idx] = false;
+				}
+				else
+				{
+					card_Picked_Tmp = mCard_Picked_SunFlower_Disalbed;
+					mPickedCardIsDisabledList[idx] = true;
+				}
+				break;
+			case ePlantsType::PeaShooter:
+				if ((eStepMode::Play == _step && 100 <= mSunScore)
+					|| eStepMode::Choose == _step)
+				{
+					card_Picked_Tmp = mCard_Picked_PeaShooter;
+					mPickedCardIsDisabledList[idx] = false;
+				}
+				else
+				{
+					card_Picked_Tmp = mCard_Picked_PeaShooter_Disalbed;
+					mPickedCardIsDisabledList[idx] = true;
+				}
+				break;
+			case ePlantsType::WallNut:
+				if ((eStepMode::Play == _step && 50 <= mSunScore)
+					|| eStepMode::Choose == _step)
+				{
+					card_Picked_Tmp = mCard_Picked_WallNut;
+					mPickedCardIsDisabledList[idx] = false;
+				}
+				else
+				{
+					card_Picked_Tmp = mCard_Picked_WallNut_Disalbed;
+					mPickedCardIsDisabledList[idx] = true;
+				}
+				break;
+			case ePlantsType::Chomper:
+				if ((eStepMode::Play == _step && 150 <= mSunScore)
+					|| eStepMode::Choose == _step)
+				{
+					card_Picked_Tmp = mCard_Picked_Chomper;
+					mPickedCardIsDisabledList[idx] = false;
+				}
+				else
+				{
+					card_Picked_Tmp = mCard_Picked_Chomper_Disalbed;
+					mPickedCardIsDisabledList[idx] = true;
+				}
+				break;
+			case ePlantsType::Jalapeno:
+				if ((eStepMode::Play == _step && 125 <= mSunScore)
+					|| eStepMode::Choose == _step)
+				{
+					card_Picked_Tmp = mCard_Picked_Jalapeno;
+					mPickedCardIsDisabledList[idx] = false;
+				}
+				else
+				{
+					card_Picked_Tmp = mCard_Picked_Jalapeno_Disalbed;
+					mPickedCardIsDisabledList[idx] = true;
+				}
+				break;
+			case ePlantsType::CherryBomb:
+				if ((eStepMode::Play == _step && 150 <= mSunScore)
+					|| eStepMode::Choose == _step)
+				{
+					card_Picked_Tmp = mCard_Picked_CherryBomb;
+					mPickedCardIsDisabledList[idx] = false;
+				}
+				else
+				{
+					card_Picked_Tmp = mCard_Picked_CherryBomb_Disalbed;
+					mPickedCardIsDisabledList[idx] = true;
+				}
+				break;
+			}
+
+			// 선택된 카드목록 그리기
+			switch (idx)
+			{
+			case 0:
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_1, POS_Z_FRONT_1));
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+				break;
+			case 1:
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_2, POS_Z_FRONT_1));
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+				break;
+			case 2:
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_3, POS_Z_FRONT_1));
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+				break;
+			case 3:
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_4, POS_Z_FRONT_1));
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+				break;
+			case 4:
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_5, POS_Z_FRONT_1));
+				card_Picked_Tmp->FnGetComponent<CTransform>()->FnSetScale(SCALE_CARD_DEFAULT);
+				break;
+			default:
+				break;
+			}
+		}//end-for (int idx = 0; idx < MAXPICKED; idx++)
+		
+		card_Picked_Tmp = nullptr;
+	}//END-void CScenePlayGrassDay::FnDrawPickedCardList
+
+	void CScenePlayGrassDay::FnClickEvent_BtnResetChoose()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			if ((75.f <= MousePos.x) && (123.f >= MousePos.x)
+				&& (728.f <= MousePos.y) && (773.f >= MousePos.y))
+			{
+				for (size_t idx = 0; idx < MAXPICKED; idx++)
+				{
+					mPickedList[idx] = ePlantsType::End;
+				}
+
+				for (size_t idx = 0; idx < MAXPICKED; idx++)
+				{
+					mPickedCardIsDisabledList[idx] = false;
+				}
+
+				mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				mCntPickedCard = 0;
+			}
+		}
+	}//END-void CScenePlayGrassDay::FnClickEvent_BtnResetChoose
+
+	void CScenePlayGrassDay::FnClickEvent_BtnPlay()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			if ((520.f <= MousePos.x) && (675.f >= MousePos.x)
+				&& (819.f <= MousePos.y) && (880.f >= MousePos.y)
+				&& mCntPickedCard == MAXPICKED)
+			{
+				mFlagPlay = true;
+
+				mPickedCardType = ePlantsType::End;
+				mCntPickedCard = 0;
+
+				//==================================================================
+				// UI 초기화
+				//==================================================================
+				//-------------------------------------
+				// UI
+				//-------------------------------------
+				mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mUI_btn_Play->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mUI_btn_Play_Disabled->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mUI_btn_ResetChoose->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				mUI_SeedChooserBG->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mUI_btn_Play->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mUI_btn_Play_Disabled->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mUI_btn_ResetChoose->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+
+				//-------------------------------------
+				// UI - 전체 카드 목록
+				//-------------------------------------
+				mCard_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				mCard_SunFlower->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_PeaShooter->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_WallNut->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Chomper->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Jalapeno->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_CherryBomb->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+
+				mCard_Picked_SunFlower_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_PeaShooter_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_WallNut_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_Chomper_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_Jalapeno_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_CherryBomb_Disalbed->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				mCard_Picked_SunFlower_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_PeaShooter_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_WallNut_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_Chomper_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_Jalapeno_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_CherryBomb_Disalbed->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+
+				//-------------------------------------
+				// UI - 선택한 카드 목록
+				//-------------------------------------
+				mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_Chomper->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+
+				mCard_EmptySpace1->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_EmptySpace2->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_EmptySpace3->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_EmptySpace4->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mCard_EmptySpace5->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				mCard_EmptySpace1->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_EmptySpace2->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_EmptySpace3->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_EmptySpace4->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+				mCard_EmptySpace5->FnGetComponent<CTransform>()->FnSetScale(SCALE_CLEAR);
+			}
+			else if ((MousePos.x >= 520.f) && (MousePos.x <= 675.f)
+				&& (MousePos.y >= 819.f) && (MousePos.y <= 880.f)
+				&& mCntPickedCard != MAXPICKED)
+			{
+				TCHAR Temp[256] = { 0, };
+				MessageBox(Tmp_mHwnd, L"사용가능한 플레이어 선택이 완료되지 않았습니다!", L"Warning", MB_OK);
+			}
+		}
+	}//END-void CScenePlayGrassDay::FnClickEvent_BtnPlay
+
+	void CScenePlayGrassDay::FnClickEvent_CardFrom_WholeCardList()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			/*
+				선택한 카드가
+				선택카드목록에 존재하는지 확인 후,
+				
+				존재하지 않으면
+				선택카드목록에 추가
+
+				존재하면
+				아무작업도 하지 않음
+			*/
+
+			bool FlagMakeList = false;
+
+			// Card_SunFlower
+			if ((320.f <= MousePos.x) && (480.f >= MousePos.x)
+				&& (105.f <= MousePos.y) && (190.f) >= MousePos.y)
+			{
+				mPickedCardType = ePlantsType::SunFlower;
+				FlagMakeList = true;
+			}
+
+			// Card_PeaShooter
+			if ((520.f <= MousePos.x) && (680.f >= MousePos.x)
+				&& (105.f <= MousePos.y) && (190.f) >= MousePos.y)
+			{
+				mPickedCardType = ePlantsType::PeaShooter;
+				FlagMakeList = true;
+			}
+
+			// Card_WallNut
+			if ((720.f <= MousePos.x) && (880.f >= MousePos.x)
+				&& (105.f <= MousePos.y) && (190.f) >= MousePos.y)
+			{
+				mPickedCardType = ePlantsType::WallNut;
+				FlagMakeList = true;
+			}
+
+			// Card_Chomper
+			if ((320.f <= MousePos.x) && (480.f >= MousePos.x)
+				&& (205.f <= MousePos.y) && (290.f >= MousePos.y))
+			{
+				mPickedCardType = ePlantsType::Chomper;
+				FlagMakeList = true;
+			}
+
+			// Card_Jalapeno
+			if ((520.f <= MousePos.x) && (680.f >= MousePos.x)
+				&& (205.f <= MousePos.y) && (290.f >= MousePos.y))
+			{
+				mPickedCardType = ePlantsType::Jalapeno;
+				FlagMakeList = true;
+			}
+
+			// Card_CherryBomb
+			if ((720.f <= MousePos.x) && (880.f >= MousePos.x)
+				&& (205.f <= MousePos.y) && (290.f >= MousePos.y))
+			{
+				mPickedCardType = ePlantsType::CherryBomb;
+				FlagMakeList = true;
+			}
+
+			if (FlagMakeList)
+			{
+				bool FlagChkPickedBefore = FnChkPickedBefore((int)mPickedCardType);
+
+				if (!FlagChkPickedBefore)
+					FnMakePickedCardList();
+			}
+		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+	}//END-void CScenePlayGrassDay::FnClickEvent_CardFrom_WholeCardList
+
+	void CScenePlayGrassDay::FnClickEvent_CardFrom_PickedCardList()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			bool flagDoDelete = false;
+			int deleteIdx = 0;
+
+			// 1st Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (180.f <= MousePos.y) && (275.f >= MousePos.y))
+			{
+				flagDoDelete = true;
+				deleteIdx = 0;
+			}
+
+			// 2nd Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (290.f <= MousePos.y) && (385.f >= MousePos.y))
+			{
+				flagDoDelete = true;
+				deleteIdx = 1;
+			}
+
+			// 3rd Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (400.f <= MousePos.y) && (495.f >= MousePos.y))
+			{
+				flagDoDelete = true;
+				deleteIdx = 2;
+			}
+
+			// 4th Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (510.f <= MousePos.y) && (605.f >= MousePos.y))
+			{
+				flagDoDelete = true;
+				deleteIdx = 3;
+			}
+
+			// 5th Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (620.f <= MousePos.y) && (715.f >= MousePos.y))
+			{
+				flagDoDelete = true;
+				deleteIdx = 4;
+			}
+
+			if (flagDoDelete)
+			{
+				mPickedCardType = mPickedList[deleteIdx];
+				mPickedList[deleteIdx] = ePlantsType::End;
+				FnDrawPickedCardList(eStepMode::Choose);
+				--mCntPickedCard;
+			}
+		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+	}//END-void CScenePlayGrassDay::FnClickEvent_CardFrom_PickedCardList
+
+	void CScenePlayGrassDay::FnClickEvent_Card()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			// 1st Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (180.f <= MousePos.y) && (275.f >= MousePos.y)
+				&& (false == mPickedCardIsDisabledList[0]))
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_1, 0.003f));
+				mPickedCardType = mPickedList[0];
+				mflagIsCardSelected = true;
+			}
+
+			// 2nd Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (290.f <= MousePos.y) && (385.f >= MousePos.y)
+				&& (false == mPickedCardIsDisabledList[1]))
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_2, 0.003f));
+				mPickedCardType = mPickedList[1];
+				mflagIsCardSelected = true;
+			}
+
+			// 3rd Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (400.f <= MousePos.y) && (495.f >= MousePos.y)
+				&& (false == mPickedCardIsDisabledList[2]))
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_3, 0.003f));
+				mPickedCardType = mPickedList[2];
+				mflagIsCardSelected = true;
+			}
+
+			// 4th Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (510.f <= MousePos.y) && (605.f >= MousePos.y)
+				&& (false == mPickedCardIsDisabledList[3]))
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_4, 0.003f));
+				mPickedCardType = mPickedList[3];
+				mflagIsCardSelected = true;
+			}
+
+			// 5th Selected Card
+			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
+				&& (620.f <= MousePos.y) && (715.f >= MousePos.y)
+				&& (false == mPickedCardIsDisabledList[4]))
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_5, 0.003f));
+				mPickedCardType = mPickedList[4];
+				mflagIsCardSelected = true;
+			}
+
+			/*
+				Exception
+
+				- 카드목록 범위를 벗어났을 때
+				- 게임보드(잔디밭) 진입여부 확인하여 그에 못미친 영역일 때
+				- 카드가 선택된 상태일 때
+			*/
+			if (!((10.f <= MousePos.x) && (185.f >= MousePos.x) && (180.f <= MousePos.y) && (715.f >= MousePos.y)) 
+				&& (400.f >= MousePos.x)
+				&& (true == mflagIsCardSelected))
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mPickedCardType = ePlantsType::End;
+				mflagIsCardSelected = false;
+			}
+
+			// 카드가 선택된 상태
+			if (mflagIsCardSelected)
+			{
+				// 뽑기삽 선택 해제
+				if (mflagIsShovelSelected)
+				{
+					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					mflagIsShovelSelected = false;
+				}
+
+				// 게임보드(잔디밭) 내 유효범위를 클릭했을 때
+				FnClickEvent_Board();
+			}
+		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+	}//END-void CScenePlayGrassDay::FnClickEvent_Card
+
+	void CScenePlayGrassDay::FnClickEvent_Board()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			int idx = 0;
+			bool flagDo = false;
+
+			//==================================================================
+			// 가로(horizontal row)		1번째
+			// 세로(vertical column)	9개의 열
+			//==================================================================
+#pragma region Y_1
+			if (BOARD_X_1 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-1", L"Warning", MB_OK);
+
+				idx = 0;
+				flagDo = true;
+			}
+
+			if (BOARD_X_2 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-2", L"Warning", MB_OK);
+
+				idx = 1;
+				flagDo = true;
+			}
+
+			if (BOARD_X_3 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-3", L"Warning", MB_OK);
+
+				idx = 2;
+				flagDo = true;
+			}
+
+			if (BOARD_X_4 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-4", L"Warning", MB_OK);
+
+				idx = 3;
+				flagDo = true;
+			}
+
+			if (BOARD_X_5 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-5", L"Warning", MB_OK);
+
+				idx = 4;
+				flagDo = true;
+			}
+
+			if (BOARD_X_6 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-6", L"Warning", MB_OK);
+
+				idx = 5;
+				flagDo = true;
+			}
+
+			if (BOARD_X_7 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-7", L"Warning", MB_OK);
+
+				idx = 6;
+				flagDo = true;
+			}
+
+			if (BOARD_X_8 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-8", L"Warning", MB_OK);
+
+				idx = 7;
+				flagDo = true;
+			}
+
+			if (BOARD_X_9 && BOARD_Y_1)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"1-9", L"Warning", MB_OK);
+
+				idx = 8;
+				flagDo = true;
+			}
+#pragma endregion
+
+			//==================================================================
+			// 가로(horizontal row)		2번째
+			// 세로(vertical column)	9개의 열
+			//==================================================================
+#pragma region Y_2
+			if (BOARD_X_1 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-1", L"Warning", MB_OK);
+
+				idx = 9;
+				flagDo = true;
+			}
+
+			if (BOARD_X_2 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-2", L"Warning", MB_OK);
+
+				idx = 10;
+				flagDo = true;
+			}
+
+			if (BOARD_X_3 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-3", L"Warning", MB_OK);
+
+				idx = 11;
+				flagDo = true;
+			}
+
+			if (BOARD_X_4 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-4", L"Warning", MB_OK);
+
+				idx = 12;
+				flagDo = true;
+			}
+
+			if (BOARD_X_5 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-5", L"Warning", MB_OK);
+
+				idx = 13;
+				flagDo = true;
+			}
+
+			if (BOARD_X_6 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-6", L"Warning", MB_OK);
+
+				idx = 14;
+				flagDo = true;
+			}
+
+			if (BOARD_X_7 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-7", L"Warning", MB_OK);
+
+				idx = 15;
+				flagDo = true;
+			}
+
+			if (BOARD_X_8 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-8", L"Warning", MB_OK);
+
+				idx = 16;
+				flagDo = true;
+			}
+
+			if (BOARD_X_9 && BOARD_Y_2)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"2-9", L"Warning", MB_OK);
+
+				idx = 17;
+				flagDo = true;
+			}
+#pragma endregion
+
+			//==================================================================
+			// 가로(horizontal row)		3번째
+			// 세로(vertical column)	9개의 열
+			//==================================================================
+#pragma region Y_3
+			if (BOARD_X_1 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-1", L"Warning", MB_OK);
+
+				idx = 18;
+				flagDo = true;
+			}
+
+			if (BOARD_X_2 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-2", L"Warning", MB_OK);
+
+				idx = 19;
+				flagDo = true;
+			}
+
+			if (BOARD_X_3 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-3", L"Warning", MB_OK);
+
+				idx = 20;
+				flagDo = true;
+			}
+
+			if (BOARD_X_4 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-4", L"Warning", MB_OK);
+
+				idx = 21;
+				flagDo = true;
+			}
+
+			if (BOARD_X_5 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-5", L"Warning", MB_OK);
+
+				idx = 22;
+				flagDo = true;
+			}
+
+			if (BOARD_X_6 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-6", L"Warning", MB_OK);
+
+				idx = 23;
+				flagDo = true;
+			}
+
+			if (BOARD_X_7 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-7", L"Warning", MB_OK);
+
+				idx = 24;
+				flagDo = true;
+			}
+
+			if (BOARD_X_8 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-8", L"Warning", MB_OK);
+
+				idx = 25;
+				flagDo = true;
+			}
+
+			if (BOARD_X_9 && BOARD_Y_3)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"3-9", L"Warning", MB_OK);
+
+				idx = 26;
+				flagDo = true;
+			}
+#pragma endregion
+
+			//==================================================================
+			// 가로(horizontal row)		4번째
+			// 세로(vertical column)	9개의 열
+			//==================================================================
+#pragma region Y_4
+			if (BOARD_X_1 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-1", L"Warning", MB_OK);
+
+				idx = 27;
+				flagDo = true;
+			}
+
+			if (BOARD_X_2 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-2", L"Warning", MB_OK);
+
+				idx = 28;
+				flagDo = true;
+			}
+
+			if (BOARD_X_3 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-3", L"Warning", MB_OK);
+
+				idx = 29;
+				flagDo = true;
+			}
+
+			if (BOARD_X_4 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-4", L"Warning", MB_OK);
+
+				idx = 30;
+				flagDo = true;
+			}
+
+			if (BOARD_X_5 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-5", L"Warning", MB_OK);
+
+				idx = 31;
+				flagDo = true;
+			}
+
+			if (BOARD_X_6 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-6", L"Warning", MB_OK);
+
+				idx = 32;
+				flagDo = true;
+			}
+
+			if (BOARD_X_7 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-7", L"Warning", MB_OK);
+
+				idx = 33;
+				flagDo = true;
+			}
+
+			if (BOARD_X_8 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-8", L"Warning", MB_OK);
+
+				idx = 34;
+				flagDo = true;
+			}
+
+			if (BOARD_X_9 && BOARD_Y_4)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"4-9", L"Warning", MB_OK);
+
+				idx = 35;
+				flagDo = true;
+			}
+#pragma endregion
+
+			//==================================================================
+			// 가로(horizontal row)		5번째
+			// 세로(vertical column)	9개의 열
+			//==================================================================
+#pragma region Y_5
+			if (BOARD_X_1 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-1", L"Warning", MB_OK);
+
+				idx = 36;
+				flagDo = true;
+			}
+
+			if (BOARD_X_2 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-2", L"Warning", MB_OK);
+
+				idx = 37;
+				flagDo = true;
+			}
+
+			if (BOARD_X_3 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-3", L"Warning", MB_OK);
+
+				idx = 38;
+				flagDo = true;
+			}
+
+			if (BOARD_X_4 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-4", L"Warning", MB_OK);
+
+				idx = 39;
+				flagDo = true;
+			}
+
+			if (BOARD_X_5 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-5", L"Warning", MB_OK);
+
+				idx = 40;
+				flagDo = true;
+			}
+
+			if (BOARD_X_6 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-6", L"Warning", MB_OK);
+
+				idx = 41;
+				flagDo = true;
+			}
+
+			if (BOARD_X_7 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-7", L"Warning", MB_OK);
+
+				idx = 42;
+				flagDo = true;
+			}
+
+			if (BOARD_X_8 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-8", L"Warning", MB_OK);
+
+				idx = 43;
+				flagDo = true;
+			}
+
+			if (BOARD_X_9 && BOARD_Y_5)
+			{
+				//TCHAR Temp[256] = { 0, };
+				//MessageBox(Tmp_mHwnd, L"5-9", L"Warning", MB_OK);
+
+				idx = 44;
+				flagDo = true;
+			}
+
+			if (flagDo)
+			{
+				if (mflagIsCardSelected
+					&& !mflagIsShovelSelected)
+				{// 심을 때
+					FnPutPlants(idx);
+				}
+
+				if (mflagIsShovelSelected
+					&& !mflagIsCardSelected)
+				{// 뽑을 때
+					FnRemovePlants(idx);
+				}
+			}
+#pragma endregion
+		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+	}//END-void CScenePlayGrassDay::FnClickEvent_Board
+
+	void CScenePlayGrassDay::FnPutPlants(int _posIdx)
+	{
+		bool chkIsPlantsNow = mBoard[_posIdx].flagIsPlants;
+
+		if (!chkIsPlantsNow)
+		{// 해당 칸에 식물이 없는 상태
+
+			// 심어질 식물의 현재 idx 확인용
+			int idxPlants = 0;
+
+			// 심어질 위치
+			Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+			posNumbSet = numbSetList[_posIdx];
+
+			switch (mPickedCardType)
+			{
+			case ePlantsType::SunFlower:
+			{
+				// 현재 심을 식물이 몇번째가 될지 인덱스 확인
+				for (int chkIdx = 0; chkIdx < MAXCOUNT_PLANTS; chkIdx++)
+				{
+					if (false == mIdxList_SunFlowers[chkIdx])
+					{
+						idxPlants = chkIdx;
+						break;
+					}
+				}
+
+				// 식물 심기
+				mPlants_SunFlowers[idxPlants]->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+
+				// 갱신 - 해당 좌표의 게임판 상태 기록
+				mBoard[_posIdx].flagIsPlants = true;
+				mBoard[_posIdx].plantsType = ePlantsType::SunFlower;
+				mBoard[_posIdx].IdxPlants = idxPlants;
+
+				// 갱신 - 식물 배열 인덱스 목록의 인덱스 값
+				mIdxList_SunFlowers[idxPlants] = true;
+			}
+			break;
+			case ePlantsType::PeaShooter:
+				break;
+			case ePlantsType::WallNut:
+				break;
+			case ePlantsType::Chomper:
+				break;
+			case ePlantsType::Jalapeno:
+				break;
+			case ePlantsType::CherryBomb:
+				break;
+			default:
+				break;
+			}
+
+			/*
+				선택된 식물을 선택한 위치에 심고 나서
+				식물카드 선택 해제
+			*/
+			if (mflagIsCardSelected)
+			{
+				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mPickedCardType = ePlantsType::End;
+				mflagIsCardSelected = false;
+			}
+		}//end-if (!chkIsPlantsNow)
+		else
+		{// 해당 칸에 식물이 있는 상태
+
+			TCHAR Temp[256] = { 0, };
+			MessageBox(MyApplication.FnGetHwnd(), L"이미 심은 식물이 있습니다.\n심은 식물이 없는 다른 곳을 선택하세요", L"Warning", MB_OK);
+		}
+	}//END-void CScenePlayGrassDay::FnPutPlants
+
+	void CScenePlayGrassDay::FnClickEvent_Shovel()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			// 뽑기 삽을 클릭한 경우
+			if ((610.f <= MousePos.x) && (690.f >= MousePos.x)
+				&& (10.f <= MousePos.y) && (90.f >= MousePos.y))
+			{
+				// 식물카드 선택 해제
+				if (mflagIsCardSelected)
+				{
+					mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					mPickedCardType = ePlantsType::End;
+					mflagIsCardSelected = false;
+				}
+
+				if (!mflagIsShovelSelected)
+				{// 뽑기 삽 활성화인 경우
+					mflagIsShovelSelected = true;
+					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, 0.003f));
+				}
+				else
+				{// 뽑기 삽 비활성화인 경우
+					mflagIsShovelSelected = false;
+					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				}
+			}
+
+			// 카드가 선택된 상태
+			if (mflagIsShovelSelected)
+			{
+				// 게임보드(잔디밭) 내 유효범위를 클릭했을 때
+				FnClickEvent_Board();
+			}
+		}
+	}//END-void CScenePlayGrassDay::FnClickEvent_Shovel
+
+	void CScenePlayGrassDay::FnRemovePlants(int _posIdx)
+	{
+		bool chkIsPlantsNow = mBoard[_posIdx].flagIsPlants;
+
+		if (chkIsPlantsNow)
+		{// 해당 칸에 식물이 있는 상태
+
+			// 뽑힐 식물의 idx 확인용
+			int idxPlants = 0;
+
+			mPickedCardType = mBoard[_posIdx].plantsType;
+
+			switch (mPickedCardType)
+			{
+			case ePlantsType::SunFlower:
+			{
+				idxPlants = mBoard[_posIdx].IdxPlants;
+
+				// 식물 뽑기
+				mPlants_SunFlowers[idxPlants]->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+				// 갱신 - 해당 좌표의 게임판 상태 기록
+				mBoard[_posIdx].flagIsPlants = false;
+				mBoard[_posIdx].plantsType = ePlantsType::End;
+				mBoard[_posIdx].IdxPlants = 0;
+
+				// 갱신 - 인덱스 목록의 인덱스 값
+				mIdxList_SunFlowers[idxPlants] = false;
+			}
+			break;
+			case ePlantsType::PeaShooter:
+				break;
+			case ePlantsType::WallNut:
+				break;
+			case ePlantsType::Chomper:
+				break;
+			case ePlantsType::Jalapeno:
+				break;
+			case ePlantsType::CherryBomb:
+				break;
+			default:
+				break;
+			}
+
+			// 뽑기삽 선택 해제
+			if (mflagIsShovelSelected)
+			{
+				mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				mflagIsShovelSelected = false;
+			}
+		}//end-if (!chkIsPlantsNow)
+		else
+		{// 해당 칸에 식물이 없는 상태
+
+			TCHAR Temp[256] = { 0, };
+			MessageBox(MyApplication.FnGetHwnd(), L"이 곳에는 식물이 없습니다.\n심은 식물이 있는 다른 곳을 선택하세요", L"Warning", MB_OK);
+		}
+	}//END-void CScenePlayGrassDay::FnRemovePlants
 }
