@@ -401,6 +401,34 @@ namespace yha
 		//==================================================================
 		// Plants
 		//==================================================================
+		//-------------------------------------
+		// SunLight
+		//-------------------------------------
+		mSunLights.resize(45);
+		//mPlants_SunFlowers[0] = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::PlayerNearbyAttack);
+
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mSunLights[idx] = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::UI2);
+			mr = mSunLights[idx]->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+			std::shared_ptr<CTexture> atlas_SunLight = CResources::FnLoad<CTexture>(L"SunLight", L"..\\Resources\\Texture\\MyGame\\Plants\\SunLight.png");
+			CAnimator* at_SunLight = mSunLights[idx]->FnAddComponent<CAnimator>();
+			// name, atlas, leftTop, size, columnLength, offset, duration
+			at_SunLight->FnCreate(
+				L"Idle"						// name
+				, atlas_SunLight			// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1716.f / 22.f, 78.0f)		// size
+				, 22						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+			at_SunLight->FnPlayAnimation(L"Idle", true);
+		}
+
 #pragma region Resource_Plants
 		//-------------------------------------
 		// SunFlower
@@ -658,7 +686,7 @@ namespace yha
 		//==================================================================
 		if (mFlagChkEnter && FnMoveCamera(eDirection::Right))
 			mFlagChkEnter = false;
-		
+
 		//==================================================================
 		// 1. Choose Plants
 		//==================================================================
@@ -700,8 +728,9 @@ namespace yha
 
 	void CScenePlayGrassDay::FnOnEnter()
 	{
-		mSunScore		= 125;
-		mChkSecond		= 0.0f;
+		mSunScore		= 50;
+		mSecond			= 0.f;
+		mChkSecondTmp	= 0.f;
 		mFlagChkEnter	= true;
 		mFlagPlay		= false;
 		mCntPickedCard	= 0;
@@ -720,7 +749,17 @@ namespace yha
 		{
 			mBoard[idx].flagIsPlants = false;
 			mBoard[idx].plantsType = ePlantsType::End;
-			mBoard[idx].IdxPlants = 0;
+			mBoard[idx].IdxPlants = 999;
+		}
+
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mPlantingTimeList_SunFlowers[idx] = 999;
+		}
+
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mIdxList_SunLights[idx] = false;
 		}
 
 		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
@@ -818,11 +857,11 @@ namespace yha
 		Vector3 pos = tr->FnGetPosition();
 
 		if (_dir == eDirection::Right)
-		{ // 화면 이동 ( -->> )
+		{// 화면 이동 ( -->> )
 			while (pos.x <= 3.f)
 			{
-				mChkSecond += CTime::FnDeltaTime();
-				if (mChkSecond > 1.0f)
+				mChkSecondTmp += CTime::FnDeltaTime();
+				if (mChkSecondTmp > 1.0f)
 				{
 					pos.x += 2.0f * CTime::FnDeltaTime();
 					tr->FnSetPosition(pos);
@@ -834,11 +873,11 @@ namespace yha
 				returnValue = true;
 		}
 		else if (_dir == eDirection::Left)
-		{ // 화면 이동 ( <<-- )
+		{// 화면 이동 ( <<-- )
 			while (pos.x >= 0.f)
 			{
-				mChkSecond += CTime::FnDeltaTime();
-				if (mChkSecond > 1.0f)
+				mChkSecondTmp += CTime::FnDeltaTime();
+				if (mChkSecondTmp > 1.0f)
 				{
 					pos.x -= 2.0f * CTime::FnDeltaTime();
 					tr->FnSetPosition(pos);
@@ -940,7 +979,7 @@ namespace yha
 		// Cards
 		//-------------------------------------
 		FnDrawPickedCardList(eStepMode::Play);
-		
+
 		//-------------------------------------
 		// UI
 		//-------------------------------------
@@ -959,9 +998,24 @@ namespace yha
 		FnClickEvent_Card();
 
 		//==================================================================
-		// 뽑기 삽을 선택시
+		// 뽑기삽을 선택시
 		//==================================================================
 		FnClickEvent_Shovel();
+
+		//==================================================================
+		// 게임보드(잔디밭) 선택시
+		//==================================================================
+		FnClickEvent_Board();
+
+		//==================================================================
+		// 생성 - 햇빛 (해바라기 10초)
+		//==================================================================
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mPlantingTimeList_SunFlowers[idx] += (float)CTime::FnDeltaTime();
+		}
+		
+		FnCalculateSunLightPoints_SunFlowers();
 
 		//==================================================================
 		// Plants
@@ -1005,19 +1059,22 @@ namespace yha
 			mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.5f, 0.5f, 0.3f));
 
 		if (eColliderStateType::Start == cd_WallNut->FnGetColliderState())
+		{
 			at_WallNut->FnPlayAnimation(L"Cracked1", true);
+			mChkSecondTmp = 0.f;
+		}
 
-		mChkSecond += (float)CTime::FnDeltaTime();
+		mChkSecondTmp += (float)CTime::FnDeltaTime();
 
-		if ((mChkSecond >= 10.0f)
+		if ((10.0f <= mChkSecondTmp)
 			&& (eColliderStateType::Ing == cd_WallNut->FnGetColliderState()))
 		{
 			at_WallNut->FnPlayAnimation(L"Cracked2", true);
 			FlagWallNut = true;
-			mChkSecond = 0.f;
+			mChkSecondTmp = 0.f;
 		}
 
-		if ((mChkSecond >= 2.0f)
+		if ((2.0f <= mChkSecondTmp)
 			&& true == FlagWallNut
 			&& eColliderStateType::Ing == cd_WallNut->FnGetColliderState())
 		{
@@ -1111,10 +1168,14 @@ namespace yha
 	{
 		for (int chkidx = 0; chkidx < MAXCARDS; chkidx++)
 		{
+			/*
+				선택된 카드 목록 값과 비교하여,
+				현재 idx에 해당하는 카드가 선택된 카드인지 확인
+			*/
 			bool FlagChkPickedBefore = FnChkPickedBefore(chkidx);
 
 			if (FlagChkPickedBefore)
-			{// 선택된 경우 - Disalbed로 표시
+			{// 선택된 카드의 경우 - Disalbed로 표시
 				switch (chkidx)
 				{
 				case (int)ePlantsType::SunFlower:
@@ -1146,7 +1207,7 @@ namespace yha
 				}
 			}
 			else
-			{// 선택되지 않은 경우 - Disalbed가 아닌 카드로 표시
+			{// 선택되지 않은 카드의 경우 - Disalbed가 아닌 카드로 표시
 				switch (chkidx)
 				{
 				case (int)ePlantsType::SunFlower:
@@ -1184,7 +1245,9 @@ namespace yha
 	{
 		CGameObject* card_Picked_Tmp = nullptr;
 
+		//==================================================================
 		// 초기화 - 기존 Card목록
+		//==================================================================
 		mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 		mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 		mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
@@ -1192,7 +1255,22 @@ namespace yha
 		mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 		mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 
+		//==================================================================
 		// mPickedList를 통해, Player로 사용할 Card목록 그리기
+		//==================================================================
+		/*
+			- 카드 선택 모드의 경우
+			햇빛포인트와 상관없이
+			선택된 카드를
+			무조건 활성화상태로
+			목록 그리기
+			
+			- 플레이 모드의 경우
+			햇빛 포인트와 연동하여
+			선택된 카드를
+			활성화상태 또는 비활성화 상태로
+			목록 그리기
+		*/
 		for (int idx = 0; idx < MAXPICKED; idx++)
 		{
 			// 해당 인덱스에 값이 없으면 그리기 패스
@@ -1322,19 +1400,21 @@ namespace yha
 			::GetCursorPos(&MousePos);
 			::ScreenToClient(Tmp_mHwnd, &MousePos);
 
+			//==================================================================
+			// 유효범위 선택시
+			//==================================================================
 			if ((75.f <= MousePos.x) && (123.f >= MousePos.x)
 				&& (728.f <= MousePos.y) && (773.f >= MousePos.y))
 			{
+				// 초기화 - 선택된 카드 목록
 				for (size_t idx = 0; idx < MAXPICKED; idx++)
-				{
 					mPickedList[idx] = ePlantsType::End;
-				}
 
+				// 초기화 - 선택된 카드 Disalbed 여부 목록
 				for (size_t idx = 0; idx < MAXPICKED; idx++)
-				{
 					mPickedCardIsDisabledList[idx] = false;
-				}
 
+				// 초기화 - 선택된 카드
 				mCard_Picked_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 				mCard_Picked_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 				mCard_Picked_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
@@ -1342,6 +1422,7 @@ namespace yha
 				mCard_Picked_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 				mCard_Picked_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 
+				// 초기화 - 선택된 카드 총 개수
 				mCntPickedCard = 0;
 			}
 		}
@@ -1356,10 +1437,13 @@ namespace yha
 			::GetCursorPos(&MousePos);
 			::ScreenToClient(Tmp_mHwnd, &MousePos);
 
+			//==================================================================
+			// 유효범위 선택시
+			//==================================================================
 			if ((520.f <= MousePos.x) && (675.f >= MousePos.x)
 				&& (819.f <= MousePos.y) && (880.f >= MousePos.y)
 				&& mCntPickedCard == MAXPICKED)
-			{
+			{// Play 모드 진입 조건 충족시
 				mFlagPlay = true;
 
 				mPickedCardType = ePlantsType::End;
@@ -1444,7 +1528,7 @@ namespace yha
 			else if ((MousePos.x >= 520.f) && (MousePos.x <= 675.f)
 				&& (MousePos.y >= 819.f) && (MousePos.y <= 880.f)
 				&& mCntPickedCard != MAXPICKED)
-			{
+			{// Play 모드 진입 조건 미충족시
 				TCHAR Temp[256] = { 0, };
 				MessageBox(Tmp_mHwnd, L"사용가능한 플레이어 선택이 완료되지 않았습니다!", L"Warning", MB_OK);
 			}
@@ -1460,19 +1544,11 @@ namespace yha
 			::GetCursorPos(&MousePos);
 			::ScreenToClient(Tmp_mHwnd, &MousePos);
 
-			/*
-				선택한 카드가
-				선택카드목록에 존재하는지 확인 후,
-				
-				존재하지 않으면
-				선택카드목록에 추가
-
-				존재하면
-				아무작업도 하지 않음
-			*/
-
 			bool FlagMakeList = false;
 
+			//==================================================================
+			// 유효범위 선택시
+			//==================================================================
 			// Card_SunFlower
 			if ((320.f <= MousePos.x) && (480.f >= MousePos.x)
 				&& (105.f <= MousePos.y) && (190.f) >= MousePos.y)
@@ -1521,6 +1597,19 @@ namespace yha
 				FlagMakeList = true;
 			}
 
+			//==================================================================
+			// 전체 카드 목록에서 Card 선택시, 선택된 카드 목록에 Card 추가
+			//==================================================================
+			/*
+				선택한 카드가
+				선택카드목록에 존재하는지 확인 후,
+
+				존재하지 않으면
+				선택카드목록에 추가
+
+				존재하면
+				아무작업도 하지 않음
+			*/
 			if (FlagMakeList)
 			{
 				bool FlagChkPickedBefore = FnChkPickedBefore((int)mPickedCardType);
@@ -1543,6 +1632,9 @@ namespace yha
 			bool flagDoDelete = false;
 			int deleteIdx = 0;
 
+			//==================================================================
+			// 유효범위 선택시
+			//==================================================================
 			// 1st Selected Card
 			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
 				&& (180.f <= MousePos.y) && (275.f >= MousePos.y))
@@ -1583,6 +1675,9 @@ namespace yha
 				deleteIdx = 4;
 			}
 
+			//==================================================================
+			// 선택 해제 - 선택된 카드 목록에서 Card 선택시
+			//==================================================================
 			if (flagDoDelete)
 			{
 				mPickedCardType = mPickedList[deleteIdx];
@@ -1602,87 +1697,171 @@ namespace yha
 			::GetCursorPos(&MousePos);
 			::ScreenToClient(Tmp_mHwnd, &MousePos);
 
+			int idx = 0;
+			bool flagDoSelected = false;
+			bool flagChkRelease_CardSelected = false;
+
+			//==================================================================
+			// 유효범위 선택시
+			//==================================================================
 			// 1st Selected Card
 			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
-				&& (180.f <= MousePos.y) && (275.f >= MousePos.y)
-				&& (false == mPickedCardIsDisabledList[0]))
+				&& (180.f <= MousePos.y) && (275.f >= MousePos.y))
 			{
-				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_1, 0.003f));
-				mPickedCardType = mPickedList[0];
-				mflagIsCardSelected = true;
+				idx = 0;
+				flagDoSelected = true;
 			}
 
 			// 2nd Selected Card
 			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
-				&& (290.f <= MousePos.y) && (385.f >= MousePos.y)
-				&& (false == mPickedCardIsDisabledList[1]))
+				&& (290.f <= MousePos.y) && (385.f >= MousePos.y))
 			{
-				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_2, 0.003f));
-				mPickedCardType = mPickedList[1];
-				mflagIsCardSelected = true;
+				idx = 1;
+				flagDoSelected = true;
 			}
 
 			// 3rd Selected Card
 			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
-				&& (400.f <= MousePos.y) && (495.f >= MousePos.y)
-				&& (false == mPickedCardIsDisabledList[2]))
+				&& (400.f <= MousePos.y) && (495.f >= MousePos.y))
 			{
-				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_3, 0.003f));
-				mPickedCardType = mPickedList[2];
-				mflagIsCardSelected = true;
+				idx = 2;
+				flagDoSelected = true;
 			}
 
 			// 4th Selected Card
 			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
-				&& (510.f <= MousePos.y) && (605.f >= MousePos.y)
-				&& (false == mPickedCardIsDisabledList[3]))
+				&& (510.f <= MousePos.y) && (605.f >= MousePos.y))
 			{
-				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_4, 0.003f));
-				mPickedCardType = mPickedList[3];
-				mflagIsCardSelected = true;
+				idx = 3;
+				flagDoSelected = true;
 			}
 
 			// 5th Selected Card
 			if ((10.f <= MousePos.x) && (185.f >= MousePos.x)
-				&& (620.f <= MousePos.y) && (715.f >= MousePos.y)
-				&& (false == mPickedCardIsDisabledList[4]))
+				&& (620.f <= MousePos.y) && (715.f >= MousePos.y))
 			{
-				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_5, 0.003f));
-				mPickedCardType = mPickedList[4];
-				mflagIsCardSelected = true;
+				idx = 4;
+				flagDoSelected = true;
 			}
 
-			/*
-				Exception
+			if (flagDoSelected)
+			{
+				if ((true == mflagIsCardSelected)
+					&& (mPickedList[idx] == mPickedCardType))
+				{//  선택 해제 - 카드 선택상태에서 동일 카드 재선택시
+					flagChkRelease_CardSelected = true;
+				}
+				else if (false == mPickedCardIsDisabledList[idx])
+				{// 선택 활성화 - 카드가 비활성이 아닌 상태
+					mPickedCardType = mPickedList[idx];
+					mflagIsCardSelected = true;
 
+					// 선택한 idx별로 POSITION 선정
+					switch (idx)
+					{
+					case 0:
+						mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_1, 0.003f));
+						break;
+					case 1:
+						mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_2, 0.003f));
+						break;
+					case 2:
+						mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_3, 0.003f));
+						break;
+					case 3:
+						mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_4, 0.003f));
+						break;
+					case 4:
+						mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(Vector3(POS_XY_PICKEDLIST_5, 0.003f));
+						break;
+					default:
+						break;
+					}
+				}
+			}
+
+			//==================================================================
+			// 선택 해제 (Exception) - 카드가 선택된 상태에서
+			//==================================================================
+			/*
+				&&
 				- 카드목록 범위를 벗어났을 때
 				- 게임보드(잔디밭) 진입여부 확인하여 그에 못미친 영역일 때
 				- 카드가 선택된 상태일 때
+				
+				||
+				- 카드가 선택된 상태에서 동일한 카드를 재클릭시
 			*/
 			if (!((10.f <= MousePos.x) && (185.f >= MousePos.x) && (180.f <= MousePos.y) && (715.f >= MousePos.y)) 
 				&& (400.f >= MousePos.x)
-				&& (true == mflagIsCardSelected))
+				&& (true == mflagIsCardSelected)
+				|| (true == flagChkRelease_CardSelected))
 			{
 				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
 				mPickedCardType = ePlantsType::End;
 				mflagIsCardSelected = false;
 			}
 
-			// 카드가 선택된 상태
+			//==================================================================
+			// 정상처리 - 카드가 선택된 상태에서 식물 심기
+			//==================================================================
+			/*
+				카드가 선택된 상태
+				게임보드(잔디밭) 내 유효범위를 클릭했을 때
+			*/
 			if (mflagIsCardSelected)
 			{
-				// 뽑기삽 선택 해제
+				// 선택 해제 - 뽑기삽
 				if (mflagIsShovelSelected)
-				{
-					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
-					mflagIsShovelSelected = false;
-				}
+					FnRelease_Shovel();
 
-				// 게임보드(잔디밭) 내 유효범위를 클릭했을 때
 				FnClickEvent_Board();
 			}
 		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
 	}//END-void CScenePlayGrassDay::FnClickEvent_Card
+
+	void CScenePlayGrassDay::FnClickEvent_Shovel()
+	{
+		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
+		{
+			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			::POINT MousePos = {};
+			::GetCursorPos(&MousePos);
+			::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+			//==================================================================
+			// 뽑기삽을 클릭한 경우
+			//==================================================================
+			if ((610.f <= MousePos.x) && (690.f >= MousePos.x)
+				&& (10.f <= MousePos.y) && (90.f >= MousePos.y))
+			{
+				// 선택 해제 - 카드
+				if (mflagIsCardSelected)
+					FnRelease_Card();
+
+				if (!mflagIsShovelSelected)
+				{// 뽑기삽이 비활성화였던 경우 - 활성화로 변경
+					mflagIsShovelSelected = true;
+					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, 0.003f));
+				}
+				else
+				{// 뽑기삽 활성화였던 경우 - 비활성화로 변경 (뽑기삽이 이미 선택된 상태에서 다시 뽑기삽이 클릭된 상태)
+					mflagIsShovelSelected = false;
+					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				}
+			}
+
+			//==================================================================
+			// 정상처리 - 뽑기삽이 선택된 상태에서 식물 뽑기
+			//==================================================================
+			/*
+				뽑기삽이 선택된 상태
+				게임보드(잔디밭) 내 유효범위를 클릭했을 때
+			*/
+			if (mflagIsShovelSelected)
+				FnClickEvent_Board();
+		}
+	}//END-void CScenePlayGrassDay::FnClickEvent_Shovel
 
 	void CScenePlayGrassDay::FnClickEvent_Board()
 	{
@@ -1693,8 +1872,8 @@ namespace yha
 			::GetCursorPos(&MousePos);
 			::ScreenToClient(Tmp_mHwnd, &MousePos);
 
-			int idx = 0;
-			bool flagDo = false;
+			int idx = 0;			// 클릭 위치 확인용
+			bool flagDo = false;	// 클릭에 따른 처리 여부
 
 			//==================================================================
 			// 가로(horizontal row)		1번째
@@ -1703,81 +1882,54 @@ namespace yha
 #pragma region Y_1
 			if (BOARD_X_1 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-1", L"Warning", MB_OK);
-
 				idx = 0;
 				flagDo = true;
 			}
 
 			if (BOARD_X_2 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-2", L"Warning", MB_OK);
-
 				idx = 1;
 				flagDo = true;
 			}
 
 			if (BOARD_X_3 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-3", L"Warning", MB_OK);
-
 				idx = 2;
 				flagDo = true;
 			}
 
 			if (BOARD_X_4 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-4", L"Warning", MB_OK);
-
 				idx = 3;
 				flagDo = true;
 			}
 
 			if (BOARD_X_5 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-5", L"Warning", MB_OK);
-
 				idx = 4;
 				flagDo = true;
 			}
 
 			if (BOARD_X_6 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-6", L"Warning", MB_OK);
-
 				idx = 5;
 				flagDo = true;
 			}
 
 			if (BOARD_X_7 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-7", L"Warning", MB_OK);
-
 				idx = 6;
 				flagDo = true;
 			}
 
 			if (BOARD_X_8 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-8", L"Warning", MB_OK);
-
 				idx = 7;
 				flagDo = true;
 			}
 
 			if (BOARD_X_9 && BOARD_Y_1)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"1-9", L"Warning", MB_OK);
-
 				idx = 8;
 				flagDo = true;
 			}
@@ -1790,81 +1942,54 @@ namespace yha
 #pragma region Y_2
 			if (BOARD_X_1 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-1", L"Warning", MB_OK);
-
 				idx = 9;
 				flagDo = true;
 			}
 
 			if (BOARD_X_2 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-2", L"Warning", MB_OK);
-
 				idx = 10;
 				flagDo = true;
 			}
 
 			if (BOARD_X_3 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-3", L"Warning", MB_OK);
-
 				idx = 11;
 				flagDo = true;
 			}
 
 			if (BOARD_X_4 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-4", L"Warning", MB_OK);
-
 				idx = 12;
 				flagDo = true;
 			}
 
 			if (BOARD_X_5 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-5", L"Warning", MB_OK);
-
 				idx = 13;
 				flagDo = true;
 			}
 
 			if (BOARD_X_6 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-6", L"Warning", MB_OK);
-
 				idx = 14;
 				flagDo = true;
 			}
 
 			if (BOARD_X_7 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-7", L"Warning", MB_OK);
-
 				idx = 15;
 				flagDo = true;
 			}
 
 			if (BOARD_X_8 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-8", L"Warning", MB_OK);
-
 				idx = 16;
 				flagDo = true;
 			}
 
 			if (BOARD_X_9 && BOARD_Y_2)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"2-9", L"Warning", MB_OK);
-
 				idx = 17;
 				flagDo = true;
 			}
@@ -1877,81 +2002,54 @@ namespace yha
 #pragma region Y_3
 			if (BOARD_X_1 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-1", L"Warning", MB_OK);
-
 				idx = 18;
 				flagDo = true;
 			}
 
 			if (BOARD_X_2 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-2", L"Warning", MB_OK);
-
 				idx = 19;
 				flagDo = true;
 			}
 
 			if (BOARD_X_3 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-3", L"Warning", MB_OK);
-
 				idx = 20;
 				flagDo = true;
 			}
 
 			if (BOARD_X_4 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-4", L"Warning", MB_OK);
-
 				idx = 21;
 				flagDo = true;
 			}
 
 			if (BOARD_X_5 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-5", L"Warning", MB_OK);
-
 				idx = 22;
 				flagDo = true;
 			}
 
 			if (BOARD_X_6 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-6", L"Warning", MB_OK);
-
 				idx = 23;
 				flagDo = true;
 			}
 
 			if (BOARD_X_7 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-7", L"Warning", MB_OK);
-
 				idx = 24;
 				flagDo = true;
 			}
 
 			if (BOARD_X_8 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-8", L"Warning", MB_OK);
-
 				idx = 25;
 				flagDo = true;
 			}
 
 			if (BOARD_X_9 && BOARD_Y_3)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"3-9", L"Warning", MB_OK);
-
 				idx = 26;
 				flagDo = true;
 			}
@@ -1964,81 +2062,54 @@ namespace yha
 #pragma region Y_4
 			if (BOARD_X_1 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-1", L"Warning", MB_OK);
-
 				idx = 27;
 				flagDo = true;
 			}
 
 			if (BOARD_X_2 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-2", L"Warning", MB_OK);
-
 				idx = 28;
 				flagDo = true;
 			}
 
 			if (BOARD_X_3 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-3", L"Warning", MB_OK);
-
 				idx = 29;
 				flagDo = true;
 			}
 
 			if (BOARD_X_4 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-4", L"Warning", MB_OK);
-
 				idx = 30;
 				flagDo = true;
 			}
 
 			if (BOARD_X_5 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-5", L"Warning", MB_OK);
-
 				idx = 31;
 				flagDo = true;
 			}
 
 			if (BOARD_X_6 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-6", L"Warning", MB_OK);
-
 				idx = 32;
 				flagDo = true;
 			}
 
 			if (BOARD_X_7 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-7", L"Warning", MB_OK);
-
 				idx = 33;
 				flagDo = true;
 			}
 
 			if (BOARD_X_8 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-8", L"Warning", MB_OK);
-
 				idx = 34;
 				flagDo = true;
 			}
 
 			if (BOARD_X_9 && BOARD_Y_4)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"4-9", L"Warning", MB_OK);
-
 				idx = 35;
 				flagDo = true;
 			}
@@ -2051,100 +2122,99 @@ namespace yha
 #pragma region Y_5
 			if (BOARD_X_1 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-1", L"Warning", MB_OK);
-
 				idx = 36;
 				flagDo = true;
 			}
 
 			if (BOARD_X_2 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-2", L"Warning", MB_OK);
-
 				idx = 37;
 				flagDo = true;
 			}
 
 			if (BOARD_X_3 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-3", L"Warning", MB_OK);
-
 				idx = 38;
 				flagDo = true;
 			}
 
 			if (BOARD_X_4 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-4", L"Warning", MB_OK);
-
 				idx = 39;
 				flagDo = true;
 			}
 
 			if (BOARD_X_5 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-5", L"Warning", MB_OK);
-
 				idx = 40;
 				flagDo = true;
 			}
 
 			if (BOARD_X_6 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-6", L"Warning", MB_OK);
-
 				idx = 41;
 				flagDo = true;
 			}
 
 			if (BOARD_X_7 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-7", L"Warning", MB_OK);
-
 				idx = 42;
 				flagDo = true;
 			}
 
 			if (BOARD_X_8 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-8", L"Warning", MB_OK);
-
 				idx = 43;
 				flagDo = true;
 			}
 
 			if (BOARD_X_9 && BOARD_Y_5)
 			{
-				//TCHAR Temp[256] = { 0, };
-				//MessageBox(Tmp_mHwnd, L"5-9", L"Warning", MB_OK);
-
 				idx = 44;
 				flagDo = true;
 			}
+#pragma endregion
 
+			//==================================================================
+			// 선택 위치별 처리
+			// 식물 심기 또는 뽑기
+			// 또는 햇빛 포인트 클릭 처리
+			//==================================================================
 			if (flagDo)
 			{
-				if (mflagIsCardSelected
-					&& !mflagIsShovelSelected)
-				{// 심을 때
+				if (mflagIsCardSelected			// 카드	: O
+					&& !mflagIsShovelSelected)	// 삽	: X
+				{// 심기
 					FnPutPlants(idx);
 				}
 
-				if (mflagIsShovelSelected
-					&& !mflagIsCardSelected)
-				{// 뽑을 때
+				if (mflagIsShovelSelected		// 삽	: O
+					&& !mflagIsCardSelected)	// 카드	: X
+				{// 뽑기
 					FnRemovePlants(idx);
 				}
+
+				if (true == mIdxList_SunLights[mBoard[idx].IdxPlants])
+				{
+					HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+					TCHAR Temp[256] = { 0, };
+					_stprintf_s(Temp, L"mSunScore: % d -> %d", mSunScore, mSunScore+25);
+					MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+					// 그림 없애기 - 해당 좌표의 햇빛 포인트
+					mSunLights[mBoard[idx].IdxPlants]->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+					// 초기화 - 기준시간
+					mPlantingTimeList_SunFlowers[mBoard[idx].IdxPlants] = 0.f;
+
+					// 갱신 - 햇빛 포인트 생성 여부 인덱스 목록의 인덱스 값
+					mIdxList_SunLights[mBoard[idx].IdxPlants] = false;
+
+					// 갱신 - 햇빛 포인트 점수
+					mSunScore += 25;
+				}
 			}
-#pragma endregion
+
 		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
 	}//END-void CScenePlayGrassDay::FnClickEvent_Board
 
@@ -2166,26 +2236,29 @@ namespace yha
 			{
 			case ePlantsType::SunFlower:
 			{
-				// 현재 심을 식물이 몇번째가 될지 인덱스 확인
-				for (int chkIdx = 0; chkIdx < MAXCOUNT_PLANTS; chkIdx++)
+				if (50 <= mSunScore)
 				{
-					if (false == mIdxList_SunFlowers[chkIdx])
-					{
-						idxPlants = chkIdx;
-						break;
-					}
+					// 찾기 - 적합한 idx
+					idxPlants = FnFind_AvailableIdx();
+
+					// 식물 심기
+					mPlants_SunFlowers[idxPlants]->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+
+					// 갱신 - 식물 배열 인덱스 목록의 인덱스 값 (특정)
+					mIdxList_SunFlowers[idxPlants] = true;
+
+					// 갱신 - 해당 좌표의 게임판 상태 기록
+					mBoard[_posIdx].plantsType = ePlantsType::SunFlower;
+
+					// 갱신 - 햇빛 포인트 점수
+					mSunScore -= 50;
+
+					//-------------------------------------
+					// Only 해바라기
+					//-------------------------------------
+					// 갱신 - 심은 시간 정보 저장
+					mPlantingTimeList_SunFlowers[idxPlants] = 0.f;
 				}
-
-				// 식물 심기
-				mPlants_SunFlowers[idxPlants]->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
-
-				// 갱신 - 해당 좌표의 게임판 상태 기록
-				mBoard[_posIdx].flagIsPlants = true;
-				mBoard[_posIdx].plantsType = ePlantsType::SunFlower;
-				mBoard[_posIdx].IdxPlants = idxPlants;
-
-				// 갱신 - 식물 배열 인덱스 목록의 인덱스 값
-				mIdxList_SunFlowers[idxPlants] = true;
 			}
 			break;
 			case ePlantsType::PeaShooter:
@@ -2202,16 +2275,16 @@ namespace yha
 				break;
 			}
 
+			// 갱신 - 해당 좌표의 게임판 상태 기록 (공통)
+			mBoard[_posIdx].flagIsPlants = true;
+			mBoard[_posIdx].IdxPlants = idxPlants;
+
 			/*
 				선택된 식물을 선택한 위치에 심고 나서
-				식물카드 선택 해제
+				선택 해제 - 카드
 			*/
 			if (mflagIsCardSelected)
-			{
-				mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
-				mPickedCardType = ePlantsType::End;
-				mflagIsCardSelected = false;
-			}
+				FnRelease_Card();
 		}//end-if (!chkIsPlantsNow)
 		else
 		{// 해당 칸에 식물이 있는 상태
@@ -2220,48 +2293,6 @@ namespace yha
 			MessageBox(MyApplication.FnGetHwnd(), L"이미 심은 식물이 있습니다.\n심은 식물이 없는 다른 곳을 선택하세요", L"Warning", MB_OK);
 		}
 	}//END-void CScenePlayGrassDay::FnPutPlants
-
-	void CScenePlayGrassDay::FnClickEvent_Shovel()
-	{
-		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
-		{
-			HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
-			::POINT MousePos = {};
-			::GetCursorPos(&MousePos);
-			::ScreenToClient(Tmp_mHwnd, &MousePos);
-
-			// 뽑기 삽을 클릭한 경우
-			if ((610.f <= MousePos.x) && (690.f >= MousePos.x)
-				&& (10.f <= MousePos.y) && (90.f >= MousePos.y))
-			{
-				// 식물카드 선택 해제
-				if (mflagIsCardSelected)
-				{
-					mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
-					mPickedCardType = ePlantsType::End;
-					mflagIsCardSelected = false;
-				}
-
-				if (!mflagIsShovelSelected)
-				{// 뽑기 삽 활성화인 경우
-					mflagIsShovelSelected = true;
-					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.75f, 2.f, 0.003f));
-				}
-				else
-				{// 뽑기 삽 비활성화인 경우
-					mflagIsShovelSelected = false;
-					mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
-				}
-			}
-
-			// 카드가 선택된 상태
-			if (mflagIsShovelSelected)
-			{
-				// 게임보드(잔디밭) 내 유효범위를 클릭했을 때
-				FnClickEvent_Board();
-			}
-		}
-	}//END-void CScenePlayGrassDay::FnClickEvent_Shovel
 
 	void CScenePlayGrassDay::FnRemovePlants(int _posIdx)
 	{
@@ -2307,18 +2338,113 @@ namespace yha
 				break;
 			}
 
-			// 뽑기삽 선택 해제
+			// 선택 해제 - 뽑기삽
 			if (mflagIsShovelSelected)
-			{
-				mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
-				mflagIsShovelSelected = false;
-			}
+				FnRelease_Shovel();
 		}//end-if (!chkIsPlantsNow)
 		else
 		{// 해당 칸에 식물이 없는 상태
-
 			TCHAR Temp[256] = { 0, };
 			MessageBox(MyApplication.FnGetHwnd(), L"이 곳에는 식물이 없습니다.\n심은 식물이 있는 다른 곳을 선택하세요", L"Warning", MB_OK);
 		}
 	}//END-void CScenePlayGrassDay::FnRemovePlants
+
+	void CScenePlayGrassDay::FnRelease_Shovel()
+	{
+		mUI_SelectedShovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mflagIsShovelSelected = false;
+	}//END-void CScenePlayGrassDay::FnRelease_Shovel
+
+	void CScenePlayGrassDay::FnRelease_Card()
+	{
+		mUI_SelectedCard->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		mPickedCardType = ePlantsType::End;
+		mflagIsCardSelected = false;
+	}//END-void CScenePlayGrassDay::FnRelease_Card
+
+	int CScenePlayGrassDay::FnFind_AvailableIdx()
+	{
+		int returnValue = 0;
+		bool mIdxList_Tmp[MAXCOUNT_PLANTS] = {};
+
+		// 셋팅 - 선택된 카드 별 식물 정보 목록
+		switch (mPickedCardType)
+		{
+		case ePlantsType::SunFlower:
+			std::memcpy(&mIdxList_Tmp, &mIdxList_SunFlowers, sizeof(mIdxList_SunFlowers));
+		break;
+		case ePlantsType::PeaShooter:
+			break;
+		case ePlantsType::WallNut:
+			break;
+		case ePlantsType::Chomper:
+			break;
+		case ePlantsType::Jalapeno:
+			break;
+		case ePlantsType::CherryBomb:
+			break;
+		default:
+			break;
+		}
+
+		// 찾기 - 게임판에 셋팅되지 않은, 올림차순상 가장 낮은 idx값
+		for (int chkIdx = 0; chkIdx < MAXCOUNT_PLANTS; chkIdx++)
+		{
+			if (false == mIdxList_Tmp[chkIdx])
+			{
+				returnValue = chkIdx;
+				break;
+			}
+		}
+
+		// 반환
+		return returnValue;
+	}//END-int CScenePlayGrassDay::FnFind_AvailableIdx
+
+	void CScenePlayGrassDay::FnCalculateSunLightPoints_SunFlowers()
+	{
+		for (int chkIdx = 0; chkIdx < MAXCOUNT_PLANTS; chkIdx++)
+		{
+			if (true == mIdxList_SunFlowers[chkIdx])
+			{// 해바라기가 심어진 곳이면
+
+				if (10.f <= mPlantingTimeList_SunFlowers[chkIdx])
+				{// 기준시간이 10초 이상이 되었다면
+
+					//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+					//TCHAR Temp[256] = { 0, };
+					//_stprintf_s(Temp, L"chkIdx: % d", chkIdx);
+					//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+					Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+
+					for (int chkIdx2 = 0; chkIdx2 < MAXCOUNT_PLANTS; chkIdx2++)
+					{
+						if (chkIdx == mBoard[chkIdx2].IdxPlants)
+						{// 해바라기가 심어진 보드판 내 좌표 찾기
+
+							// 좌표 셋팅
+							posNumbSet = numbSetList[chkIdx2];
+							posNumbSet.y -= 0.1f;
+							posNumbSet.z = POS_Z_FRONT_1;
+
+							if (false == mIdxList_SunLights[chkIdx])
+							{// 기존에 생성된 햇빛 포인트가 없는 경우 - 같은 위치에 햇빛 포인트 중복 생성 방지
+
+								// 해당 좌표에 햇빛 포인트 활성화
+								mSunLights[chkIdx]->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+
+								// 갱신 - 햇빛 포인트 생성 여부 인덱스 목록의 인덱스 값
+								mIdxList_SunLights[chkIdx] = true;
+								break;
+							}
+						}
+					}
+
+					// 초기화 - 기준시간
+					mPlantingTimeList_SunFlowers[chkIdx] = 0.f;
+				}
+			}
+		}
+	}//END-void CScenePlayGrassDay::FnCalculateSunLightPoints_SunFlowers
 }

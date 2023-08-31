@@ -128,7 +128,12 @@ namespace yha
 		void FnClickEvent_Card();
 
 		/*
-			(단계: 1)클릭이벤트 처리 - Card 선택 후 Board 선택시
+			(단계: 1)클릭이벤트 처리 - 뽑기삽을 선택시
+		*/
+		void FnClickEvent_Shovel();
+
+		/*
+			(단계: 1)클릭이벤트 처리 - Board 선택시
 		*/
 		void FnClickEvent_Board();
 
@@ -138,14 +143,34 @@ namespace yha
 		void FnPutPlants(int _posIdx);
 
 		/*
-			(단계: 1)클릭이벤트 처리 - 뽑기 삽을 선택시
-		*/
-		void FnClickEvent_Shovel();
-
-		/*
 			(단계: 1)식물 뽑기
 		*/
 		void FnRemovePlants(int _posIdx);
+
+		/*
+			(단계: 1)선택 해제 - 뽑기 삽
+		*/
+		void FnRelease_Shovel();
+
+		/*
+			(단계: 1)선택 해제 - 카드
+		*/
+		void FnRelease_Card();
+
+		/*
+			(단계: 1)인덱스 찾기
+			식물별 정보 목록에서
+			게임판에 셋팅되지 않은
+			올림차순, 가장 낮은 idx값 반환
+		*/
+		int FnFind_AvailableIdx();
+
+		/*
+			(단계: 1)생성 - 햇빛
+			해바라기 심은 시간을 기준으로
+			햇빛 포인트 생성
+		*/
+		void FnCalculateSunLightPoints_SunFlowers();
 
 	private:
 
@@ -162,11 +187,14 @@ namespace yha
 		CGameObject* mBG;
 		CGameObject* mlight;
 
-		// 햇볕 포인트
+		// 햇빛 포인트 점수
 		int mSunScore;
 
-		// 초 카운팅 확인용
-		double mChkSecond;
+		// 초 카운팅 고정 확인용
+		float mSecond;
+
+		// 초 카운팅 임시 확인용
+		double mChkSecondTmp;
 		
 		// 화면 최초 진입 여부 확인용
 		bool mFlagChkEnter;
@@ -174,13 +202,13 @@ namespace yha
 		// Play단계 진입 조건
 		bool mFlagPlay;
 
-		// 선택된 카드 총 갯수, Play버튼 활성화 조건
+		// 선택된 카드 총 개수, Play버튼 활성화 조건
 		int mCntPickedCard;
 
 		// 선택된 카드의 타입
 		ePlantsType mPickedCardType;
 
-		// 선택된 카드 전체 목록
+		// 선택된 카드 목록
 		ePlantsType mPickedList[MAXPICKED] = {};
 
 		// 선택된 카드 Disalbed 여부 목록
@@ -189,11 +217,20 @@ namespace yha
 		// 선택된 카드 존재 여부 확인용
 		bool mflagIsCardSelected = false;
 
-		// 삽 선택 여부 확인용
+		// 뽑기삽 선택 여부 확인용
 		bool mflagIsShovelSelected = false;
 
 		// 게임판 상태 기록
 		infoBoard mBoard[MAXCOUNT_PLANTS] = {};
+
+		// 심은시간 정보 목록 (해바라기)
+		float mPlantingTimeList_SunFlowers[MAXCOUNT_PLANTS] = {};
+
+		// 햇빛 포인트 생성 여부 인덱스 목록
+		bool mIdxList_SunLights[MAXCOUNT_PLANTS] = {};
+
+		// 식물 별 각각 배열 인덱스 목록
+		bool mIdxList_SunFlowers[MAXCOUNT_PLANTS] = {};
 
 		// 게임판에 식물이 심어질 위치 목록
 		Vector3 numbSetList[MAXCOUNT_PLANTS]
@@ -312,8 +349,10 @@ namespace yha
 		//==================================================================
 		// Plants
 		//==================================================================
-		// 식물 별 각각 배열 인덱스 목록
-		bool mIdxList_SunFlowers[MAXCOUNT_PLANTS] = {};
+		//-------------------------------------
+		// SunLight
+		//-------------------------------------
+		std::vector<CGameObject*> mSunLights;
 		
 		//-------------------------------------
 		// SunFlower

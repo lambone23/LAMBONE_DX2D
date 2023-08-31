@@ -13,7 +13,7 @@
 #include "LoadScenes.h"
 #include "CGuiEditor.h"
 
-#include <atlstr.h>
+//#include <atlstr.h>
 
 #ifdef _DEBUG
 #pragma comment(lib, "..\\x64\\Debug\\ZEngine.lib")
