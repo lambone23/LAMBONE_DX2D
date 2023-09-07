@@ -75,6 +75,17 @@ namespace yha
 		{
 			script->FnRender();
 		}
+	}
 
+	void CGameObject::FnRender_Font()
+	{
+	}
+
+	void CGameObject::FnDeleteCollider()
+	{
+		//mSunLights[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights[idx].position);
+		//mPlants_SunFlowers[idx].collider = mPlants_SunFlowers[idx].plants->FnAddComponent<CCollider2D>();
+		//mPlants_SunFlowers[idx].collider->FnSetSize(Vector2(0.3f, 0.3f));
+		mComponents.erase(mComponents.begin() + 3);
 	}
 }

@@ -56,12 +56,17 @@ namespace yha
 
 	private:
 		void FnDoInitialize();
+		void FnInitialize_UI();
+		void FnInitialize_Cards();
+		void FnInitialize_Plants();
+		void FnInitialize_Zombies();
 
 	public:
 		virtual void FnInitialize() override;
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
+		virtual void FnRender_Font() override;
 
 	public:
 		virtual void FnOnEnter() override;
@@ -93,12 +98,12 @@ namespace yha
 		bool FnChkPickedBefore(int _idx);
 
 		/*
-			(단계: 0)Plants 전체 목록 그리기
+			(단계: 0)그리기 - Plants 전체 목록
 		*/
 		void FnDrawWholeCardList();
 
 		/*
-			(단계: 0)Player로 사용할 목록 그리기
+			(단계: 0)그리기 - Player로 사용할 목록
 		*/
 		void FnDrawPickedCardList(eStepMode _step);
 
@@ -158,37 +163,62 @@ namespace yha
 		void FnRelease_Card();
 
 		/*
-			(단계: 1)인덱스 찾기
-			식물별 정보 목록에서
-			게임판에 셋팅되지 않은
-			올림차순, 가장 낮은 idx값 반환
+			(단계: 1)계산 - 햇빛 포인트 합계
 		*/
-		int FnFind_AvailableIdx();
+		void FnCalculateSunLightScore();
 
 		/*
-			(단계: 1)생성 - 햇빛
-			해바라기 심은 시간을 기준으로
-			햇빛 포인트 생성
+			(단계: 1)그리기 - 햇빛
 		*/
-		void FnCalculateSunLightPoints_SunFlowers();
+		void FnDrawSunLights();
+
+		/*
+			(단계: 1)그리기 - 게임판
+		*/
+		void FnDrawBoard();
 
 	private:
 
+		struct infoPickedCard
+		{// mPickedCardList
+			ePlantsType	plantsType;			// 식물 종류
+			bool		isDisabled;			// 카드 활성화 여부
+			bool		isCoolTimeActive;	// 쿨타임 활성화 여부
+			float		coolTime;			// 기준시간 - 카드 쿨타임
+		};
+
 		struct infoBoard
 		{
-			bool flagIsPlants;
-			ePlantsType plantsType;
-			int IdxPlants;
+			bool		isPlanted;			// 식물 생성여부
+			ePlantsType	plantsType;			// 식물 종류
+		};
+
+		struct infoPlants
+		{
+			bool			isPlanted;		// 생성여부
+			bool			isChangeStatus;	// 상태변화여부
+			eStatusType		statusType;		// 상태
+			CGameObject*	plants;			// 오브젝트 - 식물
+			CAnimator*		animator;		// 이미지
+			CCollider2D*	collider;		// 충돌체
+		};
+
+		struct infoSunLight 
+		{// mSunLights
+			bool			isExist;			// 생성여부 - 햇빛
+			bool			isExistSunflower;	// 존재여부 - 해바라기
+			float			cycleChkTime;		// 기준시간 - 햇빛 생성주기
+			CGameObject*	sunLight;			// 오브젝트 - 햇빛
+			Vector3			position;			// 좌표
 		};
 
 		CGameObject* mCamera_Main;
 		CGameObject* mCamera_UI;
-
 		CGameObject* mBG;
 		CGameObject* mlight;
 
 		// 햇빛 포인트 점수
-		int mSunScore;
+		int mSunLightScore;
 
 		// 초 카운팅 고정 확인용
 		float mSecond;
@@ -196,23 +226,23 @@ namespace yha
 		// 초 카운팅 임시 확인용
 		double mChkSecondTmp;
 		
-		// 화면 최초 진입 여부 확인용
+		// (단계: 0) 화면 최초 진입 여부 확인용
 		bool mFlagChkEnter;
 
-		// Play단계 진입 조건
+		// (단계: 0) Play단계 진입 조건
+		bool mFlagPlayEnter;
+
+		// (단계: 0) Play단계 진입 여부 확인용
 		bool mFlagPlay;
 
-		// 선택된 카드 총 개수, Play버튼 활성화 조건
+		// (단계: 0) 선택된 카드 총 개수, Play버튼 활성화 조건
 		int mCntPickedCard;
 
-		// 선택된 카드의 타입
+		// (단계: 0,1) 선택된 카드의 타입
 		ePlantsType mPickedCardType;
 
-		// 선택된 카드 목록
-		ePlantsType mPickedList[MAXPICKED] = {};
-
-		// 선택된 카드 Disalbed 여부 목록
-		bool mPickedCardIsDisabledList[MAXPICKED] = {};
+		// (단계: 0,1) 선택된 카드 목록
+		infoPickedCard mPickedCardList[MAXPICKED] = {};
 
 		// 선택된 카드 존재 여부 확인용
 		bool mflagIsCardSelected = false;
@@ -223,17 +253,8 @@ namespace yha
 		// 게임판 상태 기록
 		infoBoard mBoard[MAXCOUNT_PLANTS] = {};
 
-		// 심은시간 정보 목록 (해바라기)
-		float mPlantingTimeList_SunFlowers[MAXCOUNT_PLANTS] = {};
-
-		// 햇빛 포인트 생성 여부 인덱스 목록
-		bool mIdxList_SunLights[MAXCOUNT_PLANTS] = {};
-
-		// 식물 별 각각 배열 인덱스 목록
-		bool mIdxList_SunFlowers[MAXCOUNT_PLANTS] = {};
-
 		// 게임판에 식물이 심어질 위치 목록
-		Vector3 numbSetList[MAXCOUNT_PLANTS]
+		Vector3 positonList[MAXCOUNT_PLANTS]
 		= {
 			Vector3(-1.7f,	1.3f, 0.010f), // 0
 			Vector3(-1.1f,	1.3f, 0.010f), // 1
@@ -349,15 +370,13 @@ namespace yha
 		//==================================================================
 		// Plants
 		//==================================================================
-		//-------------------------------------
 		// SunLight
-		//-------------------------------------
-		std::vector<CGameObject*> mSunLights;
-		
-		//-------------------------------------
+		//std::vector<infoSunLight> mSunLights;
+		infoSunLight mSunLights[MAXCOUNT_PLANTS] = {};
+
 		// SunFlower
-		//-------------------------------------
-		std::vector<CGameObject*> mPlants_SunFlowers;
+		//std::vector<infoPlants> mPlants_SunFlowers;
+		infoPlants mPlants_SunFlowers[MAXCOUNT_PLANTS] = {};
 
 		//==================================================================
 		// Plants
@@ -382,7 +401,9 @@ namespace yha
 		//==================================================================
 		CGameObject* mZb_NormalZombie;
 
+		// 충돌체 - 좀비
 		CCollider2D* cd_NormalZombie;
+
 		CAnimator* at_NormalZombie;
 		bool FlagNormalZombie = false;
 		bool FlagNormalZombieOnceIdleDid = false;

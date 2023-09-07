@@ -24,6 +24,7 @@ namespace yha
 		virtual void FnUpdate();
 		virtual void FnLateUpdate();
 		virtual void FnRender();
+		virtual void FnRender_Font();
 
 	public:
 		template <typename T>
@@ -93,6 +94,8 @@ namespace yha
 
 			return comp;
 		}//END-T* FnAddComponent
+
+		void FnDeleteCollider();
 
 		void FnSetState(eState state) { mState = state; }
 		eState FnGetState() { return mState; }

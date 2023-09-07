@@ -22,6 +22,8 @@
 #include "CAudioClip.h"
 #include "CAudioSource.h"
 
+#include "CFontWrapper.h"
+
 #include "CApplication.h"
 #include <tchar.h>
 
@@ -259,8 +261,19 @@ namespace yha
 		CScene::FnLateUpdate();
 	}
 
+	void CPlayScene::FnRender_Font()
+	{
+		CFontWrapper::FnDrawFont(L"Sample_Application", 100.f, 100.f, 100, FONT_RGBA(255, 255, 255, 255));
+	}
+
+	void CPlayScene::FnFontRender()
+	{
+		//CFontWrapper::FnDrawFont(L"Sample_Application", 100.f, 100.f, 100, FONT_RGBA(255, 255, 255, 255));
+	}
+
 	void CPlayScene::FnRender()
 	{
+		//CFontWrapper::FnDrawFont(L"Sample_Application", 100.f, 100.f, 100, FONT_RGBA(255, 255, 255, 255));
 		CScene::FnRender();
 	}
 

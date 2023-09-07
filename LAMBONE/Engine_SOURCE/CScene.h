@@ -15,6 +15,7 @@ namespace yha
 		virtual void FnUpdate();
 		virtual void FnLateUpdate();
 		virtual void FnRender();
+		virtual void FnRender_Font();
 		virtual void FnDestroy();
 
 	public:

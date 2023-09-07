@@ -15,6 +15,9 @@ namespace yha
 		virtual void FnUpdate() override;
 		virtual void FnLateUpdate() override;
 		virtual void FnRender() override;
+		virtual void FnRender_Font() override;
+
+		void FnFontRender();
 
 	public:
 		virtual void FnOnEnter() override;

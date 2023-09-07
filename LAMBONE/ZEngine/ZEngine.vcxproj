@@ -166,6 +166,7 @@
     <ClInclude Include="CScenePlayGrassNight.h" />
     <ClInclude Include="CScenePlayPoolDay.h" />
     <ClInclude Include="CScenePlayPoolNight.h" />
+    <ClInclude Include="CSunLightScore.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LoadScenes.h" />
   </ItemGroup>
@@ -182,6 +183,7 @@
     <ClCompile Include="CScenePlayGrassNight.cpp" />
     <ClCompile Include="CScenePlayPoolDay.cpp" />
     <ClCompile Include="CScenePlayPoolNight.cpp" />
+    <ClCompile Include="CSunLightScore.cpp" />
     <ClCompile Include="ZEngine.cpp" />
   </ItemGroup>
   <ItemGroup>

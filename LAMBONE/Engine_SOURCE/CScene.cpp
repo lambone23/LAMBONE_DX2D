@@ -38,6 +38,13 @@ namespace yha
 			layer.FnRender();
 		}
 	}
+	void CScene::FnRender_Font()
+	{
+		for (CLayer& layer : mLayers)
+		{
+			layer.FnRender_Font();
+		}
+	}
 	void CScene::FnDestroy()
 	{
 		for (CLayer& layer : mLayers)

@@ -8,6 +8,8 @@
 #include "CFontWrapper.h"
 #include <windowsx.h>
 
+#include "..\ZEngine\CPlayScene.h"
+
 namespace yha
 {
 	CApplication::CApplication()
@@ -85,8 +87,10 @@ namespace yha
 		//CSceneManager::FnRender();
 		renderer::FnRender();
 		//graphicDevice->FnDraw();
-
 		//graphicDevice->FnPresent();
+
+		CSceneManager::FnRender_Font();
+		//CPlayScene::FnRender_Font();
 	}
 
 	void CApplication::FnDestroy()

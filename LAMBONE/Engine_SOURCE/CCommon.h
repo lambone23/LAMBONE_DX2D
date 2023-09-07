@@ -22,6 +22,8 @@
 #include "CComputeShader.h"
 #include "CPaintShader.h"
 #include "CParticleSystem.h"
+
+#include "CFmod.h"
 #include "CFontWrapper.h"
 
 #include <vector>

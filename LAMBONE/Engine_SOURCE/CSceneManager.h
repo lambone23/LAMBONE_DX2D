@@ -10,6 +10,7 @@ namespace yha
 		static void FnUpdate();
 		static void FnLateUpdate();
 		static void FnRender();
+		static void FnRender_Font();
 		static void FnDestroy();
 		static void FnRelease();
 

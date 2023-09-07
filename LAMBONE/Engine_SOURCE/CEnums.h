@@ -41,8 +41,8 @@ namespace yha::enums
 		Grid,
 		Camera,
 		Player,
-		PlayerNearbyAttack,
-		PlayerFarAttack,
+		//PlayerNearbyAttack,
+		//PlayerFarAttack,
 		Monster,
 		Light,
 		UI,
@@ -89,10 +89,18 @@ namespace yha::enums
 
 	enum class eColliderStateType
 	{
-		None,
 		Start,
 		Ing,
 		Fin,
+		End,
+	};
+
+	enum class eStatusType
+	{
+		Idle,
+		Attack,
+		Dead,
+		Bright_OnlySunflower,
 		End,
 	};
 

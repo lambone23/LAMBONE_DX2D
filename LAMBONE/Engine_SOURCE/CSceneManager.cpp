@@ -64,6 +64,10 @@ namespace yha
 	{
 		mActiveScene->FnRender();
 	}
+	void CSceneManager::FnRender_Font()
+	{
+		mActiveScene->FnRender_Font();
+	}
 	void CSceneManager::FnDestroy()
 	{
 		mActiveScene->FnDestroy();

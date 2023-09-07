@@ -3,141 +3,150 @@
   <ItemGroup>
     <ClCompile Include="ZEngine.cpp" />
     <ClCompile Include="CCameraScript.cpp">
-      <Filter>Contents\Script\Camera</Filter>
+      <Filter>Contents\_Script\Camera</Filter>
     </ClCompile>
     <ClCompile Include="CPlayScene.cpp">
-      <Filter>Contents\Scene</Filter>
+      <Filter>Contents\_Scene</Filter>
     </ClCompile>
     <ClCompile Include="CSceneEnding.cpp">
-      <Filter>Contents\Scene\00_Title\Ending</Filter>
+      <Filter>Contents\_Scene\00_Title\Ending</Filter>
     </ClCompile>
     <ClCompile Include="CSceneIntro.cpp">
-      <Filter>Contents\Scene\00_Title\Intro</Filter>
+      <Filter>Contents\_Scene\00_Title\Intro</Filter>
     </ClCompile>
     <ClCompile Include="CSceneLoading.cpp">
-      <Filter>Contents\Scene\00_Title\Loading</Filter>
+      <Filter>Contents\_Scene\00_Title\Loading</Filter>
     </ClCompile>
     <ClCompile Include="CSceneMainMenu.cpp">
-      <Filter>Contents\Scene\00_Title\MainMenu</Filter>
+      <Filter>Contents\_Scene\00_Title\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="CScenePlayGrassDay.cpp">
-      <Filter>Contents\Scene\01_PlayGrass\Day</Filter>
+      <Filter>Contents\_Scene\01_PlayGrass\Day</Filter>
     </ClCompile>
     <ClCompile Include="CScenePlayGrassNight.cpp">
-      <Filter>Contents\Scene\01_PlayGrass\Night</Filter>
+      <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
     </ClCompile>
     <ClCompile Include="CScenePlayPoolDay.cpp">
-      <Filter>Contents\Scene\02_PlayPool\Day</Filter>
+      <Filter>Contents\_Scene\02_PlayPool\Day</Filter>
     </ClCompile>
     <ClCompile Include="CScenePlayPoolNight.cpp">
-      <Filter>Contents\Scene\02_PlayPool\Night</Filter>
+      <Filter>Contents\_Scene\02_PlayPool\Night</Filter>
     </ClCompile>
     <ClCompile Include="CGridScript.cpp">
-      <Filter>Contents\Script\Grid</Filter>
+      <Filter>Contents\_Script\Grid</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
-      <Filter>Contents\Script\Player</Filter>
+      <Filter>Contents\_Script\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="CSunLightScore.cpp">
+      <Filter>Contents\SunLightScore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="CCameraScript.h">
-      <Filter>Contents\Script\Camera</Filter>
+      <Filter>Contents\_Script\Camera</Filter>
     </ClInclude>
     <ClInclude Include="CPlayScene.h">
-      <Filter>Contents\Scene</Filter>
+      <Filter>Contents\_Scene</Filter>
     </ClInclude>
     <ClInclude Include="LoadScenes.h">
-      <Filter>Contents\Load</Filter>
+      <Filter>Contents\_Load</Filter>
     </ClInclude>
     <ClInclude Include="CSceneEnding.h">
-      <Filter>Contents\Scene\00_Title\Ending</Filter>
+      <Filter>Contents\_Scene\00_Title\Ending</Filter>
     </ClInclude>
     <ClInclude Include="CSceneIntro.h">
-      <Filter>Contents\Scene\00_Title\Intro</Filter>
+      <Filter>Contents\_Scene\00_Title\Intro</Filter>
     </ClInclude>
     <ClInclude Include="CSceneLoading.h">
-      <Filter>Contents\Scene\00_Title\Loading</Filter>
+      <Filter>Contents\_Scene\00_Title\Loading</Filter>
     </ClInclude>
     <ClInclude Include="CSceneMainMenu.h">
-      <Filter>Contents\Scene\00_Title\MainMenu</Filter>
+      <Filter>Contents\_Scene\00_Title\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="CScenePlayGrassDay.h">
-      <Filter>Contents\Scene\01_PlayGrass\Day</Filter>
+      <Filter>Contents\_Scene\01_PlayGrass\Day</Filter>
     </ClInclude>
     <ClInclude Include="CScenePlayGrassNight.h">
-      <Filter>Contents\Scene\01_PlayGrass\Night</Filter>
+      <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
     </ClInclude>
     <ClInclude Include="CScenePlayPoolDay.h">
-      <Filter>Contents\Scene\02_PlayPool\Day</Filter>
+      <Filter>Contents\_Scene\02_PlayPool\Day</Filter>
     </ClInclude>
     <ClInclude Include="CScenePlayPoolNight.h">
-      <Filter>Contents\Scene\02_PlayPool\Night</Filter>
+      <Filter>Contents\_Scene\02_PlayPool\Night</Filter>
     </ClInclude>
     <ClInclude Include="CGridScript.h">
-      <Filter>Contents\Script\Grid</Filter>
+      <Filter>Contents\_Script\Grid</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
-      <Filter>Contents\Script\Player</Filter>
+      <Filter>Contents\_Script\Player</Filter>
     </ClInclude>
     <ClInclude Include="..\Engine_SOURCE\CCommon.h">
       <Filter>Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="CSunLightScore.h">
+      <Filter>Contents\SunLightScore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
       <UniqueIdentifier>{ea43b61f-ee1d-4279-b23e-99c92d558e81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Load">
+    <Filter Include="Contents\_Load">
       <UniqueIdentifier>{c2d1cd42-8cae-4777-a7b3-bf7a17ea3a7d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene">
+    <Filter Include="Contents\_Scene">
       <UniqueIdentifier>{ac505b98-9a40-4963-b3a5-db3d68f1082d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Script">
-      <UniqueIdentifier>{e4057279-a017-405f-9609-75ea8f7a8d6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Script\Camera">
-      <UniqueIdentifier>{513e469d-0689-48f5-8139-886ecc213c21}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Scene\00_Title">
+    <Filter Include="Contents\_Scene\00_Title">
       <UniqueIdentifier>{4f4b65af-f530-43a4-8ae6-7270d07e1f4d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\01_PlayGrass">
-      <UniqueIdentifier>{6822c385-90a3-4418-b7d6-edd99a86b94e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Scene\02_PlayPool">
-      <UniqueIdentifier>{ccd94a4b-e4d2-4fc4-b516-c36f455ec931}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\Scene\00_Title\Ending">
+    <Filter Include="Contents\_Scene\00_Title\Ending">
       <UniqueIdentifier>{d22e6798-cf56-4226-b2c6-288e79a89472}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\00_Title\Intro">
+    <Filter Include="Contents\_Scene\00_Title\Intro">
       <UniqueIdentifier>{89164cbd-e635-4d4d-8092-94eb331f60b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\00_Title\Loading">
+    <Filter Include="Contents\_Scene\00_Title\Loading">
       <UniqueIdentifier>{581c6c1e-71bd-412f-8de0-cb4b88b69dfd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\00_Title\MainMenu">
+    <Filter Include="Contents\_Scene\00_Title\MainMenu">
       <UniqueIdentifier>{e15a28e8-de37-437c-b026-6194f84bd824}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\01_PlayGrass\Day">
+    <Filter Include="Contents\_Scene\01_PlayGrass">
+      <UniqueIdentifier>{6822c385-90a3-4418-b7d6-edd99a86b94e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\_Scene\01_PlayGrass\Day">
       <UniqueIdentifier>{6a229d5d-2568-4266-884c-fa9cfa7c7785}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\01_PlayGrass\Night">
+    <Filter Include="Contents\_Scene\01_PlayGrass\Night">
       <UniqueIdentifier>{e2082203-6011-4f37-a684-71e47c799645}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\02_PlayPool\Day">
+    <Filter Include="Contents\_Scene\02_PlayPool">
+      <UniqueIdentifier>{ccd94a4b-e4d2-4fc4-b516-c36f455ec931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\_Scene\02_PlayPool\Day">
       <UniqueIdentifier>{15ee4182-0f25-4207-a12a-925855fce97c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Scene\02_PlayPool\Night">
+    <Filter Include="Contents\_Scene\02_PlayPool\Night">
       <UniqueIdentifier>{9e56ebde-bc49-4f6c-87ce-53091f1b5c1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Script\Grid">
+    <Filter Include="Contents\_Script">
+      <UniqueIdentifier>{e4057279-a017-405f-9609-75ea8f7a8d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\_Script\Camera">
+      <UniqueIdentifier>{513e469d-0689-48f5-8139-886ecc213c21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\_Script\Grid">
       <UniqueIdentifier>{345e9769-6397-4842-99b2-e3b0cd99d4d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\Script\Player">
+    <Filter Include="Contents\_Script\Player">
       <UniqueIdentifier>{78d14473-a701-49b2-9e35-51fdc090d7f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\SunLightScore">
+      <UniqueIdentifier>{38136b7e-ce50-494d-abbd-45c13fe4d5a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

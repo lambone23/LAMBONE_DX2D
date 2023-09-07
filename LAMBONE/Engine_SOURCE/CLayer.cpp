@@ -52,6 +52,17 @@ namespace yha
 			gameObj->FnRender();
 		}
 	}
+	void CLayer::FnRender_Font()
+	{
+		for (CGameObject* gameObj : mGameObjects)
+		{
+			if (gameObj->FnGetState()
+				!= CGameObject::eState::Active)
+				continue;
+
+			gameObj->FnRender_Font();
+		}
+	}
 
 	void CLayer::FnDestory()
 	{

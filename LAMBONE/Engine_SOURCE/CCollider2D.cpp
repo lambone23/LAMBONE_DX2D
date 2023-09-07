@@ -11,7 +11,7 @@ namespace yha
 		, mTransform(nullptr)
 		, mSize(Vector2::One)
 		, mCenter(Vector2::Zero)
-		, mColliderState(eColliderStateType::None)
+		, mColliderState(eColliderStateType::Fin)
 		, mColor(eColor::Green)
 	{
 		mColliderNumber++;
