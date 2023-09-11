@@ -3,6 +3,9 @@
 #include "framework.h"
 #include "Editor_Window.h"
 
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+
 #include "..\Engine_SOURCE\CApplication.h"
 #include "..\Engine_SOURCE\CRenderer.h"
 #include "..\Engine_SOURCE\CResources.h"
@@ -45,7 +48,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-    //_CrtSetBreakAlloc(937);
+    //_CrtSetBreakAlloc(169942);
     //SetProcessDPIAware(); // 모니터 배율 영향 X - But 화면 사이즈가 작아진다.
 
     // TODO: 여기에 코드를 입력합니다.

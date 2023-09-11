@@ -78,12 +78,12 @@ namespace yha
 		bool FnMoveCamera(eDirection _dir);
 
 		/*
-			단계0: Player로 사용할 Plants고르기
+			(단계: 0)Player로 사용할 Plants고르기
 		*/
 		void FnChoosePlants();
 
 		/*
-			단계1: Play Game
+			(단계: 1)Play Game
 		*/
 		void FnPlay();
 
@@ -177,36 +177,68 @@ namespace yha
 		*/
 		void FnDrawBoard();
 
+		/*
+			(단계: 1)FSM - 식물
+		*/
+		void FnManageFSM_Plants(ePlantsType _inPlants, int _idx);
+
+		/*
+			(단계: 1)FSM - 좀비
+		*/
+		void FnManageFSM_Zombies();
+
+		/*
+			(단계: 1)충돌 관리 - 식물
+		*/
+		void FnManageCollider_Plants(ePlantsType _inPlants, int _idx);
+		//void FnManageCollider_Plants();
+
+		/*
+			(단계: 1)충돌 관리 - 좀비
+		*/
+		void FnManageCollider_Zombies();
+
+		/*
+			(단계: 1)상태 변화 확인 - 식물
+		*/
+		void FnChangeStatus_Plants(ePlantsType _inPlants, int _idx, eStatusType _inStatus);
+
 	private:
 
 		struct infoPickedCard
 		{// mPickedCardList
-			ePlantsType	plantsType;			// 식물 종류
-			bool		isDisabled;			// 카드 활성화 여부
-			bool		isCoolTimeActive;	// 쿨타임 활성화 여부
-			float		coolTime;			// 기준시간 - 카드 쿨타임
+			ePlantsType	plantsType;				// 식물 종류
+			bool		isDisabled;				// 여부 - 카드 활성화
+			bool		isCoolTimeActive;		// 여부 - 쿨타임 활성화
+			float		coolTime;				// 기준시간 - 카드 쿨타임
 		};
 
 		struct infoBoard
 		{
-			bool		isPlanted;			// 식물 생성여부
-			ePlantsType	plantsType;			// 식물 종류
+			bool		isPlanted;				// 식물 생성여부
+			ePlantsType	plantsType;				// 식물 종류
 		};
 
 		struct infoPlants
 		{
-			bool			isPlanted;		// 생성여부
-			bool			isChangeStatus;	// 상태변화여부
-			eStatusType		statusType;		// 상태
-			CGameObject*	plants;			// 오브젝트 - 식물
-			CAnimator*		animator;		// 이미지
-			CCollider2D*	collider;		// 충돌체
+			bool			isPlanted;			// 여부 - 생성
+			bool			isChangeStatus;		// 여부 - 상태변화
+			eStatusType		statusType;			// 상태(현재)
+			CGameObject*	plants;				// 오브젝트 - 식물
+			CAnimator*		animator;			// 이미지
+			CCollider2D*	collider;			// 충돌체
+
+			/*
+				충돌 관리에서 별도 제어 요소
+			*/
+			bool			isAttacked;			// 여부 - 피격
+			float			attackedTime;		// 기준시간 - 피격
 		};
 
 		struct infoSunLight 
 		{// mSunLights
-			bool			isExist;			// 생성여부 - 햇빛
-			bool			isExistSunflower;	// 존재여부 - 해바라기
+			bool			isExist;			// 여부 - 햇빛 생성 
+			bool			isExistSunflower;	// 여부 - 해바라기 존재 
 			float			cycleChkTime;		// 기준시간 - 햇빛 생성주기
 			CGameObject*	sunLight;			// 오브젝트 - 햇빛
 			Vector3			position;			// 좌표
@@ -375,26 +407,16 @@ namespace yha
 		infoSunLight mSunLights[MAXCOUNT_PLANTS] = {};
 
 		// SunFlower
-		//std::vector<infoPlants> mPlants_SunFlowers;
 		infoPlants mPlants_SunFlowers[MAXCOUNT_PLANTS] = {};
 
-		//==================================================================
-		// Plants
-		//==================================================================
-		CGameObject* mPl_SunFlower;
+		// WallNut
+		infoPlants mPlants_WallNuts[MAXCOUNT_PLANTS] = {};
 
-		CGameObject* mPl_Peashooter1;
-		CCollider2D* cd_Peashooter1;
+		// Peashooter
+		infoPlants mPlants_Peashooters[MAXCOUNT_PLANTS] = {};
 
-		CGameObject* mPl_Chomper;
-		CCollider2D* cd_Chomper;
-		CAnimator* at_Chomper;
-		bool FlagChomperOnceIdleDid = false;
-
-		CGameObject* mPl_WallNut;
-		CCollider2D* cd_WallNut;
-		CAnimator* at_WallNut;
-		bool FlagWallNut = false;
+		// Chomper
+		infoPlants mPlants_Chompers[MAXCOUNT_PLANTS] = {};
 
 		//==================================================================
 		// Zombies

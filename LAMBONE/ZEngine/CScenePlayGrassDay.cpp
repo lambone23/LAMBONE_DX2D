@@ -451,8 +451,6 @@ namespace yha
 		// SunFlower
 		//==================================================================
 #pragma region Resource_Plants_SunFlower
-		//mPlants_SunFlowers.resize(MAXCOUNT_PLANTS);
-
 		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
 		{
 			mPlants_SunFlowers[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
@@ -471,7 +469,7 @@ namespace yha
 			std::shared_ptr<CTexture> atlas_SunFlower_Idle
 				= CResources::FnLoad<CTexture>(L"SunFlower_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower\\SunFlower.png");
 			mPlants_SunFlowers[idx].animator->FnCreate(
-				L"Idle"						// name
+				L"SunFlower_Idle"			// name
 				, atlas_SunFlower_Idle		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
 				, Vector2(1314.0f / 18.f, 74.0f)		// size
@@ -480,12 +478,12 @@ namespace yha
 				, 0.08f						// duration
 			);
 
-			// Bight
-			std::shared_ptr<CTexture> atlas_SunFlower_Bight
-				= CResources::FnLoad<CTexture>(L"SunFlower_Bight", L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower\\SunFlower_Bright.png");
+			// Bright
+			std::shared_ptr<CTexture> atlas_SunFlower_Bright
+				= CResources::FnLoad<CTexture>(L"SunFlower_Bright", L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower\\SunFlower_Bright.png");
 			mPlants_SunFlowers[idx].animator->FnCreate(
-				L"Bright"					// name
-				, atlas_SunFlower_Bight		// atlas
+				L"SunFlower_Bright"			// name
+				, atlas_SunFlower_Bright	// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
 				, Vector2(1320.0f / 18.f, 75.0f)		// size
 				, 18						// columnLength
@@ -493,11 +491,23 @@ namespace yha
 				, 0.08f						// duration
 			);
 
+			// Blink
+			std::shared_ptr<CTexture> atlas_SunFlower_Blink
+				= CResources::FnLoad<CTexture>(L"SunFlower_Blink", L"..\\Resources\\Texture\\MyGame\\Plants\\SunFlower\\SunFlower_Blink.png");
+			mPlants_SunFlowers[idx].animator->FnCreate(
+				L"SunFlower_Blink"			// name
+				, atlas_SunFlower_Blink		// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1314.f / 18.f, 74.f)		// size
+				, 18						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+
 			//-------------------------------------
-			// 갱신 - 해바라기
+			// 갱신 - Status
 			//-------------------------------------
-			mPlants_SunFlowers[idx].isChangeStatus = true;
-			mPlants_SunFlowers[idx].statusType = eStatusType::Idle;
+			FnChangeStatus_Plants(ePlantsType::SunFlower, idx, eStatusType::End);
 
 			//-------------------------------------
 			// plants_collider
@@ -509,136 +519,156 @@ namespace yha
 #pragma endregion
 
 		//==================================================================
+		// WallNut
+		//==================================================================
+#pragma region Resource_Plants_WallNut
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mPlants_WallNuts[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
+			mPlants_WallNuts[idx].plants->FnSetName(L"GrassDay_WallNut_" + idx);
+
+			CMeshRenderer* mr = mPlants_WallNuts[idx].plants->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+			//-------------------------------------
+			// plants_animator
+			//-------------------------------------
+			mPlants_WallNuts[idx].animator = mPlants_WallNuts[idx].plants->FnAddComponent<CAnimator>();
+
+			// Idle
+			std::shared_ptr<CTexture> atlas_WallNut_Idle
+				= CResources::FnLoad<CTexture>(L"WallNut_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_Idle.png");
+			mPlants_WallNuts[idx].animator->FnCreate(
+				L"WallNut_Idle"				// name
+				, atlas_WallNut_Idle		// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1040.0f / 16.f, 73.0f)		// size
+				, 16						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+
+			// Cracked1
+			std::shared_ptr<CTexture> atlas_WallNut_Cracked1
+				= CResources::FnLoad<CTexture>(L"WallNut_Cracked1", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_Cracked1.png");
+			mPlants_WallNuts[idx].animator->FnCreate(
+				L"WallNut_Cracked1"			// name
+				, atlas_WallNut_Cracked1	// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(715.0f / 11.f, 73.0f)		// size
+				, 11						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+
+			// Cracked2
+			std::shared_ptr<CTexture> atlas_WallNut_Cracked2
+				= CResources::FnLoad<CTexture>(L"WallNut_Cracked2", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_Cracked2.png");
+			mPlants_WallNuts[idx].animator->FnCreate(
+				L"WallNut_Cracked2"			// name
+				, atlas_WallNut_Cracked2	// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(975.0f / 15.f, 73.0f)		// size
+				, 15						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+
+			//-------------------------------------
+			// 갱신 - Status
+			//-------------------------------------
+			FnChangeStatus_Plants(ePlantsType::WallNut, idx, eStatusType::End);
+		}
+#pragma endregion
+
+		//==================================================================
 		// Peashooter
 		//==================================================================
 #pragma region Resource_Plants_Peashooter
-		mPl_Peashooter1 = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::Player);
-		mPl_Peashooter1->FnSetName(L"GrassDay_Peashooter");
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mPlants_Peashooters[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
+			mPlants_Peashooters[idx].plants->FnSetName(L"GrassDay_Peashooter_" + idx);
 
-		CMeshRenderer* mr = mPl_Peashooter1->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+			CMeshRenderer* mr = mPlants_Peashooters[idx].plants->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
 
-		std::shared_ptr<CTexture> atlas_Peashooter = CResources::FnLoad<CTexture>(L"Peashooter", L"..\\Resources\\Texture\\MyGame\\Plants\\Peashooter\\Peashooter.png");
-		CAnimator* at_Peashooter = mPl_Peashooter1->FnAddComponent<CAnimator>();
-		at_Peashooter->FnCreate(
-			L"Idle"						// name
-			, atlas_Peashooter			// atlas
-			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(923.0f / 13.f, 71.0f)		// size
-			, 13						// columnLength
-			, Vector2::Zero				// offset
-			, 0.08f						// duration
-		);
-		at_Peashooter->FnPlayAnimation(L"Idle", true);
+			//-------------------------------------
+			// plants_animator
+			//-------------------------------------
+			mPlants_Peashooters[idx].animator = mPlants_Peashooters[idx].plants->FnAddComponent<CAnimator>();
 
-		cd_Peashooter1 = mPl_Peashooter1->FnAddComponent<CCollider2D>();
-		cd_Peashooter1->FnSetSize(Vector2(0.3f, 0.3f));
-		cd_Peashooter1->FnSetCenter(Vector2(0.f, 0.f));
-		cd_Peashooter1->FnSetAttackType(eAttackType::Nearby);
+			// Idle
+			std::shared_ptr<CTexture> atlas_Peashooter_Idle
+				= CResources::FnLoad<CTexture>(L"PeaShooter_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\Peashooter\\Peashooter.png");
+			mPlants_Peashooters[idx].animator->FnCreate(
+				L"PeaShooter_Idle"			// name
+				, atlas_Peashooter_Idle		// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(923.0f / 13.f, 71.0f)		// size
+				, 13						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+
+			//-------------------------------------
+			// 갱신 - Status
+			//-------------------------------------
+			FnChangeStatus_Plants(ePlantsType::PeaShooter, idx, eStatusType::End);
+		}
 #pragma endregion
 
 		//==================================================================
 		// Chomper
 		//==================================================================
-#pragma region Resource_Plants_Peashooter
-		mPl_Chomper = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::Player);
-		mPl_Chomper->FnSetName(L"GrassDay_Chomper");
+#pragma region Resource_Plants_Chomper
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			mPlants_Chompers[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
+			mPlants_Chompers[idx].plants->FnSetName(L"GrassDay_Chomper_" + idx);
 
-		cd_Chomper = mPl_Chomper->FnAddComponent<CCollider2D>();
-		cd_Chomper->FnSetSize(Vector2(0.5f, 0.5f));
-		cd_Chomper->FnSetCenter(Vector2(-0.1f, -0.05f));
+			CMeshRenderer* mr = mPlants_Chompers[idx].plants->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
 
-		mr = mPl_Chomper->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+			//-------------------------------------
+			// plants_animator
+			//-------------------------------------
+			mPlants_Chompers[idx].animator = mPlants_Chompers[idx].plants->FnAddComponent<CAnimator>();
 
-		// Animation
-		at_Chomper = mPl_Chomper->FnAddComponent<CAnimator>();
+			// Idle
+			std::shared_ptr<CTexture> atlas_Chomper_Idle
+				= CResources::FnLoad<CTexture>(L"Chomper_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Idle.png");
+			mPlants_Chompers[idx].animator->FnCreate(
+				L"Chomper_Idle"				// name
+				, atlas_Chomper_Idle		// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1690.0f / 13.f, 114.0f)	// size
+				, 13						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
 
-		// Idle
-		std::shared_ptr<CTexture> atlas_Chomper_Idle = CResources::FnLoad<CTexture>(L"Chomper_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Idle.png");
-		at_Chomper->FnCreate(
-			L"Idle"						// name
-			, atlas_Chomper_Idle		// atlas
-			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(1690.0f / 13.f, 114.0f)		// size
-			, 13						// columnLength
-			, Vector2::Zero				// offset
-			, 0.08f						// duration
-		);
+			// Attack
+			std::shared_ptr<CTexture> atlas_Chomper_Attack
+				= CResources::FnLoad<CTexture>(L"Chomper_Attack", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Attack.png");
+			mPlants_Chompers[idx].animator->FnCreate(
+				L"Chomper_Attack"			// name
+				, atlas_Chomper_Attack		// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1170.0f / 9.f, 114.0f)	// size
+				, 9							// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
 
-		// Attack
-		std::shared_ptr<CTexture> atlas_Chomper_Attack = CResources::FnLoad<CTexture>(L"Chomper_Attack", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Attack.png");
-		at_Chomper->FnCreate(
-			L"Attack"					// name
-			, atlas_Chomper_Attack		// atlas
-			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(1170.0f / 9.f, 114.0f)		// size
-			, 9							// columnLength
-			, Vector2::Zero				// offset
-			, 0.08f						// duration
-		);
-
-		at_Chomper->FnPlayAnimation(L"Idle", true);
-		//at_Chomper->FnPlayAnimation(L"Attack", true);
-		//mPl_Chomper->FnAddComponent<CPlayerScript>();
-#pragma endregion
-
-		//==================================================================
-		// WallNut
-		//==================================================================
-#pragma region Resource_Plants_WallNut
-		mPl_WallNut = object::FnInstantiate<CGameObject>(Vector3(100.0f, 0.f, 0.3f), eLayerType::Player);
-		mPl_WallNut->FnSetName(L"GrassDay_WallNut");
-
-		cd_WallNut = mPl_WallNut->FnAddComponent<CCollider2D>();
-		cd_WallNut->FnSetSize(Vector2(0.3f, 0.35f));
-
-		mr = mPl_WallNut->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
-
-		// Animation
-		at_WallNut = mPl_WallNut->FnAddComponent<CAnimator>();
-
-		// Idle
-		std::shared_ptr<CTexture> atlas_WallNut_Idle = CResources::FnLoad<CTexture>(L"WallNut_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_Idle.png");
-		at_WallNut->FnCreate(
-			L"Idle"			// name
-			, atlas_WallNut_Idle		// atlas
-			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(1040.0f / 16.f, 73.0f)		// size
-			, 16						// columnLength
-			, Vector2::Zero				// offset
-			, 0.08f						// duration
-		);
-
-		// Cracked1
-		std::shared_ptr<CTexture> atlas_WallNut_Cracked1 = CResources::FnLoad<CTexture>(L"WallNut_Cracked1", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_Cracked1.png");
-		at_WallNut->FnCreate(
-			L"Cracked1"		// name
-			, atlas_WallNut_Cracked1	// atlas
-			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(715.0f / 11.f, 73.0f)		// size
-			, 11						// columnLength
-			, Vector2::Zero				// offset
-			, 0.08f						// duration
-		);
-
-		// Cracked2
-		std::shared_ptr<CTexture> atlas_Chomper_Cracked2 = CResources::FnLoad<CTexture>(L"WallNut_Cracked2", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_Cracked2.png");
-		at_WallNut->FnCreate(
-			L"Cracked2"		// name
-			, atlas_Chomper_Cracked2		// atlas
-			, Vector2(0.0f, 0.0f)			// leftTop
-			, Vector2(975.0f / 15.f, 73.0f)		// size
-			, 15						// columnLength
-			, Vector2::Zero				// offset
-			, 0.08f						// duration
-		);
-
-		at_WallNut->FnPlayAnimation(L"Idle", true);
+			//-------------------------------------
+			// 갱신 - Status
+			//-------------------------------------
+			FnChangeStatus_Plants(ePlantsType::Chomper, idx, eStatusType::End);
+		}
 #pragma endregion
 	}//END-void CScenePlayGrassDay::FnInitialize_Plants
 
@@ -796,7 +826,7 @@ namespace yha
 
 	void CScenePlayGrassDay::FnOnEnter()
 	{
-		mSunLightScore	= 100;
+		mSunLightScore	= 5500;
 		mSecond			= 0.f;
 		mChkSecondTmp	= 0.f;
 		mFlagChkEnter	= true;
@@ -824,7 +854,29 @@ namespace yha
 			mSunLights[idx].isExistSunflower	= false;
 			mSunLights[idx].cycleChkTime		= 999.f;
 
-			mPlants_SunFlowers[idx].isPlanted = false;
+			mPlants_SunFlowers[idx].isPlanted		= false;
+			mPlants_SunFlowers[idx].isChangeStatus	= false;
+			mPlants_SunFlowers[idx].statusType		= eStatusType::End;
+			mPlants_SunFlowers[idx].isAttacked		= false;
+			mPlants_SunFlowers[idx].attackedTime	= 0.f;
+
+			mPlants_WallNuts[idx].isPlanted			= false;
+			mPlants_WallNuts[idx].isChangeStatus	= false;
+			mPlants_WallNuts[idx].statusType		= eStatusType::End;
+			mPlants_WallNuts[idx].isAttacked		= false;
+			mPlants_WallNuts[idx].attackedTime		= 0.f;
+
+			mPlants_Peashooters[idx].isPlanted		= false;
+			mPlants_Peashooters[idx].isChangeStatus	= false;
+			mPlants_Peashooters[idx].statusType		= eStatusType::End;
+			mPlants_Peashooters[idx].isAttacked		= false;
+			mPlants_Peashooters[idx].attackedTime	= 0.f;
+
+			mPlants_Chompers[idx].isPlanted			= false;
+			mPlants_Chompers[idx].isChangeStatus	= false;
+			mPlants_Chompers[idx].statusType		= eStatusType::End;
+			mPlants_Chompers[idx].isAttacked		= false;
+			mPlants_Chompers[idx].attackedTime		= 0.f;
 		}
 
 		FnDoInitialize();
@@ -895,16 +947,19 @@ namespace yha
 		object::FnDestroy(mUI_btn_Menu);
 
 		object::FnDestroy(mUI_SelectedCard);
+		object::FnDestroy(mUI_SelectedShovel);
 
 		//-------------------------------------
 		// Plants
 		//-------------------------------------
-		//mPlants_SunFlowers.clear();
-
-		object::FnDestroy(mPl_SunFlower);
-		object::FnDestroy(mPl_Peashooter1);
-		object::FnDestroy(mPl_Chomper);
-		object::FnDestroy(mPl_WallNut);
+		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		{
+			object::FnDestroy(mSunLights[idx].sunLight);
+			object::FnDestroy(mPlants_SunFlowers[idx].plants);
+			object::FnDestroy(mPlants_WallNuts[idx].plants);
+			object::FnDestroy(mPlants_Peashooters[idx].plants);
+			object::FnDestroy(mPlants_Chompers[idx].plants);
+		}
 
 		object::FnDestroy(mZb_NormalZombie);
 	}//END-void CScenePlayGrassDay::FnOnExit
@@ -1041,11 +1096,6 @@ namespace yha
 		// 셋팅
 		//==================================================================
 		//-------------------------------------
-		// Cards
-		//-------------------------------------
-		FnDrawPickedCardList(eStepMode::Play);
-
-		//-------------------------------------
 		// UI
 		//-------------------------------------
 		mUI_SunPointChk->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.7f, 2.f, POS_Z_DEFAULT));
@@ -1056,6 +1106,11 @@ namespace yha
 		mUI_FlagMeterParts_Zombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.45f, 2.05f, POS_Z_FRONT_2));
 		mUI_FlagMeterParts_Flag->FnGetComponent<CTransform>()->FnSetPosition(Vector3(1.38f, 2.05f, POS_Z_FRONT_1));
 		mUI_FlagMeterParts_FlagFin->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.33f, 2.05f, POS_Z_FRONT_1));
+
+		//-------------------------------------
+		// Cards
+		//-------------------------------------
+		FnDrawPickedCardList(eStepMode::Play);
 
 		//==================================================================
 		// Card 선택시
@@ -1079,118 +1134,13 @@ namespace yha
 		FnDrawSunLights();
 
 		//==================================================================
-		// Plants
+		// 그리기 - Plants
 		//==================================================================
 		FnDrawBoard();
 
-#pragma region Resource_Plants
-		//-------------------------------------
-		// SunFlower Status
-		//-------------------------------------
-		//mPl_SunFlower->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, 0.5f, 0.3f));
-		//mPlants_SunFlowers[0]->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, 0.5f, 0.3f));
 
-		//-------------------------------------
-		// Peashooter Status
-		//-------------------------------------
-		mPl_Peashooter1->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.1f, -0.2f, 0.3f));
-
-		if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
-			if (eColliderStateType::Ing == cd_Peashooter1->FnGetColliderState())
-				int a = 0;
-
-		//-------------------------------------
-		// Chomper Status
-		//-------------------------------------
-		mPl_Chomper->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -1.0f, 0.3f));
-
-		if (eColliderStateType::Start == cd_Chomper->FnGetColliderState())
-		{
-			at_Chomper->FnPlayAnimation(L"Attack", true);
-			FlagChomperOnceIdleDid = false;
-		}
-		else if (eColliderStateType::Fin == cd_Chomper->FnGetColliderState() && false == FlagChomperOnceIdleDid)
-		{
-			FlagChomperOnceIdleDid = true;
-			at_Chomper->FnPlayAnimation(L"Idle", true);
-		}
-
-		//-------------------------------------
-		// WallNut Status
-		//-------------------------------------
-		if (false == FlagWallNut)
-			mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-0.5f, 0.5f, 0.3f));
-
-		if (eColliderStateType::Start == cd_WallNut->FnGetColliderState())
-		{
-			at_WallNut->FnPlayAnimation(L"Cracked1", true);
-			mChkSecondTmp = 0.f;
-		}
-
-		mChkSecondTmp += (float)CTime::FnDeltaTime();
-
-		if ((10.0f <= mChkSecondTmp)
-			&& (eColliderStateType::Ing == cd_WallNut->FnGetColliderState()))
-		{
-			at_WallNut->FnPlayAnimation(L"Cracked2", true);
-			FlagWallNut = true;
-			mChkSecondTmp = 0.f;
-		}
-
-		if ((2.0f <= mChkSecondTmp)
-			&& true == FlagWallNut
-			&& eColliderStateType::Ing == cd_WallNut->FnGetColliderState())
-		{
-			mPl_WallNut->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, 0.3f));
-		}
-#pragma endregion
-#pragma region Resource_Zombies
-		//==================================================================
-		// Zombies
-		//==================================================================
-		//-------------------------------------
-		// NormalZombie Status
-		//-------------------------------------
-		if (false == FlagNormalZombie)
-		{
-			mZb_NormalZombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, -1.0f, 0.2f));
-			FlagNormalZombie = true;
-		}
-
-		/*			if (eColliderStateType::Start == cd_NormalZombie->FnGetColliderState())
-					{
-						if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
-						{
-							at_NormalZombie->FnPlayAnimation(L"Idle", true);
-						}
-						else
-						{
-							at_NormalZombie->FnPlayAnimation(L"Attack", true);
-							FlagNormalZombieOnceIdleDid = false;
-						}
-
-					}
-					else */
-		if (eColliderStateType::Ing == cd_NormalZombie->FnGetColliderState() && false == FlagNormalZombieOnceIdleDid)
-		{
-			FlagNormalZombieOnceIdleDid = true;
-			at_NormalZombie->FnPlayAnimation(L"Attack", true);
-		}
-		else if (eColliderStateType::Fin == cd_NormalZombie->FnGetColliderState() && true == FlagNormalZombieOnceIdleDid)
-		{
-			FlagNormalZombieOnceIdleDid = false;
-			at_NormalZombie->FnPlayAnimation(L"Idle", true);
-		}
-#pragma endregion
-
-		if (CInput::FnGetKey(eKeyCode::F))
-		{
-			at_Chomper->FnPlayAnimation(L"Attack", true);
-		}
-		if (CInput::FnGetKey(eKeyCode::G))
-		{
-			at_Chomper->FnPlayAnimation(L"Idle", true);
-		}
+		FnManageFSM_Zombies();
+		FnManageCollider_Zombies();
 
 	}//END-void CScenePlayGrassDay::FnPlay
 
@@ -2248,12 +2198,13 @@ namespace yha
 			//==================================================================
 			if (flagDo)
 			{
-				//==================================================================
-				// 갱신 - 햇빛 포인트 점수
-				//==================================================================
 				if ((true == mSunLights[idx].isExist)
+					&& (false == mflagIsCardSelected)
 					&& (false == mflagIsShovelSelected))
 				{
+					//==================================================================
+					// 갱신 - 햇빛 포인트 점수
+					//==================================================================
 					//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
 					//TCHAR Temp[256] = { 0, };
 					//_stprintf_s(Temp, L"mSunScore: % d -> %d", mSunLightScore, mSunLightScore + 25);
@@ -2267,22 +2218,20 @@ namespace yha
 					// 갱신 - 햇빛 포인트 점수
 					mSunLightScore += 25;
 				}
-
-				//==================================================================
-				// 심기
-				//==================================================================
-				if ((true == mflagIsCardSelected)			// 카드	: O
+				else if ((true == mflagIsCardSelected)		// 카드	: O
 					&& (false == mflagIsShovelSelected))	// 삽	: X
 				{
+					//==================================================================
+					// 심기
+					//==================================================================
 					FnPutPlants(idx);
 				}
-
-				//==================================================================
-				// 뽑기
-				//==================================================================
-				if ((true == mflagIsShovelSelected)			// 삽	: O
+				else if ((true == mflagIsShovelSelected)	// 삽	: O
 					&& (false == mflagIsCardSelected))		// 카드	: X
 				{
+					//==================================================================
+					// 뽑기
+					//==================================================================
 					FnRemovePlants(idx);
 				}
 			}
@@ -2297,48 +2246,99 @@ namespace yha
 		if (!chkIsPlantsNow)
 		{// 해당 칸에 식물이 없는 상태
 
+			/*
+				갱신 - Status
+				갱신 - 식물 생성 여부
+				갱신 - 충돌체 생성
+				갱신 - 해당 좌표의 게임판 상태 기록
+				갱신 - 햇빛 포인트 점수
+
+				갱신 - 해당 좌표의 게임판 상태 기록 (공통)
+			*/
 			switch (mPickedCardType)
 			{
+#pragma region SunFlower
 			case ePlantsType::SunFlower:
 			{
 				if (50 <= mSunLightScore)
 				{
-					// 식물 심기
+					FnChangeStatus_Plants(ePlantsType::SunFlower, _posIdx, eStatusType::Idle);
 					mPlants_SunFlowers[_posIdx].isPlanted = true;
-
-					// 갱신 - 충돌체 생성
 					mPlants_SunFlowers[_posIdx].collider = mPlants_SunFlowers[_posIdx].plants->FnAddComponent<CCollider2D>();
 					mPlants_SunFlowers[_posIdx].collider->FnSetSize(Vector2(0.3f, 0.3f));
-
-					// 갱신 - 해당 좌표의 게임판 상태 기록
 					mBoard[_posIdx].plantsType = ePlantsType::SunFlower;
-
-					// 갱신 - 햇빛 포인트 점수
 					mSunLightScore -= 50;
 
 					//-------------------------------------
-					// Only 해바라기
+					// Only SunFlower
 					//-------------------------------------
 					mSunLights[_posIdx].isExistSunflower	= true;
 					mSunLights[_posIdx].cycleChkTime		= 0.f;
 				}
 			}
 			break;
-			case ePlantsType::PeaShooter:
-				break;
+#pragma endregion
+#pragma region WallNut
 			case ePlantsType::WallNut:
-				break;
+			{
+				if (50 <= mSunLightScore)
+				{
+					FnChangeStatus_Plants(ePlantsType::WallNut, _posIdx, eStatusType::Idle);
+					mPlants_WallNuts[_posIdx].isPlanted = true;
+					mPlants_WallNuts[_posIdx].collider = mPlants_WallNuts[_posIdx].plants->FnAddComponent<CCollider2D>();
+					mPlants_WallNuts[_posIdx].collider->FnSetSize(Vector2(0.3f, 0.3f));
+					mBoard[_posIdx].plantsType = ePlantsType::WallNut;
+					mSunLightScore -= 50;
+				}
+			}
+			break;
+#pragma endregion
+#pragma region PeaShooter
+			case ePlantsType::PeaShooter:
+			{
+				if (100 <= mSunLightScore)
+				{
+					FnChangeStatus_Plants(ePlantsType::PeaShooter, _posIdx, eStatusType::Idle);
+					mPlants_Peashooters[_posIdx].isPlanted = true;
+					mPlants_Peashooters[_posIdx].collider = mPlants_Peashooters[_posIdx].plants->FnAddComponent<CCollider2D>();
+					mPlants_Peashooters[_posIdx].collider->FnSetSize(Vector2(0.3f, 0.3f));
+					mBoard[_posIdx].plantsType = ePlantsType::PeaShooter;
+					mSunLightScore -= 100;
+				}
+			}
+			break;
+#pragma endregion
+#pragma region Chomper
 			case ePlantsType::Chomper:
-				break;
+			{
+				if (150 <= mSunLightScore)
+				{
+					FnChangeStatus_Plants(ePlantsType::Chomper, _posIdx, eStatusType::Idle);
+					mPlants_Chompers[_posIdx].isPlanted = true;
+					mPlants_Chompers[_posIdx].collider = mPlants_Chompers[_posIdx].plants->FnAddComponent<CCollider2D>();
+					mPlants_Chompers[_posIdx].collider->FnSetSize(Vector2(1.1f, 0.5f));
+					mPlants_Chompers[_posIdx].collider->FnSetCenter(Vector2(0.2f, -0.05f));
+					mBoard[_posIdx].plantsType = ePlantsType::Chomper;
+					mSunLightScore -= 150;
+				}
+			}
+			break;
+#pragma endregion
+#pragma region Jalapeno
 			case ePlantsType::Jalapeno:
 				break;
+#pragma endregion
+#pragma region CherryBomb
 			case ePlantsType::CherryBomb:
 				break;
+#pragma endregion
 			default:
 				break;
 			}
 
-			// 갱신 - 해당 좌표의 게임판 상태 기록 (공통)
+			//==================================================================
+			// (공통) 갱신 - 해당 좌표의 게임판 상태 기록
+			//==================================================================
 			mBoard[_posIdx].isPlanted = true;
 
 			/*
@@ -2346,8 +2346,6 @@ namespace yha
 				1. 갱신 - 기준시간(카드 쿨타임) Start
 				2. 선택 해제 - 카드
 			*/
-			//if (mflagIsCardSelected)
-			//{
 			//==================================================================
 			// 1. 갱신 - 기준시간(카드 쿨타임) Start
 			//==================================================================
@@ -2368,7 +2366,6 @@ namespace yha
 			// 2. 선택 해제 - 카드
 			//==================================================================
 			FnRelease_Card();
-			//}
 
 		}//end-if (!chkIsPlantsNow)
 		else
@@ -2390,41 +2387,98 @@ namespace yha
 
 			switch (removePlantsType)
 			{
+#pragma region SunFlower
 			case ePlantsType::SunFlower:
 			{
 				// 식물 뽑기
 				mPlants_SunFlowers[_posIdx].isPlanted = false;
 				mPlants_SunFlowers[_posIdx].plants->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				FnChangeStatus_Plants(ePlantsType::SunFlower, _posIdx, eStatusType::End);
 
-				// 갱신 - 충돌체 삭제
-				mPlants_SunFlowers[_posIdx].plants->FnDeleteCollider();
-				mPlants_SunFlowers[_posIdx].collider = nullptr;
-
-				// 갱신 - 해당 좌표의 게임판 상태 기록
-				mBoard[_posIdx].isPlanted = false;
-				mBoard[_posIdx].plantsType = ePlantsType::End;
+				/*
+					뽑기삽으로 제거시 충돌체 삭제
+					피공격으로 제거시 충돌체 삭제X
+				*/
+				if (mflagIsShovelSelected)
+				{
+					// 갱신 - 충돌체 삭제
+					mPlants_SunFlowers[_posIdx].plants->FnDeleteCollider();
+					mPlants_SunFlowers[_posIdx].collider = nullptr;
+				}
 
 				//-------------------------------------
-				// Only 해바라기
+				// Only SunFlower
 				//-------------------------------------
 				mSunLights[_posIdx].isExistSunflower = false;
 			}
 			break;
-			case ePlantsType::PeaShooter:
-				break;
+#pragma endregion
+#pragma region WallNut
 			case ePlantsType::WallNut:
-				break;
+			{
+				mPlants_WallNuts[_posIdx].isPlanted = false;
+				mPlants_WallNuts[_posIdx].plants->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				FnChangeStatus_Plants(ePlantsType::WallNut, _posIdx, eStatusType::End);
+
+				if (mflagIsShovelSelected)
+				{
+					mPlants_WallNuts[_posIdx].plants->FnDeleteCollider();
+					mPlants_WallNuts[_posIdx].collider = nullptr;
+				}
+			}
+			break;
+#pragma endregion
+#pragma region PeaShooter
+			case ePlantsType::PeaShooter:
+			{
+				mPlants_Peashooters[_posIdx].isPlanted = false;
+				mPlants_Peashooters[_posIdx].plants->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				FnChangeStatus_Plants(ePlantsType::WallNut, _posIdx, eStatusType::End);
+
+				if (mflagIsShovelSelected)
+				{
+					mPlants_Peashooters[_posIdx].plants->FnDeleteCollider();
+					mPlants_Peashooters[_posIdx].collider = nullptr;
+				}
+			}
+			break;
+#pragma endregion
+#pragma region Chomper
 			case ePlantsType::Chomper:
-				break;
+			{
+				mPlants_Chompers[_posIdx].isPlanted = false;
+				mPlants_Chompers[_posIdx].plants->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				FnChangeStatus_Plants(ePlantsType::WallNut, _posIdx, eStatusType::End);
+
+				if (mflagIsShovelSelected)
+				{
+					mPlants_Chompers[_posIdx].plants->FnDeleteCollider();
+					mPlants_Chompers[_posIdx].collider = nullptr;
+				}
+			}
+			break;
+#pragma endregion
+#pragma region Jalapeno
 			case ePlantsType::Jalapeno:
 				break;
+#pragma endregion
+#pragma region CherryBomb
 			case ePlantsType::CherryBomb:
 				break;
+#pragma endregion
 			default:
 				break;
 			}
 
-			// 선택 해제 - 뽑기삽
+			//==================================================================
+			// (공통) 갱신 - 해당 좌표의 게임판 상태 기록
+			//==================================================================
+			mBoard[_posIdx].isPlanted = false;
+			mBoard[_posIdx].plantsType = ePlantsType::End;
+
+			//==================================================================
+			// (공통) 선택 해제 - 뽑기삽 (뽑기삽이 선택된 경우)
+			//==================================================================
 			if (mflagIsShovelSelected)
 				FnRelease_Shovel();
 
@@ -2459,7 +2513,7 @@ namespace yha
 
 			if ((true == mSunLights[idx].isExist)
 				&& (7.f <= mSunLights[idx].cycleChkTime))
-			{// 햇빛이 있는 곳이면
+			{// 햇빛이 생성되어 있는 경우
 
 				//==================================================================
 				// 비활성화 - 햇빛
@@ -2478,12 +2532,19 @@ namespace yha
 				// 초기화 - 기준시간
 				mSunLights[idx].cycleChkTime = 0.f;
 			}
-
-			if ((true == mBoard[idx].isPlanted)
+			else if ((false == mSunLights[idx].isExist)
+				&& (true == mBoard[idx].isPlanted)
 				&& (ePlantsType::SunFlower == mBoard[idx].plantsType)
 				&& (true == mSunLights[idx].isExistSunflower))
-			{// 해바라기가 심어진 곳이면
+			{// 햇빛이 생성되지 않았고, 해바라기가 심어진 경우
 
+				//==================================================================
+				// 갱신 - 햇빛 생성 주기시간
+				//==================================================================
+				/*
+					햇빛 포인트 점수에 따라
+					생성 주기 시간을 변경
+				*/
 				float limitTime = 0.f;
 
 				if (100 > mSunLightScore)
@@ -2493,34 +2554,21 @@ namespace yha
 				else if (200 <= mSunLightScore)
 					limitTime = 20.f;
 
-				if ((true == mSunLights[idx].isExistSunflower)
-					&& (false == mSunLights[idx].isExist)
-					&& (limitTime - 2.f <= mSunLights[idx].cycleChkTime) && (limitTime - 1.9f > mSunLights[idx].cycleChkTime))
+				if ((limitTime - 2.f <= mSunLights[idx].cycleChkTime) 
+					&& (limitTime > mSunLights[idx].cycleChkTime))
 				{
 					//==================================================================
-					// 갱신 - 해바라기
+					// 갱신 - Status
 					//==================================================================
-					/*
-						해바라기가 존재하는 경우
-						&& 기존에 생성된 햇빛 포인트가 없는 경우
-						&& 기준 시간이 8초 이상
-					*/
-					mPlants_SunFlowers[idx].isChangeStatus = true;
-					mPlants_SunFlowers[idx].statusType = eStatusType::Bright_OnlySunflower;
+					// 기준 시간 2초 전
+					FnChangeStatus_Plants(ePlantsType::SunFlower, idx, eStatusType::Bright_OnlySunflower);
 				}
-
-				if ((true == mSunLights[idx].isExistSunflower)
-					&& (false == mSunLights[idx].isExist)
-					&& (limitTime <= mSunLights[idx].cycleChkTime))
+				else if (limitTime <= mSunLights[idx].cycleChkTime)
 				{
 					//==================================================================
 					// 활성화 - 햇빛
 					//==================================================================
-					/* 
-						해바라기가 존재하는 경우
-						&& 기존에 생성된 햇빛 포인트가 없는 경우 - 같은 위치에 햇빛 포인트 중복 생성 방지
-						&& 기준 시간이 10초 이상
-					*/
+					// 기준 시간이 10초 이상
 
 					// 좌표 셋팅
 					Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
@@ -2536,10 +2584,9 @@ namespace yha
 					mSunLights[idx].cycleChkTime = 0.f;
 
 					//==================================================================
-					// 갱신 - 해바라기
+					// 갱신 - Status
 					//==================================================================
-					mPlants_SunFlowers[idx].isChangeStatus = true;
-					mPlants_SunFlowers[idx].statusType = eStatusType::Idle;
+					FnChangeStatus_Plants(ePlantsType::SunFlower, idx, eStatusType::Idle);
 				}
 			}
 		}//end-for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
@@ -2573,50 +2620,529 @@ namespace yha
 
 				ePlantsType drawPlantsType = mBoard[idx].plantsType;
 
-				switch (drawPlantsType)
-				{
-				case ePlantsType::SunFlower:
-				{
-					mPlants_SunFlowers[idx].plants->FnGetComponent<CTransform>()->FnSetPosition(positonList[idx]);
-					//mPlants_SunFlowers[idx].collider = mPlants_SunFlowers[idx].plants->FnAddComponent<CCollider2D>();
-					//mPlants_SunFlowers[idx].collider->FnSetSize(Vector2(0.3f, 0.3f));
-
-					if (true == mPlants_SunFlowers[idx].isChangeStatus)
-					{// 상태 변화가 있는 경우
-
-						switch (mPlants_SunFlowers[idx].statusType)
-						{
-						case eStatusType::Idle:
-							mPlants_SunFlowers[idx].animator->FnPlayAnimation(L"Idle", true);
-							break;
-						case eStatusType::Attack:
-							mPlants_SunFlowers[idx].animator->FnPlayAnimation(L"Bright", true);
-							break;
-						case eStatusType::Dead:
-							break;
-						case eStatusType::Bright_OnlySunflower:
-							mPlants_SunFlowers[idx].animator->FnPlayAnimation(L"Bright", true);
-							break;
-						}
-
-						mPlants_SunFlowers[idx].isChangeStatus = false;
-					}
-				}
-				break;
-				case ePlantsType::PeaShooter:
-					break;
-				case ePlantsType::WallNut:
-					break;
-				case ePlantsType::Chomper:
-					break;
-				case ePlantsType::Jalapeno:
-					break;
-				case ePlantsType::CherryBomb:
-					break;
-				default:
-					break;
-				}
+				FnManageCollider_Plants(drawPlantsType, idx);
+				FnManageFSM_Plants(drawPlantsType, idx);
 			}
 		}
 	}//END-void CScenePlayGrassDay::FnDrawBoard
+
+	void CScenePlayGrassDay::FnManageFSM_Plants(ePlantsType _inPlants, int _idx)
+	{
+		/*
+			최종 상태는
+			충돌 여부에 따른 상태변화의 결과로 적용
+		*/
+		switch (_inPlants)
+		{
+#pragma region SunFlower
+		case ePlantsType::SunFlower:
+		{
+			//==================================================================
+			// SunFlower
+			//==================================================================
+			mPlants_SunFlowers[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(positonList[_idx]);
+
+			if (true == mPlants_SunFlowers[_idx].isChangeStatus)
+			{// 상태 변화가 있는 경우
+
+				switch (mPlants_SunFlowers[_idx].statusType)
+				{
+				case eStatusType::Idle:
+					mPlants_SunFlowers[_idx].animator->FnPlayAnimation(L"SunFlower_Idle", true);
+					break;
+				case eStatusType::Attacked:
+					mPlants_SunFlowers[_idx].animator->FnPlayAnimation(L"SunFlower_Blink", true);
+					break;
+				case eStatusType::Dead:
+					FnRemovePlants(_idx);
+					break;
+				case eStatusType::Bright_OnlySunflower:
+					mPlants_SunFlowers[_idx].animator->FnPlayAnimation(L"SunFlower_Bright", true);
+					break;
+				}
+
+				mPlants_SunFlowers[_idx].isChangeStatus = false;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region WallNut
+		case ePlantsType::WallNut:
+		{
+			//==================================================================
+			// WallNut
+			//==================================================================
+			mPlants_WallNuts[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(positonList[_idx]);
+
+			if (true == mPlants_WallNuts[_idx].isChangeStatus)
+			{// 상태 변화가 있는 경우
+
+				switch (mPlants_WallNuts[_idx].statusType)
+				{
+				case eStatusType::Idle:
+					mPlants_WallNuts[_idx].animator->FnPlayAnimation(L"WallNut_Idle", true);
+					break;
+				case eStatusType::Attack:
+					mPlants_WallNuts[_idx].animator->FnPlayAnimation(L"WallNut_Cracked1", true);
+					break;
+				case eStatusType::Attacked:
+					mPlants_WallNuts[_idx].animator->FnPlayAnimation(L"WallNut_Cracked2", true);
+					break;
+				case eStatusType::Dead:
+					FnRemovePlants(_idx);
+					break;
+				}
+
+				mPlants_WallNuts[_idx].isChangeStatus = false;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region PeaShooter
+		case ePlantsType::PeaShooter:
+		{
+			//==================================================================
+			// PeaShooter
+			//==================================================================
+			mPlants_Peashooters[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(positonList[_idx]);
+
+			if (true == mPlants_Peashooters[_idx].isChangeStatus)
+			{// 상태 변화가 있는 경우
+
+				switch (mPlants_Peashooters[_idx].statusType)
+				{
+				case eStatusType::Idle:
+					mPlants_Peashooters[_idx].animator->FnPlayAnimation(L"PeaShooter_Idle", true);
+					break;
+				case eStatusType::Attack:
+					mPlants_Peashooters[_idx].animator->FnPlayAnimation(L"PeaShooter_Idle", true);
+					break;
+				case eStatusType::Attacked:
+					mPlants_Peashooters[_idx].animator->FnPlayAnimation(L"PeaShooter_Idle", true);
+					break;
+				case eStatusType::Dead:
+					FnRemovePlants(_idx);
+					break;
+				}
+
+				mPlants_Peashooters[_idx].isChangeStatus = false;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region Chomper
+		case ePlantsType::Chomper:
+		{
+			//==================================================================
+			// Chomper
+			//==================================================================
+			// 좌표 셋팅
+			Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+			posNumbSet = positonList[_idx];
+			posNumbSet.x += 0.2f; //0.15f;
+			posNumbSet.y += 0.1f;
+
+			mPlants_Chompers[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+
+			if (true == mPlants_Chompers[_idx].isChangeStatus)
+			{// 상태 변화가 있는 경우
+
+				switch (mPlants_Chompers[_idx].statusType)
+				{
+				case eStatusType::Idle:
+					mPlants_Chompers[_idx].animator->FnPlayAnimation(L"Chomper_Idle", true);
+					break;
+				case eStatusType::Attack:
+					mPlants_Chompers[_idx].animator->FnPlayAnimation(L"Chomper_Attack", true);
+					break;
+				case eStatusType::Attacked:
+					mPlants_Chompers[_idx].animator->FnPlayAnimation(L"Chomper_Attack", true);
+					break;
+				case eStatusType::Dead:
+					FnRemovePlants(_idx);
+					break;
+				}
+
+				mPlants_Chompers[_idx].isChangeStatus = false;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region Jalapeno
+		case ePlantsType::Jalapeno:
+			break;
+#pragma endregion
+#pragma region CherryBomb
+		case ePlantsType::CherryBomb:
+			break;
+#pragma endregion
+		default:
+			break;
+		}
+	}//END-void CScenePlayGrassDay::FnManageFSM_Plants
+
+	void CScenePlayGrassDay::FnManageFSM_Zombies()
+	{
+	}//END-void CScenePlayGrassDay::FnManageFSM_Zombies
+	
+	void CScenePlayGrassDay::FnManageCollider_Plants(ePlantsType _inPlants, int _idx)
+	//void CScenePlayGrassDay::FnManageCollider_Plants()
+	{
+		switch (_inPlants)
+		{
+#pragma region SunFlower
+		case ePlantsType::SunFlower:
+		{
+			//==================================================================
+			// SunFlower
+			//==================================================================
+			eColliderStateType nowState = mPlants_SunFlowers[_idx].collider->FnGetColliderState();
+
+			switch (nowState)
+			{
+			case eColliderStateType::Start:
+			{
+				FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Attacked);
+				mPlants_SunFlowers[_idx].isAttacked = true;
+			}
+			break;
+			case eColliderStateType::Ing:
+			{
+				mPlants_SunFlowers[_idx].attackedTime += CTime::FnDeltaTime();
+
+				if ((true == mPlants_SunFlowers[_idx].isAttacked)
+					&& (2.f <= mPlants_SunFlowers[_idx].attackedTime))
+				{
+					FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Dead);
+					mPlants_SunFlowers[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			case eColliderStateType::Fin:
+			{// 주의 - Idle
+				if ((true == mPlants_SunFlowers[_idx].isAttacked)
+					&& (eStatusType::Dead == mPlants_SunFlowers[_idx].statusType))
+				{
+					// 갱신 - 충돌체 삭제
+					mPlants_SunFlowers[_idx].plants->FnDeleteCollider();
+					mPlants_SunFlowers[_idx].collider = nullptr;
+
+					// 갱신
+					mPlants_SunFlowers[_idx].isAttacked = false;
+					mPlants_SunFlowers[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			default:
+				break;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region WallNut
+		case ePlantsType::WallNut:
+		{
+			//==================================================================
+			// WallNut
+			//==================================================================
+			eColliderStateType nowState = mPlants_WallNuts[_idx].collider->FnGetColliderState();
+
+			switch (nowState)
+			{
+			case eColliderStateType::Start:
+			{
+				FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Attack);
+				mPlants_WallNuts[_idx].isAttacked = true;
+			}
+			break;
+			case eColliderStateType::Ing:
+			{
+				mPlants_WallNuts[_idx].attackedTime += CTime::FnDeltaTime();
+
+				if ((true == mPlants_WallNuts[_idx].isAttacked)
+					&& (8.f <= mPlants_WallNuts[_idx].attackedTime)
+					&& (eStatusType::Attack == mPlants_WallNuts[_idx].statusType))
+				{
+					FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Attacked);
+					mPlants_WallNuts[_idx].attackedTime = 0.f;
+				}
+				else if ((true == mPlants_WallNuts[_idx].isAttacked)
+					&& (2.f <= mPlants_WallNuts[_idx].attackedTime)
+					&& (eStatusType::Attacked == mPlants_WallNuts[_idx].statusType))
+				{
+					FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Dead);
+				}
+			}
+			break;
+			case eColliderStateType::Fin:
+			{
+				if ((true == mPlants_WallNuts[_idx].isAttacked)
+					&& (eStatusType::Dead == mPlants_WallNuts[_idx].statusType))
+				{
+					mPlants_WallNuts[_idx].plants->FnDeleteCollider();
+					mPlants_WallNuts[_idx].collider = nullptr;
+
+					mPlants_WallNuts[_idx].isAttacked = false;
+					mPlants_WallNuts[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			default:
+				break;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region PeaShooter
+		case ePlantsType::PeaShooter:
+		{
+			//==================================================================
+			// PeaShooter
+			//==================================================================
+			eColliderStateType nowState = mPlants_Peashooters[_idx].collider->FnGetColliderState();
+
+			switch (nowState)
+			{
+			case eColliderStateType::Start:
+			{
+				FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Attack);
+				mPlants_Peashooters[_idx].isAttacked = true;
+			}
+			break;
+			case eColliderStateType::Ing:
+			{
+				mPlants_Peashooters[_idx].attackedTime += CTime::FnDeltaTime();
+
+				if ((true == mPlants_Peashooters[_idx].isAttacked)
+					&& (2.f <= mPlants_Peashooters[_idx].attackedTime))
+				{
+					FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Dead);
+					mPlants_Peashooters[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			case eColliderStateType::Fin:
+			{// 주의 - Idle
+				if ((true == mPlants_Peashooters[_idx].isAttacked)
+					&& (eStatusType::Dead == mPlants_Peashooters[_idx].statusType))
+				{
+					// 갱신 - 충돌체 삭제
+					mPlants_Peashooters[_idx].plants->FnDeleteCollider();
+					mPlants_Peashooters[_idx].collider = nullptr;
+
+					// 갱신
+					mPlants_Peashooters[_idx].isAttacked = false;
+					mPlants_Peashooters[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			default:
+				break;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region Chomper
+		case ePlantsType::Chomper:
+		{
+			//==================================================================
+			// Chomper
+			//==================================================================
+			eColliderStateType nowState = mPlants_Chompers[_idx].collider->FnGetColliderState();
+
+			switch (nowState)
+			{
+			case eColliderStateType::Start:
+			{
+				FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Attacked);
+				mPlants_Chompers[_idx].isAttacked = true;
+			}
+			break;
+			case eColliderStateType::Ing:
+			{
+				mPlants_Chompers[_idx].attackedTime += CTime::FnDeltaTime();
+
+				if ((true == mPlants_Chompers[_idx].isAttacked)
+					&& (2.f <= mPlants_Chompers[_idx].attackedTime))
+				{
+					FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Dead);
+					mPlants_Chompers[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			case eColliderStateType::Fin:
+			{// 주의 - Idle
+				if ((true == mPlants_Chompers[_idx].isAttacked)
+					&& (eStatusType::Dead == mPlants_Chompers[_idx].statusType))
+				{
+					// 갱신 - 충돌체 삭제
+					mPlants_Chompers[_idx].plants->FnDeleteCollider();
+					mPlants_Chompers[_idx].collider = nullptr;
+
+					// 갱신
+					mPlants_Chompers[_idx].isAttacked = false;
+					mPlants_Chompers[_idx].attackedTime = 0.f;
+				}
+				else if ((true == mPlants_Chompers[_idx].isAttacked)
+					&& (eStatusType::Attacked == mPlants_Chompers[_idx].statusType))
+				{
+					FnChangeStatus_Plants(_inPlants, _idx, eStatusType::Idle);
+
+					// 갱신
+					mPlants_Chompers[_idx].isAttacked = false;
+					mPlants_Chompers[_idx].attackedTime = 0.f;
+				}
+			}
+			break;
+			default:
+				break;
+			}
+		}
+		break;
+#pragma endregion
+#pragma region Jalapeno
+		case ePlantsType::Jalapeno:
+			break;
+#pragma endregion
+#pragma region CherryBomb
+		case ePlantsType::CherryBomb:
+			break;
+#pragma endregion
+		default:
+			break;
+		}
+	}//END-void CScenePlayGrassDay::FnManageCollider_Plants
+
+	void CScenePlayGrassDay::FnManageCollider_Zombies()
+	{
+		//==================================================================
+		// Zombies
+		//==================================================================
+		//-------------------------------------
+		// NormalZombie Status
+		//-------------------------------------
+		if (false == FlagNormalZombie)
+		{
+			mZb_NormalZombie->FnGetComponent<CTransform>()->FnSetPosition(Vector3(2.0f, -1.0f, POS_Z_FRONT_1));
+			FlagNormalZombie = true;
+		}
+
+		/*			if (eColliderStateType::Start == cd_NormalZombie->FnGetColliderState())
+					{
+						if (eColliderStateType::Start == cd_Peashooter1->FnGetColliderState())
+						{
+							at_NormalZombie->FnPlayAnimation(L"Idle", true);
+						}
+						else
+						{
+							at_NormalZombie->FnPlayAnimation(L"Attack", true);
+							FlagNormalZombieOnceIdleDid = false;
+						}
+
+					}
+					else */
+		if (eColliderStateType::Ing == cd_NormalZombie->FnGetColliderState() && false == FlagNormalZombieOnceIdleDid)
+		{
+			FlagNormalZombieOnceIdleDid = true;
+			at_NormalZombie->FnPlayAnimation(L"Attack", true);
+		}
+		else if (eColliderStateType::Fin == cd_NormalZombie->FnGetColliderState() && true == FlagNormalZombieOnceIdleDid)
+		{
+			FlagNormalZombieOnceIdleDid = false;
+			at_NormalZombie->FnPlayAnimation(L"Idle", true);
+		}
+	}//END-void CScenePlayGrassDay::FnManageCollider_Zombies
+
+	void CScenePlayGrassDay::FnChangeStatus_Plants(ePlantsType _inPlants, int _idx, eStatusType _inStatus)
+	{
+		switch (_inPlants)
+		{
+#pragma region SunFlower
+		case ePlantsType::SunFlower:
+		{
+			//==================================================================
+			// SunFlower
+			//==================================================================
+			eStatusType now = _inStatus;
+			eStatusType prev = mPlants_SunFlowers[_idx].statusType;
+
+			if (now != prev)
+			{
+				mPlants_SunFlowers[_idx].isChangeStatus = true;
+				mPlants_SunFlowers[_idx].statusType = now;
+			}
+			else
+				mPlants_SunFlowers[_idx].isChangeStatus = false;
+		}
+		break;
+#pragma endregion
+#pragma region WallNut
+		case ePlantsType::WallNut:
+		{
+			//==================================================================
+			// WallNut
+			//==================================================================
+			eStatusType now = _inStatus;
+			eStatusType prev = mPlants_WallNuts[_idx].statusType;
+
+			if (now != prev)
+			{
+				mPlants_WallNuts[_idx].isChangeStatus = true;
+				mPlants_WallNuts[_idx].statusType = now;
+			}
+			else
+				mPlants_WallNuts[_idx].isChangeStatus = false;
+		}
+		break;
+#pragma endregion
+#pragma region PeaShooter
+		case ePlantsType::PeaShooter:
+		{
+			//==================================================================
+			// PeaShooter
+			//==================================================================
+			eStatusType now = _inStatus;
+			eStatusType prev = mPlants_Peashooters[_idx].statusType;
+
+			if (now != prev)
+			{
+				mPlants_Peashooters[_idx].isChangeStatus = true;
+				mPlants_Peashooters[_idx].statusType = now;
+			}
+			else
+				mPlants_Peashooters[_idx].isChangeStatus = false;
+		}
+		break;
+#pragma endregion
+#pragma region Chomper
+		case ePlantsType::Chomper:
+		{
+			//==================================================================
+			// Chomper
+			//==================================================================
+			eStatusType now = _inStatus;
+			eStatusType prev = mPlants_Chompers[_idx].statusType;
+
+			if (now != prev)
+			{
+				mPlants_Chompers[_idx].isChangeStatus = true;
+				mPlants_Chompers[_idx].statusType = now;
+			}
+			else
+				mPlants_Chompers[_idx].isChangeStatus = false;
+		}
+		break;
+#pragma endregion
+#pragma region Jalapeno
+		case ePlantsType::Jalapeno:
+			break;
+#pragma endregion
+#pragma region CherryBomb
+		case ePlantsType::CherryBomb:
+			break;
+#pragma endregion
+		default:
+			break;
+		}
+	}//END-void CScenePlayGrassDay::FnChangeStatus_Plants
 }

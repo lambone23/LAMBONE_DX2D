@@ -99,6 +99,7 @@ namespace yha::enums
 	{
 		Idle,
 		Attack,
+		Attacked,
 		Dead,
 		Bright_OnlySunflower,
 		End,
@@ -127,6 +128,12 @@ namespace yha::enums
 		Chomper,
 		Jalapeno,
 		CherryBomb,
+		End,
+	};
+
+	enum class eZombiesType
+	{
+		Normal,
 		End,
 	};
 
