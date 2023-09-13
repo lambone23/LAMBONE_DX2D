@@ -11,9 +11,10 @@ C6262  Excessive Stack Usage (스택 사이즈 초과 사용)
 #include "..\Engine_SOURCE\CScene.h"
 #include "..\Engine_SOURCE\CAnimator.h"
 
-#define MAXCARDS 6
-#define MAXPICKED 5
-#define MAXCOUNT_PLANTS 45
+#define MAX_CARDS_WHOLE 6
+#define MAX_CARDS_PICKED 5
+#define MAX_PLANTS 45
+#define MAX_SUNLIGHT_NATURAL 15
 
 #define POSITION_CLEAR Vector3(100.0f, 0.f, 0.010f)
 #define SCALE_CLEAR Vector3(0.f, 0.f, 0.f)
@@ -163,9 +164,14 @@ namespace yha
 		void FnRelease_Card();
 
 		/*
-			(단계: 1)계산 - 햇빛 포인트 합계
+			(단계: 1)햇빛 관리 - 해바라기 생성
 		*/
-		void FnCalculateSunLightScore();
+		void FnManageSunLight_Sunflower();
+
+		/*
+			(단계: 1)햇빛 관리 - 자연 생성
+		*/
+		void FnManageSunLight_Natural();
 
 		/*
 			(단계: 1)그리기 - 햇빛
@@ -191,7 +197,6 @@ namespace yha
 			(단계: 1)충돌 관리 - 식물
 		*/
 		void FnManageCollider_Plants(ePlantsType _inPlants, int _idx);
-		//void FnManageCollider_Plants();
 
 		/*
 			(단계: 1)충돌 관리 - 좀비
@@ -237,11 +242,21 @@ namespace yha
 
 		struct infoSunLight 
 		{// mSunLights
-			bool			isExist;			// 여부 - 햇빛 생성 
+			bool			isExist;			// 여부 - 햇빛 생성
 			bool			isExistSunflower;	// 여부 - 해바라기 존재 
 			float			cycleChkTime;		// 기준시간 - 햇빛 생성주기
 			CGameObject*	sunLight;			// 오브젝트 - 햇빛
 			Vector3			position;			// 좌표
+		};
+
+		struct infoSunLight_Natural
+		{// mSunLights_Natural
+			bool			isExist;			// 여부 - 햇빛 생성
+			bool			isArrived;			// 여부 - 도달점 도착
+			float			cycleChkTime;		// 기준시간 - 햇빛 생성주기
+			CGameObject*	sunLight;			// 오브젝트 - 햇빛
+			Vector3			position;			// 좌표
+			Vector3			destination;		// 좌표 - 도달점
 		};
 
 		CGameObject* mCamera_Main;
@@ -252,11 +267,11 @@ namespace yha
 		// 햇빛 포인트 점수
 		int mSunLightScore;
 
-		// 초 카운팅 고정 확인용
-		float mSecond;
+		// 초 카운팅 - 햇빛 생성용
+		float mChkSecond_SunLight;
 
-		// 초 카운팅 임시 확인용
-		double mChkSecondTmp;
+		// 초 카운팅 - 카메라 움직임용
+		double mChkSecond_MoveCamera;
 		
 		// (단계: 0) 화면 최초 진입 여부 확인용
 		bool mFlagChkEnter;
@@ -274,7 +289,7 @@ namespace yha
 		ePlantsType mPickedCardType;
 
 		// (단계: 0,1) 선택된 카드 목록
-		infoPickedCard mPickedCardList[MAXPICKED] = {};
+		infoPickedCard mPickedCardList[MAX_CARDS_PICKED] = {};
 
 		// 선택된 카드 존재 여부 확인용
 		bool mflagIsCardSelected = false;
@@ -283,10 +298,10 @@ namespace yha
 		bool mflagIsShovelSelected = false;
 
 		// 게임판 상태 기록
-		infoBoard mBoard[MAXCOUNT_PLANTS] = {};
+		infoBoard mBoard[MAX_PLANTS] = {};
 
-		// 게임판에 식물이 심어질 위치 목록
-		Vector3 positonList[MAXCOUNT_PLANTS]
+		// 게임판에 식물이 심어질 위치 목록 (별도 - Chomper)
+		Vector3 positonList[MAX_PLANTS]
 		= {
 			Vector3(-1.7f,	1.3f, 0.010f), // 0
 			Vector3(-1.1f,	1.3f, 0.010f), // 1
@@ -402,21 +417,24 @@ namespace yha
 		//==================================================================
 		// Plants
 		//==================================================================
-		// SunLight
+		// SunLight (Sunflower)
 		//std::vector<infoSunLight> mSunLights;
-		infoSunLight mSunLights[MAXCOUNT_PLANTS] = {};
+		infoSunLight mSunLights[MAX_PLANTS] = {};
+
+		// SunLight (Natural)
+		infoSunLight_Natural mSunLights_Natural[MAX_SUNLIGHT_NATURAL] = {};
 
 		// SunFlower
-		infoPlants mPlants_SunFlowers[MAXCOUNT_PLANTS] = {};
+		infoPlants mPlants_SunFlowers[MAX_PLANTS] = {};
 
 		// WallNut
-		infoPlants mPlants_WallNuts[MAXCOUNT_PLANTS] = {};
+		infoPlants mPlants_WallNuts[MAX_PLANTS] = {};
 
 		// Peashooter
-		infoPlants mPlants_Peashooters[MAXCOUNT_PLANTS] = {};
+		infoPlants mPlants_Peashooters[MAX_PLANTS] = {};
 
 		// Chomper
-		infoPlants mPlants_Chompers[MAXCOUNT_PLANTS] = {};
+		infoPlants mPlants_Chompers[MAX_PLANTS] = {};
 
 		//==================================================================
 		// Zombies

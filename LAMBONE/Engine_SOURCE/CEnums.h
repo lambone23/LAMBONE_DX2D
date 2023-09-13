@@ -44,6 +44,8 @@ namespace yha::enums
 		//PlayerNearbyAttack,
 		//PlayerFarAttack,
 		Monster,
+		SunLight,
+		SunLightNatural,
 		Light,
 		UI,
 		UI2,

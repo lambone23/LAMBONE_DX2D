@@ -60,8 +60,9 @@ namespace yha
 		cameraComp = mCamera_UI->FnAddComponent<CCamera>();
 		cameraComp->FnTurnLayerMask(eLayerType::BG, false);
 		cameraComp->FnTurnLayerMask(eLayerType::Player, false);
-		cameraComp->FnTurnLayerMask(eLayerType::Player, false);
 		cameraComp->FnTurnLayerMask(eLayerType::Monster, false);
+		cameraComp->FnTurnLayerMask(eLayerType::SunLight, false);
+		cameraComp->FnTurnLayerMask(eLayerType::SunLightNatural, false);
 		//mCamera_UI->FnAddComponent<CCameraScript>();
 
 		//==================================================================
@@ -422,11 +423,14 @@ namespace yha
 		//==================================================================
 		// SunLight
 		//==================================================================
-		//mSunLights.resize(MAXCOUNT_PLANTS);
+		//mSunLights.resize(MAX_PLANTS);
 
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		//-------------------------------------
+		// made by Sunflower
+		//-------------------------------------
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
-			mSunLights[idx].sunLight = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::UI2);
+			mSunLights[idx].sunLight = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::SunLight);
 			
 			CMeshRenderer* mr = mSunLights[idx].sunLight->FnAddComponent<CMeshRenderer>();
 			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
@@ -439,7 +443,33 @@ namespace yha
 				L"Idle"						// name
 				, atlas_SunLight			// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1716.f / 22.f, 78.0f)		// size
+				, Vector2(2574.f / 22.f, 117.f)	// size
+				, 22						// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+			at_SunLight->FnPlayAnimation(L"Idle", true);
+		}
+
+		//-------------------------------------
+		// made by Natural
+		//-------------------------------------
+		for (int idx = 0; idx < MAX_SUNLIGHT_NATURAL; idx++)
+		{
+			mSunLights_Natural[idx].sunLight = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::SunLightNatural);
+
+			CMeshRenderer* mr = mSunLights_Natural[idx].sunLight->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+
+			std::shared_ptr<CTexture> atlas_SunLight
+				= CResources::FnLoad<CTexture>(L"SunLight", L"..\\Resources\\Texture\\MyGame\\Plants\\SunLight.png");
+			CAnimator* at_SunLight = mSunLights_Natural[idx].sunLight->FnAddComponent<CAnimator>();
+			at_SunLight->FnCreate(
+				L"Idle"						// name
+				, atlas_SunLight			// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(2574.f / 22.f, 117.f)	// size
 				, 22						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -451,7 +481,7 @@ namespace yha
 		// SunFlower
 		//==================================================================
 #pragma region Resource_Plants_SunFlower
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			mPlants_SunFlowers[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
 			mPlants_SunFlowers[idx].plants->FnSetName(L"GrassDay_SunFlower_"+ idx);
@@ -472,7 +502,7 @@ namespace yha
 				L"SunFlower_Idle"			// name
 				, atlas_SunFlower_Idle		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1314.0f / 18.f, 74.0f)		// size
+				, Vector2(1971.f / 18.f, 111.f)	// size
 				, 18						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -485,7 +515,7 @@ namespace yha
 				L"SunFlower_Bright"			// name
 				, atlas_SunFlower_Bright	// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1320.0f / 18.f, 75.0f)		// size
+				, Vector2(1980.0f / 18.f, 112.0f)	// size
 				, 18						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -498,7 +528,7 @@ namespace yha
 				L"SunFlower_Blink"			// name
 				, atlas_SunFlower_Blink		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1314.f / 18.f, 74.f)		// size
+				, Vector2(1971.f / 18.f, 111.f)	// size
 				, 18						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -522,7 +552,7 @@ namespace yha
 		// WallNut
 		//==================================================================
 #pragma region Resource_Plants_WallNut
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			mPlants_WallNuts[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
 			mPlants_WallNuts[idx].plants->FnSetName(L"GrassDay_WallNut_" + idx);
@@ -543,7 +573,7 @@ namespace yha
 				L"WallNut_Idle"				// name
 				, atlas_WallNut_Idle		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1040.0f / 16.f, 73.0f)		// size
+				, Vector2(1560.f / 16.f, 109.f)	// size
 				, 16						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -556,7 +586,7 @@ namespace yha
 				L"WallNut_Cracked1"			// name
 				, atlas_WallNut_Cracked1	// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(715.0f / 11.f, 73.0f)		// size
+				, Vector2(1072.f / 11.f, 109.f)	// size
 				, 11						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -569,7 +599,7 @@ namespace yha
 				L"WallNut_Cracked2"			// name
 				, atlas_WallNut_Cracked2	// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(975.0f / 15.f, 73.0f)		// size
+				, Vector2(1462.f / 15.f, 109.f)	// size
 				, 15						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -586,7 +616,7 @@ namespace yha
 		// Peashooter
 		//==================================================================
 #pragma region Resource_Plants_Peashooter
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			mPlants_Peashooters[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
 			mPlants_Peashooters[idx].plants->FnSetName(L"GrassDay_Peashooter_" + idx);
@@ -607,7 +637,7 @@ namespace yha
 				L"PeaShooter_Idle"			// name
 				, atlas_Peashooter_Idle		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(923.0f / 13.f, 71.0f)		// size
+				, Vector2(1384.f / 13.f, 106.f)	// size
 				, 13						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -624,7 +654,7 @@ namespace yha
 		// Chomper
 		//==================================================================
 #pragma region Resource_Plants_Chomper
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			mPlants_Chompers[idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
 			mPlants_Chompers[idx].plants->FnSetName(L"GrassDay_Chomper_" + idx);
@@ -645,7 +675,7 @@ namespace yha
 				L"Chomper_Idle"				// name
 				, atlas_Chomper_Idle		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1690.0f / 13.f, 114.0f)	// size
+				, Vector2(2535.f / 13.f, 171.0f)// size
 				, 13						// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -658,7 +688,20 @@ namespace yha
 				L"Chomper_Attack"			// name
 				, atlas_Chomper_Attack		// atlas
 				, Vector2(0.0f, 0.0f)		// leftTop
-				, Vector2(1170.0f / 9.f, 114.0f)	// size
+				, Vector2(1755.0f / 9.f, 171.0f)// size
+				, 9							// columnLength
+				, Vector2::Zero				// offset
+				, 0.08f						// duration
+			);
+
+			// Digest
+			std::shared_ptr<CTexture> atlas_Chomper_Digest
+				= CResources::FnLoad<CTexture>(L"Chomper_Digest", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_Digest.png");
+			mPlants_Chompers[idx].animator->FnCreate(
+				L"Chomper_Digest"			// name
+				, atlas_Chomper_Digest		// atlas
+				, Vector2(0.0f, 0.0f)		// leftTop
+				, Vector2(1170.0f / 9.f, 171.0f)// size
 				, 9							// columnLength
 				, Vector2::Zero				// offset
 				, 0.08f						// duration
@@ -700,7 +743,7 @@ namespace yha
 			L"Idle"						// name
 			, atlas_NormalZombie_Idle	// atlas
 			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(3652.0f / 22.f, 144.0f)		// size
+			, Vector2(5478.f / 22.f, 216.f)	// size
 			, 22						// columnLength
 			, Vector2::Zero				// offset
 			, 0.08f						// duration
@@ -712,7 +755,7 @@ namespace yha
 			L"Attack"					// name
 			, atlas_NormalZombie_Attack	// atlas
 			, Vector2(0.0f, 0.0f)		// leftTop
-			, Vector2(3486.0f / 21.f, 144.0f)		// size
+			, Vector2(5229.f / 21.f, 216.f)	// size
 			, 21						// columnLength
 			, Vector2::Zero				// offset
 			, 0.08f						// duration
@@ -795,7 +838,7 @@ namespace yha
 		//==================================================================
 		// 카드 쿨타임
 		//==================================================================
-		for (int idx = 0; idx < MAXPICKED; idx++)
+		for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 		{
 			if (true == mPickedCardList[idx].isCoolTimeActive)
 			{
@@ -826,18 +869,18 @@ namespace yha
 
 	void CScenePlayGrassDay::FnOnEnter()
 	{
-		mSunLightScore	= 5500;
-		mSecond			= 0.f;
-		mChkSecondTmp	= 0.f;
-		mFlagChkEnter	= true;
-		mFlagPlayEnter	= false;
-		mFlagPlay		= false;
-		mCntPickedCard	= 0;
+		mSunLightScore			= 5500;
+		mChkSecond_SunLight		= 0.f;
+		mChkSecond_MoveCamera	= 0.f;
+		mFlagChkEnter			= true;
+		mFlagPlayEnter			= false;
+		mFlagPlay				= false;
+		mCntPickedCard			= 0;
 
 		mflagIsCardSelected		= false;
 		mflagIsShovelSelected	= false;
 
-		for (int idx = 0; idx < MAXPICKED; idx++)
+		for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 		{
 			mPickedCardList[idx].plantsType			= ePlantsType::End;
 			mPickedCardList[idx].isDisabled			= false;
@@ -845,14 +888,21 @@ namespace yha
 			mPickedCardList[idx].coolTime			= 0.f;
 		}
 
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
-			mBoard[idx].isPlanted	= false;
-			mBoard[idx].plantsType	= ePlantsType::End;
+			mBoard[idx].isPlanted					= false;
+			mBoard[idx].plantsType					= ePlantsType::End;
 
-			mSunLights[idx].isExist				= false;
-			mSunLights[idx].isExistSunflower	= false;
-			mSunLights[idx].cycleChkTime		= 999.f;
+			mSunLights[idx].isExist					= false;
+			mSunLights[idx].isExistSunflower		= false;
+			mSunLights[idx].cycleChkTime			= 999.f;
+
+			if (idx < 25)
+			{
+				mSunLights_Natural[idx].isExist		= false;
+				mSunLights_Natural[idx].isArrived	= false;
+				mSunLights_Natural[idx].cycleChkTime = 0.f;
+			}
 
 			mPlants_SunFlowers[idx].isPlanted		= false;
 			mPlants_SunFlowers[idx].isChangeStatus	= false;
@@ -952,7 +1002,7 @@ namespace yha
 		//-------------------------------------
 		// Plants
 		//-------------------------------------
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			object::FnDestroy(mSunLights[idx].sunLight);
 			object::FnDestroy(mPlants_SunFlowers[idx].plants);
@@ -975,8 +1025,8 @@ namespace yha
 		{// 화면 이동 ( -->> )
 			while (pos.x <= 3.f)
 			{
-				mChkSecondTmp += CTime::FnDeltaTime();
-				if (mChkSecondTmp > 1.0f)
+				mChkSecond_MoveCamera += CTime::FnDeltaTime();
+				if (mChkSecond_MoveCamera > 1.0f)
 				{
 					pos.x += 2.0f * CTime::FnDeltaTime();
 					tr->FnSetPosition(pos);
@@ -991,8 +1041,8 @@ namespace yha
 		{// 화면 이동 ( <<-- )
 			while (pos.x >= 0.f)
 			{
-				mChkSecondTmp += CTime::FnDeltaTime();
-				if (mChkSecondTmp > 1.0f)
+				mChkSecond_MoveCamera += CTime::FnDeltaTime();
+				if (mChkSecond_MoveCamera > 1.0f)
 				{
 					pos.x -= 2.0f * CTime::FnDeltaTime();
 					tr->FnSetPosition(pos);
@@ -1049,7 +1099,7 @@ namespace yha
 		mUI_btn_ResetChoose->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-3.5f, -1.5f, POS_Z_DEFAULT));
 
 		// Play버튼 - 활성화 조건 확인 후 배치
-		if (mCntPickedCard == MAXPICKED)
+		if (mCntPickedCard == MAX_CARDS_PICKED)
 		{
 			mUI_btn_Play->FnGetComponent<CTransform>()->FnSetPosition(Vector3(-1.0f, -2.0f, POS_Z_DEFAULT));
 			mUI_btn_Play_Disabled->FnGetComponent<CTransform>()->FnSetPosition(Vector3(100.0f, 0.f, POS_Z_DEFAULT));
@@ -1128,9 +1178,13 @@ namespace yha
 		FnClickEvent_Board();
 
 		//==================================================================
-		// 생성 - 햇빛 (해바라기 10초)
+		// 생성 - 햇빛
 		//==================================================================
-		FnCalculateSunLightScore();
+		FnManageSunLight_Sunflower();
+
+		mChkSecond_SunLight += CTime::FnDeltaTime();
+		FnManageSunLight_Natural();
+
 		FnDrawSunLights();
 
 		//==================================================================
@@ -1147,7 +1201,7 @@ namespace yha
 	void CScenePlayGrassDay::FnMakePickedCardList()
 	{
 		// mPickedList 목록 채우기
-		for (int idx = 0; idx < MAXPICKED; idx++)
+		for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 		{
 			if (ePlantsType::End == mPickedCardList[idx].plantsType)
 			{
@@ -1166,7 +1220,7 @@ namespace yha
 		*/
 		bool returnValue = false;
 
-		for (int idx = 0; idx < MAXPICKED; idx++)
+		for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 		{
 			if ((ePlantsType)_idx == mPickedCardList[idx].plantsType)
 			{
@@ -1187,7 +1241,7 @@ namespace yha
 
 	void CScenePlayGrassDay::FnDrawWholeCardList()
 	{
-		for (int idx = 0; idx < MAXCARDS; idx++)
+		for (int idx = 0; idx < MAX_CARDS_WHOLE; idx++)
 		{
 			/*
 				선택된 카드 목록 값과 비교하여,
@@ -1290,7 +1344,7 @@ namespace yha
 			활성화상태 또는 비활성화 상태로
 			목록 그리기
 		*/
-		for (int idx = 0; idx < MAXPICKED; idx++)
+		for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 		{
 			// 해당 인덱스에 값이 없으면 그리기 패스
 			if (ePlantsType::End == mPickedCardList[idx].plantsType)
@@ -1430,7 +1484,7 @@ namespace yha
 			{
 				
 				// 초기화 - 선택된 카드 목록
-				for (size_t idx = 0; idx < MAXPICKED; idx++)
+				for (size_t idx = 0; idx < MAX_CARDS_PICKED; idx++)
 				{
 					mPickedCardList[idx].plantsType = ePlantsType::End;
 					mPickedCardList[idx].isDisabled = false;
@@ -1464,7 +1518,7 @@ namespace yha
 			//==================================================================
 			if ((520.f <= MousePos.x) && (675.f >= MousePos.x)
 				&& (819.f <= MousePos.y) && (880.f >= MousePos.y)
-				&& mCntPickedCard == MAXPICKED)
+				&& mCntPickedCard == MAX_CARDS_PICKED)
 			{// Play 모드 진입 조건 충족시
 
 				mFlagPlayEnter = true;
@@ -1550,7 +1604,7 @@ namespace yha
 			}
 			else if ((MousePos.x >= 520.f) && (MousePos.x <= 675.f)
 				&& (MousePos.y >= 819.f) && (MousePos.y <= 880.f)
-				&& mCntPickedCard != MAXPICKED)
+				&& mCntPickedCard != MAX_CARDS_PICKED)
 			{// Play 모드 진입 조건 미충족시
 
 				TCHAR Temp[256] = { 0, };
@@ -2350,7 +2404,7 @@ namespace yha
 			// 1. 갱신 - 기준시간(카드 쿨타임) Start
 			//==================================================================
 			int catchidx = 0;
-			for (int idx = 0; idx < MAXPICKED; idx++)
+			for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 			{
 				if (mPickedCardType == mPickedCardList[idx].plantsType)
 				{
@@ -2504,9 +2558,9 @@ namespace yha
 		mflagIsCardSelected = false;
 	}//END-void CScenePlayGrassDay::FnRelease_Card
 
-	void CScenePlayGrassDay::FnCalculateSunLightScore()
+	void CScenePlayGrassDay::FnManageSunLight_Sunflower()
 	{
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			// 갱신 - 햇빛 생성주기 시간
 			mSunLights[idx].cycleChkTime += (float)CTime::FnDeltaTime();
@@ -2590,17 +2644,171 @@ namespace yha
 				}
 			}
 		}//end-for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
-	}//END-void CScenePlayGrassDay::FnCalculateSunLightScore
+	}//END-void CScenePlayGrassDay::FnManageSunLight_Sunflower
+
+	void CScenePlayGrassDay::FnManageSunLight_Natural()
+	{
+		bool flagDo = false; // 생성 여부 결정
+
+		//==================================================================
+		// 확인 - 햇빛 생성 여부
+		//==================================================================
+		for (int idx = 0; idx < MAX_SUNLIGHT_NATURAL; idx++)
+		{
+			if (false == mSunLights_Natural[idx].isExist)
+				flagDo = true;
+		}
+
+		//==================================================================
+		// 생성
+		//==================================================================
+		if (flagDo)
+		{
+			//-------------------------------------
+			// 갱신 - 햇빛 생성 주기시간
+			//-------------------------------------
+			/*
+				햇빛 포인트 점수에 따라
+				생성 주기 시간을 변경
+			*/
+			float limitTime = 0.f;
+
+			if (100 > mSunLightScore)
+				limitTime = 10.f;
+			else if ((100 <= mSunLightScore) && (200 > mSunLightScore))
+				limitTime = 15.f;
+			else if (200 <= mSunLightScore)
+				limitTime = 10.f;
+
+			if (limitTime <= mChkSecond_SunLight)
+			{
+				//-------------------------------------
+				// 랜덤 좌표 선정
+				//-------------------------------------
+				srand((unsigned int)CTime::FnDeltaTime());
+				int random = rand();	// 버리기용
+				int idx = 0;			// 랜덤 좌표 //(최대 - 최소 + 1) + 최소
+				int conversionIdx = 0;	// 전환된 좌표
+
+				//-------------------------------------
+				// 기존재 여부 확인
+				//-------------------------------------
+				while (true)
+				{
+					idx = rand() % MAX_SUNLIGHT_NATURAL;
+
+					if (false == mSunLights_Natural[idx].isExist)
+						break;
+				}
+
+				//-------------------------------------
+				// 좌표 전환 (5*5) -> (9*5)
+				//-------------------------------------
+				if (5 > idx)
+					conversionIdx = idx;
+				else if ((5 <= idx) && (9 >= idx))
+					conversionIdx = idx + 4;
+				else if ((10 <= idx) && (14 >= idx))
+					conversionIdx = idx + 8;
+
+				//-------------------------------------
+				// 좌표(도달점) 셋팅
+				//-------------------------------------
+				Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+				posNumbSet = positonList[conversionIdx];
+				posNumbSet.x -= 0.2f;
+				posNumbSet.y -= 0.2f;
+				posNumbSet.z = POS_Z_FRONT_2;
+				mSunLights_Natural[idx].destination = posNumbSet;
+				posNumbSet.y = 2.f;	// 게임화면상 맨 위
+				mSunLights_Natural[idx].position = posNumbSet;
+				mSunLights_Natural[idx].isExist = true;
+				mSunLights_Natural[idx].isArrived = false;
+
+				//-------------------------------------
+				// 초기화 - 초 카운팅(햇빛 생성용)
+				//-------------------------------------
+				mChkSecond_SunLight = 0.f;
+			}
+		}//end-if (flagDo)
+
+		//==================================================================
+		// 갱신 - 좌표
+		//==================================================================
+		for (int idx = 0; idx < MAX_SUNLIGHT_NATURAL; idx++)
+		{
+			if (true == mSunLights_Natural[idx].isExist)
+			{
+				float now = mSunLights_Natural[idx].position.y;
+				float destination = mSunLights_Natural[idx].destination.y;
+
+				if ((false == mSunLights_Natural[idx].isArrived)
+					&& (destination >= now))
+				{
+					mSunLights_Natural[idx].isArrived = true;
+					mSunLights_Natural[idx].cycleChkTime = 0.f;
+				}	
+				else if (false == mSunLights_Natural[idx].isArrived)
+				{// 도달점 도착하지 못한 경우
+
+					// 낙하
+					mSunLights_Natural[idx].position.y -= 0.5f * CTime::FnDeltaTime();
+				}
+			}
+		}
+
+		//==================================================================
+		// 비활성화 - 햇빛
+		//==================================================================
+		/*
+			기존에 생성된 햇빛 포인트가 있는 경우
+			&& 기준 시간이 7초 이상
+		*/
+		for (int idx = 0; idx < MAX_SUNLIGHT_NATURAL; idx++)
+		{
+			mSunLights_Natural[idx].cycleChkTime += CTime::FnDeltaTime();
+
+			if ((true == mSunLights_Natural[idx].isExist)
+				&& (true == mSunLights_Natural[idx].isArrived)
+				&& (7.f <= mSunLights_Natural[idx].cycleChkTime))
+			{
+				// 좌표 셋팅
+				mSunLights_Natural[idx].position = POSITION_CLEAR;
+
+				// 갱신 - 햇빛 포인트 생성 여부
+				mSunLights_Natural[idx].isExist = false;
+
+				// 초기화 - 기준시간
+				mSunLights_Natural[idx].cycleChkTime = 0.f;
+			}
+		}
+
+	}//END-void CScenePlayGrassDay::FnManageSunLight_Natural
 
 	void CScenePlayGrassDay::FnDrawSunLights()
 	{
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
+			//==================================================================
+			// made by Sunflower
+			//==================================================================
 			// 햇빛 생성여부에 따라
 			if (true == mSunLights[idx].isExist)	// 활성화
 				mSunLights[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights[idx].position);
 			else									// 비활성화
 				mSunLights[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+			//==================================================================
+			// made by Natural
+			//==================================================================
+			if (idx < 25)
+			{
+				// 햇빛 생성여부에 따라
+				if (true == mSunLights_Natural[idx].isExist)	// 활성화
+					mSunLights_Natural[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights_Natural[idx].position);
+				else											// 비활성화
+					mSunLights_Natural[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			}
 		}
 	}//END-void CScenePlayGrassDay::FnDrawSunLights
 
@@ -2608,7 +2816,7 @@ namespace yha
 	{
 		bool flagDoDraw = false;
 
-		for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			if (true == mBoard[idx].isPlanted)
 				flagDoDraw = true;
@@ -2739,8 +2947,9 @@ namespace yha
 			// 좌표 셋팅
 			Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
 			posNumbSet = positonList[_idx];
-			posNumbSet.x += 0.2f; //0.15f;
+			posNumbSet.x += 0.2f;
 			posNumbSet.y += 0.1f;
+			posNumbSet.z = POS_Z_FRONT_1;
 
 			mPlants_Chompers[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
 
