@@ -1,13 +1,3 @@
-/* 
-	************
-	* Flow
-	************
-	0. Main Camera Move to RIGHT
-	1. Choose Plants
-	2. Main Camera Move to LEFT
-	3. Play
-*/
-
 #include "CScenePlayGrassDay.h"
 
 #include "CCommon.h"
@@ -869,16 +859,17 @@ namespace yha
 
 	void CScenePlayGrassDay::FnOnEnter()
 	{
-		mSunLightScore			= 5500;
-		mChkSecond_SunLight		= 0.f;
-		mChkSecond_MoveCamera	= 0.f;
-		mFlagChkEnter			= true;
-		mFlagPlayEnter			= false;
-		mFlagPlay				= false;
-		mCntPickedCard			= 0;
+		mSunLightScore					= 5500;
+		mChkSecond_SunLight				= 0.f;
+		mPrevRandomIdx_SunLightNatural	= 999;
+		mChkSecond_MoveCamera			= 0.f;
+		mFlagChkEnter					= true;
+		mFlagPlayEnter					= false;
+		mFlagPlay						= false;
+		mCntPickedCard					= 0;
 
-		mflagIsCardSelected		= false;
-		mflagIsShovelSelected	= false;
+		mflagIsCardSelected				= false;
+		mflagIsShovelSelected			= false;
 
 		for (int idx = 0; idx < MAX_CARDS_PICKED; idx++)
 		{
@@ -1135,7 +1126,6 @@ namespace yha
 
 		// 버튼 클릭시 - Play버튼
 		FnClickEvent_BtnPlay();
-			
 	}//END-void CScenePlayGrassDay::FnChoosePlants
 
 	void CScenePlayGrassDay::FnPlay()
@@ -1163,18 +1153,21 @@ namespace yha
 		FnDrawPickedCardList(eStepMode::Play);
 
 		//==================================================================
-		// Card 선택시
+		// 선택시
 		//==================================================================
+		//-------------------------------------
+		// Cards
+		//-------------------------------------
 		FnClickEvent_Card();
 
-		//==================================================================
-		// 뽑기삽을 선택시
-		//==================================================================
+		//-------------------------------------
+		// 뽑기삽
+		//-------------------------------------
 		FnClickEvent_Shovel();
 
-		//==================================================================
-		// 게임보드(잔디밭) 선택시
-		//==================================================================
+		//-------------------------------------
+		// 게임보드(잔디밭)
+		//-------------------------------------
 		FnClickEvent_Board();
 
 		//==================================================================
@@ -1933,6 +1926,140 @@ namespace yha
 		}
 	}//END-void CScenePlayGrassDay::FnClickEvent_Shovel
 
+	void CScenePlayGrassDay::FnClickEvent_SunLight(int _posIdx, POINT _MousePos)
+	{
+		//==================================================================
+		// 갱신 - 햇빛 포인트 점수 (Natural)
+		//==================================================================
+#pragma region SunLight_Natural
+		for (int idx2 = 0; idx2 < 5; idx2++)
+		{
+			bool flagDo_ClickEvent = false;
+			bool flagDo_ClickEvent2 = false;
+
+			int idxBoard_1 = idx2;
+			int idxBoard_2 = idx2 + 9;
+			int idxBoard_3 = idx2 + 9 * 2;
+
+			if (idxBoard_1 == _posIdx || idxBoard_2 == _posIdx || idxBoard_3 == _posIdx)
+				flagDo_ClickEvent = true;
+
+			if (flagDo_ClickEvent)
+			{
+				int idxSunLight_1 = idx2;
+				int idxSunLight_2 = idx2 + 5;
+				int idxSunLight_3 = idx2 + 5 * 2;
+
+				bool isExistSunLight_1 = mSunLights_Natural[idxSunLight_1].isExist;
+				bool isExistSunLight_2 = mSunLights_Natural[idxSunLight_2].isExist;
+				bool isExistSunLight_3 = mSunLights_Natural[idxSunLight_3].isExist;
+
+				if ((isExistSunLight_1 || isExistSunLight_2 || isExistSunLight_3)
+					&& (false == mflagIsCardSelected)
+					&& (false == mflagIsShovelSelected))
+				{
+					switch (idx2)
+					{
+					case 0:
+						if ((400.f <= _MousePos.x) && (465.f >= _MousePos.x))
+							flagDo_ClickEvent2 = true;
+						break;
+					case 1:
+						if ((530.f <= _MousePos.x) && (590.f >= _MousePos.x))
+							flagDo_ClickEvent2 = true;
+						break;
+					case 2:
+						if ((650.f <= _MousePos.x) && (715.f >= _MousePos.x))
+							flagDo_ClickEvent2 = true;
+						break;
+					case 3:
+						if ((780.f <= _MousePos.x) && (845.f >= _MousePos.x))
+							flagDo_ClickEvent2 = true;
+						break;
+					case 4:
+						if ((910.f <= _MousePos.x) && (975.f >= _MousePos.x))
+							flagDo_ClickEvent2 = true;
+						break;
+					}
+				}
+
+				if (flagDo_ClickEvent2)
+				{
+					if (isExistSunLight_1)
+					{
+						////■TODO-DELETE-DebugPrint
+						//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+						//TCHAR Temp[256] = { 0, };
+						//_stprintf_s(Temp, L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
+						//	, mSunLightScore, mSunLightScore + 25, idxSunLight_1, idx);
+						//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+						mSunLights_Natural[idxSunLight_1].isExist = false;
+						mSunLights_Natural[idxSunLight_1].position = POSITION_CLEAR;
+						mSunLights_Natural[idxSunLight_1].cycleChkTime = 0.f;
+
+						mSunLightScore += 25;
+					}
+					if (isExistSunLight_2)
+					{
+						////■TODO-DELETE-DebugPrint
+						//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+						//TCHAR Temp[256] = { 0, };
+						//_stprintf_s(Temp,L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
+						//	, mSunLightScore, mSunLightScore + 25, idxSunLight_2, idx);
+						//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+						mSunLights_Natural[idxSunLight_2].isExist = false;
+						mSunLights_Natural[idxSunLight_2].position = POSITION_CLEAR;
+						mSunLights_Natural[idxSunLight_2].cycleChkTime = 0.f;
+
+						mSunLightScore += 25;
+					}
+					if (isExistSunLight_3)
+					{
+						////■TODO-DELETE-DebugPrint
+						//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+						//TCHAR Temp[256] = { 0, };
+						//_stprintf_s(Temp,L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
+						//	, mSunLightScore, mSunLightScore + 25, idxSunLight_3, idx);
+						//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+						mSunLights_Natural[idxSunLight_3].isExist = false;
+						mSunLights_Natural[idxSunLight_3].position = POSITION_CLEAR;
+						mSunLights_Natural[idxSunLight_3].cycleChkTime = 0.f;
+
+						mSunLightScore += 25;
+					}
+				}//end-if (flagDo_ClickEvent2)
+			}//end-if (flagDo)
+		}//end-for (int idx2 = 0; idx2 < 5; idx2++)
+#pragma endregion
+
+		//==================================================================
+		// 갱신 - 햇빛 포인트 점수 (Sunflower)
+		//==================================================================
+#pragma region SunLight_Sunflower
+		if ((true == mSunLights[_posIdx].isExist)
+			&& (false == mflagIsCardSelected)
+			&& (false == mflagIsShovelSelected))
+		{
+			////■TODO-DELETE-DebugPrint
+			//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+			//TCHAR Temp[256] = { 0, };
+			//_stprintf_s(Temp, L"mSunScore: % d -> %d", mSunLightScore, mSunLightScore + 25);
+			//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+			// 비활성화 - 햇빛
+			mSunLights[_posIdx].isExist = false;
+			mSunLights[_posIdx].position = POSITION_CLEAR;
+			mSunLights[_posIdx].cycleChkTime = 0.f;
+
+			// 갱신 - 햇빛 포인트 점수
+			mSunLightScore += 25;
+		}
+#pragma endregion
+	}//END-void CScenePlayGrassDay::FnClickEvent_SunLight
+
 	void CScenePlayGrassDay::FnClickEvent_Board()
 	{
 		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
@@ -2247,32 +2374,17 @@ namespace yha
 
 			//==================================================================
 			// 선택 위치별 처리
-			// 식물 심기 또는 뽑기
-			// 또는 햇빛 포인트 클릭 처리
+			// - SunLight 클릭 처리
+			// - 식물 심기 또는 뽑기
 			//==================================================================
 			if (flagDo)
 			{
-				if ((true == mSunLights[idx].isExist)
-					&& (false == mflagIsCardSelected)
-					&& (false == mflagIsShovelSelected))
-				{
-					//==================================================================
-					// 갱신 - 햇빛 포인트 점수
-					//==================================================================
-					//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
-					//TCHAR Temp[256] = { 0, };
-					//_stprintf_s(Temp, L"mSunScore: % d -> %d", mSunLightScore, mSunLightScore + 25);
-					//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+				//==================================================================
+				// 클릭 처리 - SunLight
+				//==================================================================
+				FnClickEvent_SunLight(idx, MousePos);
 
-					// 비활성화 - 햇빛
-					mSunLights[idx].isExist = false;
-					mSunLights[idx].position = POSITION_CLEAR;
-					mSunLights[idx].cycleChkTime = 0.f;
-
-					// 갱신 - 햇빛 포인트 점수
-					mSunLightScore += 25;
-				}
-				else if ((true == mflagIsCardSelected)		// 카드	: O
+				if ((true == mflagIsCardSelected)			// 카드	: O
 					&& (false == mflagIsShovelSelected))	// 삽	: X
 				{
 					//==================================================================
@@ -2288,7 +2400,7 @@ namespace yha
 					//==================================================================
 					FnRemovePlants(idx);
 				}
-			}
+			}//end-if (flagDo)
 
 		}//end-if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))
 	}//END-void CScenePlayGrassDay::FnClickEvent_Board
@@ -2371,6 +2483,7 @@ namespace yha
 					mPlants_Chompers[_posIdx].isPlanted = true;
 					mPlants_Chompers[_posIdx].collider = mPlants_Chompers[_posIdx].plants->FnAddComponent<CCollider2D>();
 					mPlants_Chompers[_posIdx].collider->FnSetSize(Vector2(1.1f, 0.5f));
+					mPlants_Chompers[_posIdx].collider->FnSetCenter(Vector2(0.f, 0.f));
 					mPlants_Chompers[_posIdx].collider->FnSetCenter(Vector2(0.2f, -0.05f));
 					mBoard[_posIdx].plantsType = ePlantsType::Chomper;
 					mSunLightScore -= 150;
@@ -2506,6 +2619,7 @@ namespace yha
 
 				if (mflagIsShovelSelected)
 				{
+					mPlants_Chompers[_posIdx].collider->FnSetCenter(Vector2(0.f, 0.f));
 					mPlants_Chompers[_posIdx].plants->FnDeleteCollider();
 					mPlants_Chompers[_posIdx].collider = nullptr;
 				}
@@ -2576,12 +2690,12 @@ namespace yha
 					기존에 생성된 햇빛 포인트가 있는 경우
 					&& 기준 시간이 7초 이상
 				*/
-
-				// 좌표 셋팅
-				mSunLights[idx].position = POSITION_CLEAR;
-
 				// 갱신 - 햇빛 포인트 생성 여부
 				mSunLights[idx].isExist = false;
+
+				// 초기화 -  좌표
+				mSunLights[idx].position = POSITION_CLEAR;
+
 
 				// 초기화 - 기준시간
 				mSunLights[idx].cycleChkTime = 0.f;
@@ -2651,13 +2765,15 @@ namespace yha
 		bool flagDo = false; // 생성 여부 결정
 
 		//==================================================================
-		// 확인 - 햇빛 생성 여부
+		// 확인 - 햇빛(Natural) 생성 여부
 		//==================================================================
+		/*
+			햇빛(Natural) 최대 개수, MAX_SUNLIGHT_NATURAL만큼 기존재시
+			더이상 생성하지 않음
+		*/
 		for (int idx = 0; idx < MAX_SUNLIGHT_NATURAL; idx++)
-		{
 			if (false == mSunLights_Natural[idx].isExist)
 				flagDo = true;
-		}
 
 		//==================================================================
 		// 생성
@@ -2685,10 +2801,11 @@ namespace yha
 				//-------------------------------------
 				// 랜덤 좌표 선정
 				//-------------------------------------
-				srand((unsigned int)CTime::FnDeltaTime());
-				int random = rand();	// 버리기용
-				int idx = 0;			// 랜덤 좌표 //(최대 - 최소 + 1) + 최소
-				int conversionIdx = 0;	// 전환된 좌표
+				//srand((unsigned int)CTime::FnDeltaTime());
+				srand((unsigned int)time(NULL));
+				int random	= rand();		// 버리기용
+				int idx				= 0;	// 랜덤 좌표 //(최대 - 최소 + 1) + 최소
+				int conversionIdx	= 0;	// 전환된 좌표
 
 				//-------------------------------------
 				// 기존재 여부 확인
@@ -2697,12 +2814,13 @@ namespace yha
 				{
 					idx = rand() % MAX_SUNLIGHT_NATURAL;
 
-					if (false == mSunLights_Natural[idx].isExist)
+					if ((false == mSunLights_Natural[idx].isExist)
+						&& (mPrevRandomIdx_SunLightNatural != idx))
 						break;
 				}
 
 				//-------------------------------------
-				// 좌표 전환 (5*5) -> (9*5)
+				// 좌표 전환 (3*5) -> (5*9)
 				//-------------------------------------
 				if (5 > idx)
 					conversionIdx = idx;
@@ -2729,6 +2847,11 @@ namespace yha
 				// 초기화 - 초 카운팅(햇빛 생성용)
 				//-------------------------------------
 				mChkSecond_SunLight = 0.f;
+
+				//-------------------------------------
+				// 갱신 - 좌표 과거값
+				//-------------------------------------
+				mPrevRandomIdx_SunLightNatural = idx;
 			}
 		}//end-if (flagDo)
 
@@ -2744,13 +2867,12 @@ namespace yha
 
 				if ((false == mSunLights_Natural[idx].isArrived)
 					&& (destination >= now))
-				{
+				{// 도달점 도착한 경우
 					mSunLights_Natural[idx].isArrived = true;
 					mSunLights_Natural[idx].cycleChkTime = 0.f;
 				}	
 				else if (false == mSunLights_Natural[idx].isArrived)
-				{// 도달점 도착하지 못한 경우
-
+				{// 도달점 도착 못한 경우
 					// 낙하
 					mSunLights_Natural[idx].position.y -= 0.5f * CTime::FnDeltaTime();
 				}
@@ -2772,11 +2894,11 @@ namespace yha
 				&& (true == mSunLights_Natural[idx].isArrived)
 				&& (7.f <= mSunLights_Natural[idx].cycleChkTime))
 			{
-				// 좌표 셋팅
-				mSunLights_Natural[idx].position = POSITION_CLEAR;
-
 				// 갱신 - 햇빛 포인트 생성 여부
 				mSunLights_Natural[idx].isExist = false;
+
+				// 초기화 - 좌표
+				mSunLights_Natural[idx].position = POSITION_CLEAR;
 
 				// 초기화 - 기준시간
 				mSunLights_Natural[idx].cycleChkTime = 0.f;
@@ -2787,12 +2909,12 @@ namespace yha
 
 	void CScenePlayGrassDay::FnDrawSunLights()
 	{
+		// 햇빛 생성여부에 따라 활성화 또는 비활성화
 		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
 			//==================================================================
 			// made by Sunflower
 			//==================================================================
-			// 햇빛 생성여부에 따라
 			if (true == mSunLights[idx].isExist)	// 활성화
 				mSunLights[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights[idx].position);
 			else									// 비활성화
@@ -2803,7 +2925,6 @@ namespace yha
 			//==================================================================
 			if (idx < 25)
 			{
-				// 햇빛 생성여부에 따라
 				if (true == mSunLights_Natural[idx].isExist)	// 활성화
 					mSunLights_Natural[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights_Natural[idx].position);
 				else											// 비활성화
@@ -3185,6 +3306,7 @@ namespace yha
 					&& (eStatusType::Dead == mPlants_Chompers[_idx].statusType))
 				{
 					// 갱신 - 충돌체 삭제
+					mPlants_Chompers[_idx].collider->FnSetCenter(Vector2(0.f, 0.f));
 					mPlants_Chompers[_idx].plants->FnDeleteCollider();
 					mPlants_Chompers[_idx].collider = nullptr;
 
