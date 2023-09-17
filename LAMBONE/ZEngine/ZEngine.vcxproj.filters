@@ -26,20 +26,47 @@
     <ClCompile Include="CScenePlayGrassNight.cpp">
       <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
     </ClCompile>
-    <ClCompile Include="CScenePlayPoolDay.cpp">
-      <Filter>Contents\_Scene\02_PlayPool\Day</Filter>
-    </ClCompile>
-    <ClCompile Include="CScenePlayPoolNight.cpp">
-      <Filter>Contents\_Scene\02_PlayPool\Night</Filter>
-    </ClCompile>
     <ClCompile Include="CGridScript.cpp">
       <Filter>Contents\_Script\Grid</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerScript.cpp">
       <Filter>Contents\_Script\Player</Filter>
     </ClCompile>
-    <ClCompile Include="CSunLightScore.cpp">
-      <Filter>Contents\SunLightScore</Filter>
+    <ClCompile Include="CCards.cpp">
+      <Filter>Contents\Objects\_Cards</Filter>
+    </ClCompile>
+    <ClCompile Include="CSunLights.cpp">
+      <Filter>Contents\Objects\_SunLights</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlants.cpp">
+      <Filter>Contents\Objects\Plants</Filter>
+    </ClCompile>
+    <ClCompile Include="CCommonObjects.cpp">
+      <Filter>Contents\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="CZombies.cpp">
+      <Filter>Contents\Objects\Zombies</Filter>
+    </ClCompile>
+    <ClCompile Include="CBoard.cpp">
+      <Filter>Contents\Objects\_Board</Filter>
+    </ClCompile>
+    <ClCompile Include="CSunflower.cpp">
+      <Filter>Contents\Objects\Plants\0_SunFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="CPeaShooter.cpp">
+      <Filter>Contents\Objects\Plants\2_PeaShooter</Filter>
+    </ClCompile>
+    <ClCompile Include="CWallNut.cpp">
+      <Filter>Contents\Objects\Plants\1_WallNut</Filter>
+    </ClCompile>
+    <ClCompile Include="CChomper.cpp">
+      <Filter>Contents\Objects\Plants\3_Chomper</Filter>
+    </ClCompile>
+    <ClCompile Include="CJalapeno.cpp">
+      <Filter>Contents\Objects\Plants\4_Jalapeno</Filter>
+    </ClCompile>
+    <ClCompile Include="CCherryBomb.cpp">
+      <Filter>Contents\Objects\Plants\5_CherryBomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,23 +98,50 @@
     <ClInclude Include="CScenePlayGrassNight.h">
       <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
     </ClInclude>
-    <ClInclude Include="CScenePlayPoolDay.h">
-      <Filter>Contents\_Scene\02_PlayPool\Day</Filter>
-    </ClInclude>
-    <ClInclude Include="CScenePlayPoolNight.h">
-      <Filter>Contents\_Scene\02_PlayPool\Night</Filter>
-    </ClInclude>
     <ClInclude Include="CGridScript.h">
       <Filter>Contents\_Script\Grid</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerScript.h">
       <Filter>Contents\_Script\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\Engine_SOURCE\CCommon.h">
-      <Filter>Contents</Filter>
+    <ClInclude Include="CCards.h">
+      <Filter>Contents\Objects\_Cards</Filter>
     </ClInclude>
-    <ClInclude Include="CSunLightScore.h">
-      <Filter>Contents\SunLightScore</Filter>
+    <ClInclude Include="CSunLights.h">
+      <Filter>Contents\Objects\_SunLights</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlants.h">
+      <Filter>Contents\Objects\Plants</Filter>
+    </ClInclude>
+    <ClInclude Include="CCommonObjects.h">
+      <Filter>Contents\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CZombies.h">
+      <Filter>Contents\Objects\Zombies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Engine_SOURCE\CCommon.h">
+      <Filter>Contents\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="CBoard.h">
+      <Filter>Contents\Objects\_Board</Filter>
+    </ClInclude>
+    <ClInclude Include="CSunflower.h">
+      <Filter>Contents\Objects\Plants\0_SunFlower</Filter>
+    </ClInclude>
+    <ClInclude Include="CPeaShooter.h">
+      <Filter>Contents\Objects\Plants\2_PeaShooter</Filter>
+    </ClInclude>
+    <ClInclude Include="CWallNut.h">
+      <Filter>Contents\Objects\Plants\1_WallNut</Filter>
+    </ClInclude>
+    <ClInclude Include="CChomper.h">
+      <Filter>Contents\Objects\Plants\3_Chomper</Filter>
+    </ClInclude>
+    <ClInclude Include="CJalapeno.h">
+      <Filter>Contents\Objects\Plants\4_Jalapeno</Filter>
+    </ClInclude>
+    <ClInclude Include="CCherryBomb.h">
+      <Filter>Contents\Objects\Plants\5_CherryBomb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -124,15 +178,6 @@
     <Filter Include="Contents\_Scene\01_PlayGrass\Night">
       <UniqueIdentifier>{e2082203-6011-4f37-a684-71e47c799645}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\_Scene\02_PlayPool">
-      <UniqueIdentifier>{ccd94a4b-e4d2-4fc4-b516-c36f455ec931}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\_Scene\02_PlayPool\Day">
-      <UniqueIdentifier>{15ee4182-0f25-4207-a12a-925855fce97c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\_Scene\02_PlayPool\Night">
-      <UniqueIdentifier>{9e56ebde-bc49-4f6c-87ce-53091f1b5c1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Contents\_Script">
       <UniqueIdentifier>{e4057279-a017-405f-9609-75ea8f7a8d6f}</UniqueIdentifier>
     </Filter>
@@ -145,8 +190,41 @@
     <Filter Include="Contents\_Script\Player">
       <UniqueIdentifier>{78d14473-a701-49b2-9e35-51fdc090d7f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Contents\SunLightScore">
-      <UniqueIdentifier>{38136b7e-ce50-494d-abbd-45c13fe4d5a5}</UniqueIdentifier>
+    <Filter Include="Contents\Objects">
+      <UniqueIdentifier>{59530e32-4217-4af0-bc8f-f6a15e046284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants">
+      <UniqueIdentifier>{82b8e692-ddf0-48eb-bf5b-7fb480f222f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Zombies">
+      <UniqueIdentifier>{e38d7b8c-272b-4873-bb81-79a0a8762776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\_Cards">
+      <UniqueIdentifier>{0c533a71-a046-4107-bf49-2d5b82d2bd8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\_SunLights">
+      <UniqueIdentifier>{428c2c7c-2025-4d38-bb94-f995265ed9f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\_Board">
+      <UniqueIdentifier>{4e136bf0-b204-44aa-aba3-8b5656ef8934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants\0_SunFlower">
+      <UniqueIdentifier>{9590436b-c78e-4090-88de-b7dcb376dcec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants\3_Chomper">
+      <UniqueIdentifier>{59780a91-aca6-411c-9ee4-54dba0fade9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants\4_Jalapeno">
+      <UniqueIdentifier>{94a26e7d-24af-4baf-a707-65349347dcf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants\5_CherryBomb">
+      <UniqueIdentifier>{a1de331d-3827-4e6d-aa90-e368f94246e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants\1_WallNut">
+      <UniqueIdentifier>{39d9b3a9-ab07-447d-803d-a3e24766eb42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Contents\Objects\Plants\2_PeaShooter">
+      <UniqueIdentifier>{9d1083c9-48a0-4e3e-8625-086387243930}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -100,10 +100,20 @@ namespace yha::enums
 	enum class eStatusType
 	{
 		Idle,
+		Idle_1,		// OnlyWallNut
+		Idle_2,		// OnlyWallNut
+
 		Attack,
+		
 		Attacked,
+		Attacked_1,	// OnlyWallNut
+		Attacked_2,	// OnlyWallNut
+		
+		DieSoon,
+		
 		Dead,
-		Bright_OnlySunflower,
+		
+		Bright_OnlySunflower,	// Sunflower
 		End,
 	};
 
@@ -124,9 +134,9 @@ namespace yha::enums
 
 	enum class ePlantsType
 	{
-		SunFlower,
-		PeaShooter,
+		Sunflower,
 		WallNut,
+		PeaShooter,
 		Chomper,
 		Jalapeno,
 		CherryBomb,

@@ -765,6 +765,13 @@ namespace renderer
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_SeedChooserBG", material);
 
+		// SelectedCardBG
+		texture = CResources::FnLoad<CTexture>(L"SelectedCardBG", L"..\\Resources\\Texture\\MyGame\\Cards\\_EmptySpace.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_SelectedCardBG", material);
+
 		// SunPointChk
 		texture = CResources::FnLoad<CTexture>(L"SunPointChk", L"..\\Resources\\Texture\\MyGame\\UI\\SunPointChk.png");
 		material = std::make_shared<CMaterial>();
@@ -883,16 +890,9 @@ namespace renderer
 		//==================================================================
 		// Cards (SpriteShader)
 		//==================================================================
-		// Card_EmptySpace
-		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"UI_EmptySpace", L"..\\Resources\\Texture\\MyGame\\Cards\\_EmptySpace.png");
-		std::shared_ptr<CMaterial> material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"UI_Card_EmptySpace", material);
-
 		// Card_SunFlower
-		texture = CResources::FnLoad<CTexture>(L"UI_SunFlower", L"..\\Resources\\Texture\\MyGame\\Cards\\SunFlower.png");
-		material = std::make_shared<CMaterial>();
+		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"UI_SunFlower", L"..\\Resources\\Texture\\MyGame\\Cards\\SunFlower.png");
+		std::shared_ptr<CMaterial> material = std::make_shared<CMaterial>();
 		material->FnSetShader(shader);
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_Card_SunFlower", material);

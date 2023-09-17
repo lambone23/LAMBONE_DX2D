@@ -154,8 +154,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Engine_SOURCE\CCommon.h" />
+    <ClInclude Include="CBoard.h" />
     <ClInclude Include="CCameraScript.h" />
+    <ClInclude Include="CCards.h" />
+    <ClInclude Include="CCherryBomb.h" />
+    <ClInclude Include="CChomper.h" />
+    <ClInclude Include="CCommonObjects.h" />
     <ClInclude Include="CGridScript.h" />
+    <ClInclude Include="CJalapeno.h" />
+    <ClInclude Include="CPeaShooter.h" />
+    <ClInclude Include="CPlants.h" />
     <ClInclude Include="CPlayerScript.h" />
     <ClInclude Include="CPlayScene.h" />
     <ClInclude Include="CSceneEnding.h" />
@@ -164,15 +172,24 @@
     <ClInclude Include="CSceneMainMenu.h" />
     <ClInclude Include="CScenePlayGrassDay.h" />
     <ClInclude Include="CScenePlayGrassNight.h" />
-    <ClInclude Include="CScenePlayPoolDay.h" />
-    <ClInclude Include="CScenePlayPoolNight.h" />
-    <ClInclude Include="CSunLightScore.h" />
+    <ClInclude Include="CSunflower.h" />
+    <ClInclude Include="CSunLights.h" />
+    <ClInclude Include="CWallNut.h" />
+    <ClInclude Include="CZombies.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LoadScenes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CBoard.cpp" />
     <ClCompile Include="CCameraScript.cpp" />
+    <ClCompile Include="CCards.cpp" />
+    <ClCompile Include="CCherryBomb.cpp" />
+    <ClCompile Include="CChomper.cpp" />
+    <ClCompile Include="CCommonObjects.cpp" />
     <ClCompile Include="CGridScript.cpp" />
+    <ClCompile Include="CJalapeno.cpp" />
+    <ClCompile Include="CPeaShooter.cpp" />
+    <ClCompile Include="CPlants.cpp" />
     <ClCompile Include="CPlayerScript.cpp" />
     <ClCompile Include="CPlayScene.cpp" />
     <ClCompile Include="CSceneEnding.cpp" />
@@ -181,9 +198,10 @@
     <ClCompile Include="CSceneMainMenu.cpp" />
     <ClCompile Include="CScenePlayGrassDay.cpp" />
     <ClCompile Include="CScenePlayGrassNight.cpp" />
-    <ClCompile Include="CScenePlayPoolDay.cpp" />
-    <ClCompile Include="CScenePlayPoolNight.cpp" />
-    <ClCompile Include="CSunLightScore.cpp" />
+    <ClCompile Include="CSunflower.cpp" />
+    <ClCompile Include="CSunLights.cpp" />
+    <ClCompile Include="CWallNut.cpp" />
+    <ClCompile Include="CZombies.cpp" />
     <ClCompile Include="ZEngine.cpp" />
   </ItemGroup>
   <ItemGroup>

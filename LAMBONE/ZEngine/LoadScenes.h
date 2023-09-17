@@ -9,8 +9,8 @@
 #include "CSceneEnding.h"
 #include "CScenePlayGrassDay.h"
 #include "CScenePlayGrassNight.h"
-#include "CScenePlayPoolDay.h"
-#include "CScenePlayPoolNight.h"
+//#include "CScenePlayPoolDay.h"
+//#include "CScenePlayPoolNight.h"
 
 #ifdef _DEBUG
 #pragma comment(lib, "..\\x64\\Debug\\ZEngine.lib")
@@ -33,7 +33,7 @@ namespace yha
 			
 			CSceneManager::FnCreateScene<CScenePlayGrassDay>(L"Scene_PlayGrassDay");
 			CSceneManager::FnCreateScene<CScenePlayGrassNight>(L"Scene_PlayGrassNight");
-			CSceneManager::FnCreateScene<CScenePlayPoolDay>(L"Scene_PlayPoolDay");
+			//CSceneManager::FnCreateScene<CScenePlayPoolDay>(L"Scene_PlayPoolDay");
 			//CSceneManager::FnCreateScene<CScenePlayPoolNight>(L"Scene_PlayPoolNight");
 
 			//CSceneManager::FnLoadScene(L"Scene_Intro");
