@@ -51,7 +51,7 @@ namespace yha
 
 		CAnimation* FnCreateAnimations(const std::wstring& path, float duration);
 
-		CAnimation* FindAnimation(const std::wstring& name);
+		CAnimation* FnFindAnimation(const std::wstring& name);
 		Events* FnFindEvents(const std::wstring& name);
 		void FnPlayAnimation(const std::wstring& name, bool loop);
 		void FnBinds();

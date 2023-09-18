@@ -37,7 +37,7 @@ namespace yha
 			//CSceneManager::FnCreateScene<CScenePlayPoolNight>(L"Scene_PlayPoolNight");
 
 			//CSceneManager::FnLoadScene(L"Scene_Intro");
-			CSceneManager::FnLoadScene(L"Scene_PlayGrassDay");
+			CSceneManager::FnLoadScene(L"Scene_MainMenu");
 		}
 		else
 			CSceneManager::FnCreateScene<CPlayScene>(L"PlayScene");

@@ -61,7 +61,7 @@ namespace yha
 		, Vector2 offset
 		, float duration)
 	{
-		CAnimation* animation = FindAnimation(name);
+		CAnimation* animation = FnFindAnimation(name);
 		if (nullptr != animation)
 			return;
 
@@ -128,7 +128,7 @@ namespace yha
 		return nullptr;
 	}//END-CAnimation* CAnimator::FnCreateAnimations
 
-	CAnimation* CAnimator::FindAnimation(const std::wstring& name)
+	CAnimation* CAnimator::FnFindAnimation(const std::wstring& name)
 	{
 		std::map<std::wstring, CAnimation*>::iterator iter
 			= mAnimations.find(name);
@@ -137,7 +137,7 @@ namespace yha
 			return nullptr;
 
 		return iter->second;
-	}//END-CAnimation* CAnimator::FindAnimation
+	}//END-CAnimation* CAnimator::FnFindAnimation
 
 	CAnimator::Events* CAnimator::FnFindEvents(const std::wstring& name)
 	{
@@ -162,7 +162,7 @@ namespace yha
 				events->endEvent();
 		}
 
-		CAnimation* animation = FindAnimation(name);
+		CAnimation* animation = FnFindAnimation(name);
 		if (animation)
 			mActiveAnimation = animation;
 

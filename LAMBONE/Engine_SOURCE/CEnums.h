@@ -46,6 +46,7 @@ namespace yha::enums
 		Monster,
 		SunLight,
 		SunLightNatural,
+		PlayerExplode,
 		Light,
 		UI,
 		UI2,

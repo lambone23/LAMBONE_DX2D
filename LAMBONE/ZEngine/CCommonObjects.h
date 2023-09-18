@@ -90,6 +90,31 @@ namespace yha
 		static CGameObject* mUI_SelectedCard;
 		static CGameObject* mUI_SelectedShovel;
 
+		static std::wstring mJalapenoName[16];
+		static CGameObject* mJalapeno[MAX_JALAPENO];
+		//static CGameObject* mJalapenoExplode[MAX_JALAPENO];
+
+		static CGameObject* mJalapeno_0;
+		static CGameObject* mJalapeno_1;
+		static CGameObject* mJalapeno_2;
+		static CGameObject* mJalapeno_3;
+		static CGameObject* mJalapeno_4;
+		static CGameObject* mJalapeno_5;
+		static CGameObject* mJalapeno_6;
+		static CGameObject* mJalapeno_7;
+
+		static CGameObject* mJalapenoExplode_0;
+		static CGameObject* mJalapenoExplode_1;
+		static CGameObject* mJalapenoExplode_2;
+		static CGameObject* mJalapenoExplode_3;
+		static CGameObject* mJalapenoExplode_4;
+		static CGameObject* mJalapenoExplode_5;
+		static CGameObject* mJalapenoExplode_6;
+		static CGameObject* mJalapenoExplode_7;
+
+		static float mChkSecond;
+		static int mCntTmp;
+
 	private:
 		// (단계: 0) 화면 최초 진입 여부 확인용
 		static bool mFlagChkEnter;

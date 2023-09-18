@@ -9,6 +9,8 @@
 #include "CZombies.h"
 #include "CBoard.h"
 
+#include "CJalapeno.h"
+
 extern yha::CApplication MyApplication;
 
 namespace yha
@@ -417,6 +419,9 @@ namespace yha
 		//==================================================================
 		// ÇÞºû
 		CSunLights::FnDraw();
+
+		//CCommonObjects::mChkSecond += CTime::FnDeltaTime();
+		//CJalapeno::mChkSecond += CTime::FnDeltaTime();
 
 		// ½Ä¹°
 		CBoard::FnDraw();

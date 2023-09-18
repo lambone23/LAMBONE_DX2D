@@ -28,43 +28,46 @@ namespace yha
 	{
 		//==================================================================
 		// 공통
-		//==================================================================
-		//-------------------------------------
-		// infoPlants - isPlanted, plantsType
-		//-------------------------------------
-		mPlants[_idx].isPlanted = true;
-		CPlants::mPlants[_idx].plantsType = CCards::FnGetPickedCardType();
+		//==================================================================	
+		if (ePlantsType::Jalapeno != CCards::FnGetPickedCardType())
+		{
+			//-------------------------------------
+			// infoPlants - isPlanted, plantsType
+			//-------------------------------------
+			mPlants[_idx].isPlanted = true;
+			mPlants[_idx].plantsType = CCards::FnGetPickedCardType();
 
-		//-------------------------------------
-		// infoPlants - plants
-		//-------------------------------------
-		mPlants[_idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
+			//-------------------------------------
+			// infoPlants - plants
+			//-------------------------------------
+			mPlants[_idx].plants = object::FnInstantiate<CGameObject>(POSITION_CLEAR, eLayerType::Player);
 
-		CMeshRenderer* mr = mPlants[_idx].plants->FnAddComponent<CMeshRenderer>();
-		mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
-		mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
+			CMeshRenderer* mr = mPlants[_idx].plants->FnAddComponent<CMeshRenderer>();
+			mr->FnSetMesh(CResources::FnFind<CMesh>(L"RectMesh"));
+			mr->FnSetMaterial(CResources::FnFind<CMaterial>(L"SpriteAnimaionMaterial"));
 
-		//-------------------------------------
-		// infoPlants - animator
-		//-------------------------------------
-		mPlants[_idx].animator = mPlants[_idx].plants->FnAddComponent<CAnimator>();
+			//-------------------------------------
+			// infoPlants - animator
+			//-------------------------------------
+			mPlants[_idx].animator = mPlants[_idx].plants->FnAddComponent<CAnimator>();
 
-		//-------------------------------------
-		// infoPlants - statusType
-		//-------------------------------------
-		FnChangeStatus(_idx, eStatusType::End);
-		FnChangeStatus(_idx, eStatusType::Idle);
+			//-------------------------------------
+			// infoPlants - statusType
+			//-------------------------------------
+			FnChangeStatus(_idx, eStatusType::End);
+			FnChangeStatus(_idx, eStatusType::Idle);
 
-		//-------------------------------------
-		// infoPlants - collider
-		//-------------------------------------
-		mPlants[_idx].collider = mPlants[_idx].plants->FnAddComponent<CCollider2D>();
+			//-------------------------------------
+			// infoPlants - collider
+			//-------------------------------------
+			mPlants[_idx].collider = mPlants[_idx].plants->FnAddComponent<CCollider2D>();
 
-		//-------------------------------------
-		// infoPlants - isAttacked, attackedTime
-		//-------------------------------------
-		mPlants[_idx].isAttacked = false;
-		mPlants[_idx].attackedTime = 0.f;
+			//-------------------------------------
+			// infoPlants - isAttacked, attackedTime
+			//-------------------------------------
+			mPlants[_idx].isAttacked = false;
+			mPlants[_idx].attackedTime = 0.f;
+		}
 
 		//==================================================================
 		// 식물 종류별
@@ -124,10 +127,10 @@ namespace yha
 			switch (CCards::FnGetPickedCardType())
 			{
 			case ePlantsType::Sunflower:
-				if (50 <= nowSunLightScore)
+				if (SCORE_SUNFLOWER <= nowSunLightScore)
 				{
 					FnInitialize(_idx);
-					CSunLights::FnSetSunLightScore_isAdd(false, 50);
+					CSunLights::FnSetSunLightScore_isAdd(false, SCORE_SUNFLOWER);
 
 					//-------------------------------------
 					// only SunFlower
@@ -136,29 +139,39 @@ namespace yha
 				}
 				break;
 			case ePlantsType::WallNut:
-				if (50 <= nowSunLightScore)
+				if (SCORE_WALLNUT <= nowSunLightScore)
 				{
 					FnInitialize(_idx);
-					CSunLights::FnSetSunLightScore_isAdd(false, 50);
+					CSunLights::FnSetSunLightScore_isAdd(false, SCORE_WALLNUT);
 				}
 				break;
 			case ePlantsType::PeaShooter:
-				if (100 <= nowSunLightScore)
+				if (SCORE_PEASHOOTER <= nowSunLightScore)
 				{
 					FnInitialize(_idx);
-					CSunLights::FnSetSunLightScore_isAdd(false, 100);
+					CSunLights::FnSetSunLightScore_isAdd(false, SCORE_PEASHOOTER);
 				}
 				break;
 			case ePlantsType::Chomper:
-				if (150 <= nowSunLightScore)
+				if (SCORE_CHOMPER <= nowSunLightScore)
 				{
 					FnInitialize(_idx);
-					CSunLights::FnSetSunLightScore_isAdd(false, 150);
+					CSunLights::FnSetSunLightScore_isAdd(false, SCORE_CHOMPER);
 				}
 				break;
 			case ePlantsType::Jalapeno:
+				if (SCORE_JALAPENO <= nowSunLightScore)
+				{
+					FnInitialize(_idx);
+					CSunLights::FnSetSunLightScore_isAdd(false, SCORE_JALAPENO);
+				}
 				break;
 			case ePlantsType::CherryBomb:
+				if (SCORE_CHERRYBOMB <= nowSunLightScore)
+				{
+					FnInitialize(_idx);
+					CSunLights::FnSetSunLightScore_isAdd(false, SCORE_CHERRYBOMB);
+				}
 				break;
 			default:
 				break;
@@ -273,6 +286,7 @@ namespace yha
 		//-------------------------------------
 		if (true == mPlants[_idx].isPlanted
 			&& ePlantsType::Chomper != mPlants[_idx].plantsType
+			&& ePlantsType::Jalapeno != mPlants[_idx].plantsType
 			&& eStatusType::DieSoon != mPlants[_idx].statusType)
 		{
 			mPlants[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(CCommonObjects::FnGetPosition(_idx));
@@ -306,7 +320,7 @@ namespace yha
 		if (true == mPlants[_idx].isChangeStatus)
 		{
 			mPlants[_idx].isChangeStatus = false;
-
+			
 			switch (mPlants[_idx].plantsType)
 			{
 			case ePlantsType::Sunflower:

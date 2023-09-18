@@ -3,6 +3,7 @@
 #include "CCards.h"
 #include "CSunLights.h"
 #include "CPlants.h"
+#include "CJalapeno.h"
 
 extern yha::CApplication MyApplication;
 

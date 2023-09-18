@@ -64,3 +64,22 @@
 #define BOARD_Y_3 (410.f <= MousePos.y) && (580.f >= MousePos.y)
 #define BOARD_Y_4 (580.f <= MousePos.y) && (720.f >= MousePos.y)
 #define BOARD_Y_5 (720.f <= MousePos.y) && (880.f >= MousePos.y)
+
+#define SCORE_SUNFLOWER 50
+#define SCORE_WALLNUT 50
+#define SCORE_PEASHOOTER 100
+#define SCORE_CHOMPER 150
+#define SCORE_JALAPENO 125
+#define SCORE_CHERRYBOMB 150
+
+#define MAX_JALAPENO 8
+#define SCALE_JALAPENO Vector3(0.5f, (89.f * 0.5f) / 69.f, 0.f)
+#define SCALE_JALAPENO_EXPLODE Vector3(5.8f, (131.f * 5.8f) / 755.f, 0.f)
+
+#define POS_Y_JALAPENO_EXPLODE_1 0.9f, 1.45f, 0.008f
+#define POS_Y_JALAPENO_EXPLODE_2 0.9f, 0.7f, 0.008f
+#define POS_Y_JALAPENO_EXPLODE_3 0.9f, -0.1f, 0.008f
+#define POS_Y_JALAPENO_EXPLODE_4 0.9f, -0.85f, 0.008f
+#define POS_Y_JALAPENO_EXPLODE_5 0.8f, -1.68f, 0.008f
+
+
