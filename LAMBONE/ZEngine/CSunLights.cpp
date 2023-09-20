@@ -10,6 +10,7 @@ namespace yha
 {
 	int CSunLights::mSunLightScore = 0;
 	float CSunLights::mChkSecond = 0;
+	float CSunLights::mPrevLimitTime = 0;
 	int CSunLights::mPrevRandomIdx_SunLightNatural = 999;
 
 	CSunLights::infoSunLight CSunLights::mSunLights[MAX_PLANTS] = {};
@@ -57,12 +58,21 @@ namespace yha
 			// 초기화
 			//==================================================================
 			mSunLights[_idx].isShow			= true;
+			mSunLights[_idx].isRemove		= false;
 			mSunLights[_idx].cycleChkTime	= 0.f;
 
 			// 초기화 - Natural 전용 요소 (쓰레기값 방지)
 			mSunLights[_idx].isArrived		= false;
-			mSunLights[_idx].position		= POSITION_CLEAR;
 			mSunLights[_idx].destination	= POSITION_CLEAR;
+
+			//-------------------------------------
+			// 좌표 셋팅
+			//-------------------------------------
+			Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+			posNumbSet = CCommonObjects::FnGetPosition(_idx);
+			posNumbSet.y -= 0.1f;
+			posNumbSet.z = POS_Z_FRONT_1;
+			mSunLights[_idx].position = posNumbSet;
 		}
 		else if (eSunLightType::Natural == _inType)
 		{
@@ -97,6 +107,7 @@ namespace yha
 			// 초기화
 			//==================================================================
 			mSunLights_Natural[_idx].isShow			= true;
+			mSunLights_Natural[_idx].isRemove		= false;
 			mSunLights_Natural[_idx].cycleChkTime	= 0.f;
 			mSunLights_Natural[_idx].isArrived		= false;
 			mSunLights_Natural[_idx].position		= POSITION_CLEAR;
@@ -110,25 +121,150 @@ namespace yha
 		mSunLights[_idx].cycleChkTime = 0.f;
 	}//END-void CSunLights::FnStart
 
+	void CSunLights::FnPreRemove(int _idx, eSunLightType _inType)
+	{
+		bool flagDoRemove = false;
+
+		Vector2 positionScore = Vector2(-1.7f, 2.f);
+		float nowX = 0.f;
+		float nowY = 0.f;
+
+		/*
+			1	2
+			3	4
+		*/
+
+		switch (_inType)
+		{
+		case yha::CSunLights::eSunLightType::Sunflower:
+		{
+			nowX = mSunLights[_idx].position.x;
+			nowY = mSunLights[_idx].position.y;
+
+			if (positionScore.x <= nowX || positionScore.y >= nowY)
+			{
+				if (0 >= nowX && 0 <= nowY)
+				{// 1
+					if(positionScore.x <= nowX)
+						mSunLights[_idx].position.x -= 5.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights[_idx].position.y += 5.f * CTime::FnDeltaTime();
+				}
+				else if (0 <= nowX && 0 <= nowY)
+				{// 2
+					if (positionScore.x <= nowX)
+						mSunLights[_idx].position.x -= 20.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights[_idx].position.y += 5.f * CTime::FnDeltaTime();
+				}
+				else if (0 >= nowX && 0 >= nowY)
+				{// 3
+					if (positionScore.x <= nowX)
+						mSunLights[_idx].position.x -= 5.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights[_idx].position.y += 20.f * CTime::FnDeltaTime();
+				}
+				else if (0 <= nowX && 0 >= nowY)
+				{// 4
+					if (positionScore.x <= nowX)
+						mSunLights[_idx].position.x -= 20.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights[_idx].position.y += 20.f * CTime::FnDeltaTime();
+				}
+
+				nowX = mSunLights[_idx].position.x;
+				nowY = mSunLights[_idx].position.y;
+			}
+		}
+		break;
+		case yha::CSunLights::eSunLightType::Natural:
+		{
+			nowX = mSunLights_Natural[_idx].position.x;
+			nowY = mSunLights_Natural[_idx].position.y;
+
+			if (positionScore.x <= nowX || positionScore.y >= nowY)
+			{
+				if (0 >= nowX && 0 <= nowY)
+				{// 1
+					if (positionScore.x <= nowX)
+						mSunLights_Natural[_idx].position.x -= 5.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights_Natural[_idx].position.y += 5.f * CTime::FnDeltaTime();
+				}
+				else if (0 <= nowX && 0 <= nowY)
+				{// 2
+					if (positionScore.x <= nowX)
+						mSunLights_Natural[_idx].position.x -= 20.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights_Natural[_idx].position.y += 5.f * CTime::FnDeltaTime();
+				}
+				else if (0 >= nowX && 0 >= nowY)
+				{// 3
+					if (positionScore.x <= nowX)
+						mSunLights_Natural[_idx].position.x -= 5.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights_Natural[_idx].position.y += 20.f * CTime::FnDeltaTime();
+				}
+				else if (0 <= nowX && 0 >= nowY)
+				{// 4
+					if (positionScore.x <= nowX)
+						mSunLights_Natural[_idx].position.x -= 20.f * CTime::FnDeltaTime();
+					if (positionScore.y >= nowY)
+						mSunLights_Natural[_idx].position.y += 20.f * CTime::FnDeltaTime();
+				}
+
+				nowX = mSunLights_Natural[_idx].position.x;
+				nowY = mSunLights_Natural[_idx].position.y;
+			}
+		}
+		break;
+		}
+
+		if (positionScore.x >= nowX && positionScore.y <= nowY)
+			flagDoRemove = true;
+
+		if (flagDoRemove)
+		{
+			switch (_inType)
+			{
+			case yha::CSunLights::eSunLightType::Sunflower:
+				FnRemove(_idx, eSunLightType::Sunflower);
+				break;
+			case yha::CSunLights::eSunLightType::Natural:
+				FnRemove(_idx, eSunLightType::Natural);
+				break;
+			}
+		}
+	}//END-void CSunLights::FnPreRemove
+
 	void CSunLights::FnRemove(int _idx, eSunLightType _inType)
 	{
-		if (eSunLightType::Sunflower == _inType)
+		switch (_inType)
+		{
+		case yha::CSunLights::eSunLightType::Sunflower:
 		{
 			mSunLights[_idx].isShow			= false;
+			mSunLights[_idx].isRemove		= false;
 			mSunLights[_idx].cycleChkTime	= 0.f;
-			mSunLights[_idx].isArrived		= false;
 			mSunLights[_idx].position		= POSITION_CLEAR;
+			mSunLights[_idx].isArrived		= false;
 			mSunLights[_idx].destination	= POSITION_CLEAR;
+
 			object::FnDestroy(mSunLights[_idx].sunLight);
 		}
-		else if (eSunLightType::Natural == _inType)
+		break;
+		case yha::CSunLights::eSunLightType::Natural:
 		{
 			mSunLights_Natural[_idx].isShow			= false;
+			mSunLights_Natural[_idx].isRemove		= false;
 			mSunLights_Natural[_idx].cycleChkTime	= 0.f;
-			mSunLights_Natural[_idx].isArrived		= false;
 			mSunLights_Natural[_idx].position		= POSITION_CLEAR;
+			mSunLights_Natural[_idx].isArrived		= false;
 			mSunLights_Natural[_idx].destination	= POSITION_CLEAR;
+
 			object::FnDestroy(mSunLights_Natural[_idx].sunLight);
+		}
+		break;
 		}
 	}//END-void CSunLights::FnRemove
 
@@ -142,6 +278,7 @@ namespace yha
 		{
 			bool flagDo_ClickEvent = false;
 			bool flagDo_ClickEvent2 = false;
+			bool flagDo_ClickEvent3 = false;
 
 			int idxBoard_1 = idx2;
 			int idxBoard_2 = idx2 + 9;
@@ -191,41 +328,74 @@ namespace yha
 
 				if (flagDo_ClickEvent2)
 				{
-					if (isExistSunLight_1)
-					{
-						////■TODO-DELETE-DebugPrint
-						//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
-						//TCHAR Temp[256] = { 0, };
-						//_stprintf_s(Temp, L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
-						//	, mSunLightScore, mSunLightScore + 25, idxSunLight_1, _idx);
-						//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+					if (0 <= _idx && 4 >= _idx)
+					{// BOARD_Y_1
 
-						FnRemove(idxSunLight_1, eSunLightType::Natural);
-						FnSetSunLightScore_isAdd(true, 25);
+						if (isExistSunLight_1)
+						{
+							////■TODO-DELETE-DebugPrint
+							//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+							//TCHAR Temp[256] = { 0, };
+							//_stprintf_s(Temp, L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
+							//	, mSunLightScore, mSunLightScore + 25, idxSunLight_1, _idx);
+							//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+
+							mSunLights_Natural[idxSunLight_1].isRemove = true;
+							FnSetSunLightScore_isAdd(true, 25);
+						}
+						if (isExistSunLight_2)
+						{
+							float nowY = mSunLights_Natural[idxSunLight_2].position.y;
+							if (1.f <= nowY && 2.f >= nowY)
+							{
+								mSunLights_Natural[idxSunLight_2].isRemove = true;
+								FnSetSunLightScore_isAdd(true, 25);
+							}
+						}
+						if (isExistSunLight_3)
+						{
+							float nowY = mSunLights_Natural[idxSunLight_3].position.y;
+							if (1.f <= nowY && 2.f >= nowY)
+							{
+								mSunLights_Natural[idxSunLight_3].isRemove = true;
+								FnSetSunLightScore_isAdd(true, 25);
+							}
+						}
 					}
-					if (isExistSunLight_2)
-					{
-						////■TODO-DELETE-DebugPrint
-						//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
-						//TCHAR Temp[256] = { 0, };
-						//_stprintf_s(Temp,L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
-						//	, mSunLightScore, mSunLightScore + 25, idxSunLight_2, _idx);
-						//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+					else if (9 <= _idx && 13 >= _idx)
+					{// BOARD_Y_2
 
-						FnRemove(idxSunLight_2, eSunLightType::Natural);
-						FnSetSunLightScore_isAdd(true, 25);
+						if (isExistSunLight_2)
+						{
+							float nowY = mSunLights_Natural[idxSunLight_2].position.y;
+							if (0.2f <= nowY && 1.f >= nowY)
+							{
+								mSunLights_Natural[idxSunLight_2].isRemove = true;
+								FnSetSunLightScore_isAdd(true, 25);
+							}
+						}
+						if (isExistSunLight_3)
+						{
+							float nowY = mSunLights_Natural[idxSunLight_3].position.y;
+							if (0.2f <= nowY && 1.f >= nowY)
+							{
+								mSunLights_Natural[idxSunLight_3].isRemove = true;
+								FnSetSunLightScore_isAdd(true, 25);
+							}
+						}
 					}
-					if (isExistSunLight_3)
-					{
-						////■TODO-DELETE-DebugPrint
-						//HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
-						//TCHAR Temp[256] = { 0, };
-						//_stprintf_s(Temp,L"mSunScore: % d -> %d \nidxSunLight: % d \nidxBoard : %d"
-						//	, mSunLightScore, mSunLightScore + 25, idxSunLight_3, _idx);
-						//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
+					else if (18 <= _idx && 22 >= _idx)
+					{// BOARD_Y_3
 
-						FnRemove(idxSunLight_3, eSunLightType::Natural);
-						FnSetSunLightScore_isAdd(true, 25);
+						if (isExistSunLight_3)
+						{
+							float nowY = mSunLights_Natural[idxSunLight_3].position.y;
+							if (-0.6f <= nowY && 0.2f >= nowY)
+							{
+								mSunLights_Natural[idxSunLight_3].isRemove = true;
+								FnSetSunLightScore_isAdd(true, 25);
+							}
+						}
 					}
 				}//end-if (flagDo_ClickEvent2)
 			}//end-if (flagDo)
@@ -246,13 +416,14 @@ namespace yha
 			//_stprintf_s(Temp, L"mSunScore: % d -> %d", mSunLightScore, mSunLightScore + 25);
 			//MessageBox(Tmp_mHwnd, Temp, L"짠", MB_OK);
 
-			FnRemove(_idx, eSunLightType::Sunflower);
+			//FnRemove(_idx, eSunLightType::Sunflower);
+			mSunLights[_idx].isRemove = true;
 			FnSetSunLightScore_isAdd(true, 25);
 		}
 #pragma endregion
 	}//END-void CSunLights::FnClickEvent
 
-	void CSunLights::FnManageSunLight_Sunflower()
+	void CSunLights::FnManager_Sunflower()
 	{
 		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
@@ -293,12 +464,12 @@ namespace yha
 				float limitTime = 0.f;
 				int nowSunLightScore = FnGetSunLightScore();
 
-				if (100 > nowSunLightScore)
-					limitTime = 10.f;
-				else if (100 <= nowSunLightScore && 200 > nowSunLightScore)
-					limitTime = 15.f;
-				else if (200 <= nowSunLightScore)
-					limitTime = 20.f;
+				if (CREATE_SUNLIGHT_LIMIT_SCORE_1 > nowSunLightScore)
+					limitTime = CREATE_SUNLIGHT_TIME_EASY;
+				else if (CREATE_SUNLIGHT_LIMIT_SCORE_1 <= nowSunLightScore && CREATE_SUNLIGHT_LIMIT_SCORE_2 > nowSunLightScore)
+					limitTime = CREATE_SUNLIGHT_TIME_NORAMAL;
+				else if (CREATE_SUNLIGHT_LIMIT_SCORE_2 <= nowSunLightScore)
+					limitTime = CREATE_SUNLIGHT_TIME_HARD;
 
 				//==================================================================
 				// B-a : 햇빛 생성 직전 (기준 시간 2초 전)
@@ -322,6 +493,9 @@ namespace yha
 					//-------------------------------------
 					FnInitialize(idx, eSunLightType::Sunflower);
 
+					if (mPrevLimitTime != limitTime)
+						mPrevLimitTime = limitTime;
+
 					//-------------------------------------
 					// 갱신 - Status (SunFlower)
 					//-------------------------------------
@@ -330,9 +504,9 @@ namespace yha
 				}
 			}
 		}//end-for (int idx = 0; idx < MAXCOUNT_PLANTS; idx++)
-	}//END-void CSunLights::FnManageSunLight_Sunflower
+	}//END-void CSunLights::FnManager_Sunflower
 
-	void CSunLights::FnManageSunLight_Natural()
+	void CSunLights::FnManager_Natural()
 	{
 		int cntFlagDo = 0; // 생성 여부 결정
 
@@ -362,12 +536,12 @@ namespace yha
 			float limitTime = 0.f;
 			int nowSunLightScore = FnGetSunLightScore();
 
-			if (100 > nowSunLightScore)
-				limitTime = 10.f;
-			else if (100 <= nowSunLightScore && 200 > nowSunLightScore)
-				limitTime = 15.f;
-			else if (200 <= nowSunLightScore)
-				limitTime = 20.f;
+			if (CREATE_SUNLIGHT_LIMIT_SCORE_1 > nowSunLightScore)
+				limitTime = CREATE_SUNLIGHT_TIME_EASY;
+			else if (CREATE_SUNLIGHT_LIMIT_SCORE_1 <= nowSunLightScore && CREATE_SUNLIGHT_LIMIT_SCORE_2 > nowSunLightScore)
+				limitTime = CREATE_SUNLIGHT_TIME_NORAMAL;
+			else if (CREATE_SUNLIGHT_LIMIT_SCORE_2 <= nowSunLightScore)
+				limitTime = CREATE_SUNLIGHT_TIME_HARD;
 
 			if (limitTime <= mChkSecond)
 			{
@@ -402,9 +576,9 @@ namespace yha
 				//-------------------------------------
 				if (5 > idx)
 					conversionIdx = idx;
-				else if ((5 <= idx) && (9 >= idx))
+				else if (5 <= idx && 9 >= idx)
 					conversionIdx = idx + 4;
-				else if ((10 <= idx) && (14 >= idx))
+				else if (10 <= idx && 14 >= idx)
 					conversionIdx = idx + 8;
 
 				//-------------------------------------
@@ -474,29 +648,26 @@ namespace yha
 				FnRemove(idx, eSunLightType::Natural);
 			}
 		}
-	}//END-void CSunLights::FnManageSunLight_Natural
+	}//END-void CSunLights::FnManager_Natural
 
 	void CSunLights::FnDraw()
 	{// 햇빛 생성여부에 따라 활성화
 
 		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
+			if (true == mSunLights[idx].isRemove)
+				FnPreRemove(idx, eSunLightType::Sunflower);
+
+			if (true == mSunLights_Natural[idx].isRemove)
+				FnPreRemove(idx, eSunLightType::Natural);
+
 			// made by Sunflower
 			if (true == mSunLights[idx].isShow)
-			{
-				Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
-				posNumbSet = CCommonObjects::FnGetPosition(idx);
-				posNumbSet.y -= 0.1f;
-				posNumbSet.z = POS_Z_FRONT_1;
-				mSunLights[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
-			}
+				mSunLights[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights[idx].position);
 
 			// made by Natural
-			if ((idx < MAX_SUNLIGHT_NATURAL)
-				&& (true == mSunLights_Natural[idx].isShow))
-			{
+			if ((idx < MAX_SUNLIGHT_NATURAL) && (true == mSunLights_Natural[idx].isShow))
 				mSunLights_Natural[idx].sunLight->FnGetComponent<CTransform>()->FnSetPosition(mSunLights_Natural[idx].position);
-			}
 		}
 	}//END-void CSunLights::FnDrawSunLights
 }

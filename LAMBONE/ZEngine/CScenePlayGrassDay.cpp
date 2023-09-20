@@ -213,7 +213,7 @@ namespace yha
 		{
 			TCHAR Temp[10] = { 0, };
 			_stprintf_s(Temp, L"%5d ", CSunLights::FnGetSunLightScore());
-			CFontWrapper::FnDrawFont(Temp, 405.f, 15.f, 65, FONT_RGBA(33, 33, 33, 255));
+			CFontWrapper::FnDrawFont(Temp, POS_XY_SUNLIGHTSCORE, FONT_SIZE_SUNLIGHTSCORE, FONT_RGBA(33, 33, 33, 255));
 		}
 
 		//==================================================================
@@ -229,19 +229,19 @@ namespace yha
 				switch (idx)
 				{
 				case 0:
-					CFontWrapper::FnDrawFont(Temp, 50.f, 185.f, 77, FONT_RGBA(95, 0, 255, 255));
+					CFontWrapper::FnDrawFont(Temp, POS_XY_COOLTIME_1, FONT_SIZE_COOLTIME, FONT_RGBA(95, 0, 255, 255));
 					break;
 				case 1:
-					CFontWrapper::FnDrawFont(Temp, 50.f, 295.f, 77, FONT_RGBA(95, 0, 255, 255));
+					CFontWrapper::FnDrawFont(Temp, POS_XY_COOLTIME_2, FONT_SIZE_COOLTIME, FONT_RGBA(95, 0, 255, 255));
 					break;
 				case 2:
-					CFontWrapper::FnDrawFont(Temp, 50.f, 405.f, 77, FONT_RGBA(95, 0, 255, 255));
+					CFontWrapper::FnDrawFont(Temp, POS_XY_COOLTIME_3, FONT_SIZE_COOLTIME, FONT_RGBA(95, 0, 255, 255));
 					break;
 				case 3:
-					CFontWrapper::FnDrawFont(Temp, 50.f, 515.f, 77, FONT_RGBA(95, 0, 255, 255));
+					CFontWrapper::FnDrawFont(Temp, POS_XY_COOLTIME_4, FONT_SIZE_COOLTIME, FONT_RGBA(95, 0, 255, 255));
 					break;
 				case 4:
-					CFontWrapper::FnDrawFont(Temp, 50.f, 625.f, 77, FONT_RGBA(95, 0, 255, 255));
+					CFontWrapper::FnDrawFont(Temp, POS_XY_COOLTIME_5, FONT_SIZE_COOLTIME, FONT_RGBA(95, 0, 255, 255));
 					break;
 				}
 			}
@@ -273,17 +273,24 @@ namespace yha
 
 		for (int idx = 0; idx < MAX_PLANTS; idx++)
 		{
-			CPlants::mPlants[idx].isPlanted					= false;
-			CPlants::mPlants[idx].plantsType				= ePlantsType::End;
+			CPlants::mPlants[idx].isPlanted				= false;
+			CPlants::mPlants[idx].plantsType			= ePlantsType::End;
 
-			CSunLights::mSunLights[idx].isShow				= false;
-			CSunLights::mSunLights[idx].cycleChkTime		= 0.f;
+			CSunLights::mSunLights[idx].isShow			= false;
+			CSunLights::mSunLights[idx].isRemove		= false;
+			CSunLights::mSunLights[idx].cycleChkTime	= 0.f;
+			CSunLights::mSunLights[idx].position		= POSITION_CLEAR;
+			CSunLights::mSunLights[idx].isArrived		= false;
+			CSunLights::mSunLights[idx].destination		= POSITION_CLEAR;
 
 			if (idx < 25)
 			{
-				CSunLights::mSunLights_Natural[idx].isShow		= false;
-				CSunLights::mSunLights_Natural[idx].isArrived	= false;
-				CSunLights::mSunLights_Natural[idx].cycleChkTime = 0.f;
+				CSunLights::mSunLights_Natural[idx].isShow			= false;
+				CSunLights::mSunLights_Natural[idx].isRemove		= false;
+				CSunLights::mSunLights_Natural[idx].cycleChkTime	= 0.f;
+				CSunLights::mSunLights_Natural[idx].position		= POSITION_CLEAR;
+				CSunLights::mSunLights_Natural[idx].isArrived		= false;
+				CSunLights::mSunLights_Natural[idx].destination		= POSITION_CLEAR;
 			}
 		}
 
@@ -407,12 +414,12 @@ namespace yha
 		// ÇÞºû
 		//==================================================================
 		// made by Sunflower
-		CSunLights::FnManageSunLight_Sunflower();
+		CSunLights::FnManager_Sunflower();
 
 		// made by Natural
 		float secTmp = CSunLights::FnGetChkSecond();
 		CSunLights::FnSetChkSecond(secTmp += CTime::FnDeltaTime());
-		CSunLights::FnManageSunLight_Natural();
+		CSunLights::FnManager_Natural();
 
 		//==================================================================
 		// ±×¸®±â

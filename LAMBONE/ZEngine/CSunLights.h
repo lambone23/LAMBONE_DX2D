@@ -38,6 +38,11 @@ namespace yha
 		static void FnStart(int _idx);
 
 		/*
+			(단계: 1)햇빛 제거 전처리
+		*/
+		static void FnPreRemove(int _idx, eSunLightType _inType);
+
+		/*
 			(단계: 1)햇빛 제거
 		*/
 		static void FnRemove(int _idx, eSunLightType _inType);
@@ -50,12 +55,12 @@ namespace yha
 		/*
 			(단계: 1)햇빛 관리 - 해바라기
 		*/
-		static void FnManageSunLight_Sunflower();
+		static void FnManager_Sunflower();
 
 		/*
 			(단계: 1)햇빛 관리 - 자연
 		*/
-		static void FnManageSunLight_Natural();
+		static void FnManager_Natural();
 
 		/*
 			(단계: 1)그리기 - 햇빛
@@ -67,14 +72,15 @@ namespace yha
 		struct infoSunLight
 		{
 			bool			isShow;			// 여부 - 햇빛 생성
+			bool			isRemove;		// 여부 - 햇빛 제거
 			float			cycleChkTime;	// 기준시간 - 햇빛 생성주기
 			CGameObject*	sunLight;		// 오브젝트 - 햇빛
+			Vector3			position;		// 좌표
 
 			//-------------------------------------
 			// Natural 전용 요소
 			//-------------------------------------
 			bool			isArrived;		// 여부 - 도달점 도착
-			Vector3			position;		// 좌표
 			Vector3			destination;	// 좌표 - 도달점
 		};
 
@@ -88,6 +94,9 @@ namespace yha
 
 		// 초 카운팅 - 햇빛 생성용
 		static float mChkSecond;
+
+		// 이전 생성 주기
+		static float mPrevLimitTime;
 
 		// 햇빛(Natural) 랜덤 생성한 좌표 과거값
 		static int mPrevRandomIdx_SunLightNatural;
