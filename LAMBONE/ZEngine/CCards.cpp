@@ -31,11 +31,10 @@ namespace yha
 	}
 	CCards::~CCards()
 	{
-		//==================================================================
-		// Both
-		// 0. Choose Plants
-		// 1. Play
-		//==================================================================
+	}
+
+	void CCards::FnReleaseALL()
+	{
 		object::FnDestroy(mCard_SunFlower_Disalbed);
 		object::FnDestroy(mCard_WallNut_Disalbed);
 		object::FnDestroy(mCard_PeaShooter_Disalbed);

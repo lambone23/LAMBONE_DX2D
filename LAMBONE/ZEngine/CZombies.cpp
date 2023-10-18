@@ -15,6 +15,11 @@ namespace yha
 	{
 	}
 
+	void CZombies::FnReleaseALL()
+	{
+		object::FnDestroy(mZb_NormalZombie);
+	}
+
 	void CZombies::FnInitialize()
 	{
 		//==================================================================

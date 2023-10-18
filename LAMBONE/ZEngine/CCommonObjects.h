@@ -26,6 +26,11 @@ namespace yha
 
 	public:
 		/*
+			해제
+		*/
+		static void FnReleaseALL();
+
+		/*
 			(단계: 0, 1)초기화
 		*/
 		static void FnInitialize();
@@ -90,27 +95,18 @@ namespace yha
 		static CGameObject* mUI_SelectedCard;
 		static CGameObject* mUI_SelectedShovel;
 
-		static std::wstring mJalapenoName[16];
-		static CGameObject* mJalapeno[MAX_JALAPENO];
-		//static CGameObject* mJalapenoExplode[MAX_JALAPENO];
+		static CGameObject* mUI_PositionRuler_H;
+		static CGameObject* mUI_PositionRuler_V;
 
-		static CGameObject* mJalapeno_0;
-		static CGameObject* mJalapeno_1;
-		static CGameObject* mJalapeno_2;
-		static CGameObject* mJalapeno_3;
-		static CGameObject* mJalapeno_4;
-		static CGameObject* mJalapeno_5;
-		static CGameObject* mJalapeno_6;
-		static CGameObject* mJalapeno_7;
+		static CGameObject* mUI_SignX;
+		static CGameObject* mUI_Sunflower;
+		static CGameObject* mUI_WallNut;
+		static CGameObject* mUI_PeaShooter;
+		static CGameObject* mUI_Chomper;
+		static CGameObject* mUI_Jalapeno;
+		static CGameObject* mUI_CherryBomb;
 
-		static CGameObject* mJalapenoExplode_0;
-		static CGameObject* mJalapenoExplode_1;
-		static CGameObject* mJalapenoExplode_2;
-		static CGameObject* mJalapenoExplode_3;
-		static CGameObject* mJalapenoExplode_4;
-		static CGameObject* mJalapenoExplode_5;
-		static CGameObject* mJalapenoExplode_6;
-		static CGameObject* mJalapenoExplode_7;
+		//static std::wstring mJalapenoName[16];
 
 		static float mChkSecond;
 		static int mCntTmp;

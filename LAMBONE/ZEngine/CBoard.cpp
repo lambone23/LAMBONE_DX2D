@@ -11,11 +11,320 @@ namespace yha
 {
 	CBoard::CBoard()
 	{
+
 	}
 	CBoard::~CBoard()
 	{
 	}
 
+	void CBoard::FnMouseOverEvent()
+	{
+		bool flagDo = CCards::FnGetFlagIsCardSelected();
+		bool flagDo2 = CCommonObjects::FnGetFlagIsShovelSelected();
+
+		if (flagDo)
+			FnShowTmpPosition();
+		else
+		{
+			CCommonObjects::mUI_PositionRuler_H->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_PositionRuler_V->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+			CCommonObjects::mUI_SignX->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_Sunflower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		}
+
+		if(flagDo2)
+			FnShowTmpRemovePosition();
+
+	}//END-void CBoard::FnMouseOverEvent
+
+	void CBoard::FnShowTmpPosition()
+	{
+		ePlantsType plantsType = CCards::FnGetPickedCardType();
+
+		float x = 0.f;
+		float y = 0.f;
+
+		int xIdx = 0.f;
+		int yIdx = 0.f;
+
+		bool flagDoY = true;
+		bool flagDo2 = true;
+
+		HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+		::POINT MousePos = {};
+		::GetCursorPos(&MousePos);
+		::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+		if (BOARD_X_1)
+		{
+			x = -1.7f;
+			xIdx = 0;
+		}
+		else if (BOARD_X_2)
+		{
+			x = -1.1f;
+			xIdx = 1;
+		}
+		else if (BOARD_X_3)
+		{
+			x = -0.4f;
+			xIdx = 2;
+		}
+		else if (BOARD_X_4)
+		{
+			x = 0.2f;
+			xIdx = 3;
+		}
+		else if (BOARD_X_5)
+		{
+			x = 0.8f;
+			xIdx = 4;
+		}
+		else if (BOARD_X_6)
+		{
+			x = 1.5f;
+			xIdx = 5;
+		}
+		else if (BOARD_X_7)
+		{
+			x = 2.1f;
+			xIdx = 6;
+		}
+		else if (BOARD_X_8)
+		{
+			x = 2.7f;
+			xIdx = 7;
+		}
+		else if (BOARD_X_9)
+		{
+			x = 3.3f;
+			xIdx = 8;
+		}
+		else
+		{
+			flagDoY = false;
+		}
+
+		if (flagDoY)
+		{
+			if (BOARD_Y_1)
+			{
+				y = 1.3f;
+				yIdx = 0;
+			}
+			else if (BOARD_Y_2)
+			{
+				y = 0.6f;
+				yIdx = 1;
+			}
+			else if (BOARD_Y_3)
+			{
+				y = -0.2f;
+				yIdx = 2;
+			}
+			else if (BOARD_Y_4)
+			{
+				y = -1.f;
+				yIdx = 3;
+			}
+			else if (BOARD_Y_5)
+			{
+				y = -1.7f;
+				yIdx = 4;
+			}
+			else
+			{
+				flagDo2 = false;
+			}
+
+			if (flagDo2)
+			{
+				int idx = 0;
+
+				switch (yIdx)
+				{
+				case 0:
+					idx = xIdx;
+					break;
+				case 1:
+					idx = 9 + xIdx;
+					break;
+				case 2:
+					idx = 18 + xIdx;
+					break;
+				case 3:
+					idx = 27 + xIdx;
+					break;
+				case 4:
+					idx = 36 + xIdx;
+					break;
+				}
+
+				bool chkIsPlantsNow = CPlants::mPlants[idx].isPlanted;
+
+				//==================================================================
+				// 해당 칸에 식물이 있는 상태
+				//==================================================================
+				if (chkIsPlantsNow)
+				{
+					Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+					posNumbSet = CCommonObjects::FnGetPosition(idx);
+					posNumbSet.z = POS_Z_FRONT_2;
+
+					CCommonObjects::mUI_SignX->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+
+					CCommonObjects::mUI_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					CCommonObjects::mUI_Sunflower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					CCommonObjects::mUI_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					CCommonObjects::mUI_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					CCommonObjects::mUI_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					CCommonObjects::mUI_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+					CCommonObjects::mUI_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+				}
+				else
+				{
+					Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+					posNumbSet = CCommonObjects::FnGetPosition(idx);
+					posNumbSet.z = POS_Z_FRONT_2;
+
+					CCommonObjects::mUI_SignX->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+					switch (plantsType)
+					{
+					case yha::enums::ePlantsType::Sunflower:
+						CCommonObjects::mUI_Sunflower->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+						break;
+					case yha::enums::ePlantsType::WallNut:
+						CCommonObjects::mUI_WallNut->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+						break;
+					case yha::enums::ePlantsType::PeaShooter:
+						CCommonObjects::mUI_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+						break;
+					case yha::enums::ePlantsType::Chomper:
+						posNumbSet.x += 0.2f;
+						posNumbSet.y += 0.1f;
+						CCommonObjects::mUI_Chomper->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+						break;
+					case yha::enums::ePlantsType::Jalapeno:
+						CCommonObjects::mUI_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+						break;
+					case yha::enums::ePlantsType::CherryBomb:
+						CCommonObjects::mUI_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+						break;
+					}
+				}
+
+				CCommonObjects::mUI_PositionRuler_H->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.8f, y, POS_Z_DEFAULT));
+				CCommonObjects::mUI_PositionRuler_V->FnGetComponent<CTransform>()->FnSetPosition(Vector3(x, -0.2f, POS_Z_DEFAULT));
+			}//end-if (flagDo2)
+		}//end-if (flagDoY)
+
+		if (!flagDoY || !flagDo2)
+		{
+			CCommonObjects::mUI_PositionRuler_H->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_PositionRuler_V->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+
+			CCommonObjects::mUI_SignX->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_Sunflower->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_WallNut->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_PeaShooter->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_Chomper->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_Jalapeno->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+			CCommonObjects::mUI_CherryBomb->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+		}
+	}//END-void CBoard::FnShowTmpPosition
+
+	void CBoard::FnShowTmpRemovePosition()
+	{
+		int xIdx = 0.f;
+		int yIdx = 0.f;
+
+		bool flagDoY = true;
+		bool flagDo2 = true;
+
+		HWND Tmp_mHwnd = MyApplication.FnGetHwnd();
+		::POINT MousePos = {};
+		::GetCursorPos(&MousePos);
+		::ScreenToClient(Tmp_mHwnd, &MousePos);
+
+		if (BOARD_X_1)
+			xIdx = 0;
+		else if (BOARD_X_2)
+			xIdx = 1;
+		else if (BOARD_X_3)
+			xIdx = 2;
+		else if (BOARD_X_4)
+			xIdx = 3;
+		else if (BOARD_X_5)
+			xIdx = 4;
+		else if (BOARD_X_6)
+			xIdx = 5;
+		else if (BOARD_X_7)
+			xIdx = 6;
+		else if (BOARD_X_8)
+			xIdx = 7;
+		else if (BOARD_X_9)
+			xIdx = 8;
+		else
+			flagDoY = false;
+
+		if (flagDoY)
+		{
+			if (BOARD_Y_1)
+				yIdx = 0;
+			else if (BOARD_Y_2)
+				yIdx = 1;
+			else if (BOARD_Y_3)
+				yIdx = 2;
+			else if (BOARD_Y_4)
+				yIdx = 3;
+			else if (BOARD_Y_5)
+				yIdx = 4;
+			else
+				flagDo2 = false;
+
+			if (flagDo2)
+			{
+				int idx = 0;
+
+				switch (yIdx)
+				{
+				case 0:
+					idx = xIdx;
+					break;
+				case 1:
+					idx = 9 + xIdx;
+					break;
+				case 2:
+					idx = 18 + xIdx;
+					break;
+				case 3:
+					idx = 27 + xIdx;
+					break;
+				case 4:
+					idx = 36 + xIdx;
+					break;
+				}
+
+				Vector3 posNumbSet = Vector3(0.f, 0.f, 0.f);
+				posNumbSet = CCommonObjects::FnGetPosition(idx);
+				posNumbSet.x += 0.3f;
+				posNumbSet.y -= 0.06f;
+				posNumbSet.z = POS_Z_FRONT_2;
+
+				CCommonObjects::mUI_Shovel->FnGetComponent<CTransform>()->FnSetPosition(posNumbSet);
+			}//end-if (flagDo2)
+		}//end-if (flagDoY)
+		else
+			CCommonObjects::mUI_Shovel->FnGetComponent<CTransform>()->FnSetPosition(POSITION_CLEAR);
+	}//END-void CBoard::FnShowTmpRemovePosition
+	
 	void CBoard::FnClickEvent()
 	{
 		if (CInput::FnGetKeyDown(eKeyCode::LBUTTON))

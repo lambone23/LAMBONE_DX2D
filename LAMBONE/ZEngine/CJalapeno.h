@@ -26,9 +26,14 @@ namespace yha
 		*/
 		static void FnFsmManager(int _idx);
 
+		/*
+			FSM 중 Idle에서 한번에 처리하기 위한 총 과정
+		*/
+		static void FnJalapeno(int _idx);
+
 	public:
-		static std::wstring mJalapenoName[16];
-		static CGameObject* mJalapeno[MAX_JALAPENO];
+		//static std::wstring mJalapenoName[16];
+		//static CGameObject* mJalapeno[MAX_JALAPENO];
 		//static CGameObject* mJalapenoExplode[MAX_JALAPENO];
 
 		static CGameObject* mJalapeno_0;

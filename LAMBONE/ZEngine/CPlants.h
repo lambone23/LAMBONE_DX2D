@@ -12,6 +12,11 @@ namespace yha
 
 	public:
 		/*
+			해제
+		*/
+		static void FnReleaseALL();
+
+		/*
 			(단계: 1)초기화 - 생성
 		*/
 		static void FnInitialize(int _idx);

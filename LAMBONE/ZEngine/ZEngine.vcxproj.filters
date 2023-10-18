@@ -20,12 +20,6 @@
     <ClCompile Include="CSceneMainMenu.cpp">
       <Filter>Contents\_Scene\00_Title\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="CScenePlayGrassDay.cpp">
-      <Filter>Contents\_Scene\01_PlayGrass\Day</Filter>
-    </ClCompile>
-    <ClCompile Include="CScenePlayGrassNight.cpp">
-      <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
-    </ClCompile>
     <ClCompile Include="CGridScript.cpp">
       <Filter>Contents\_Script\Grid</Filter>
     </ClCompile>
@@ -68,6 +62,12 @@
     <ClCompile Include="CCherryBomb.cpp">
       <Filter>Contents\Objects\Plants\5_CherryBomb</Filter>
     </ClCompile>
+    <ClCompile Include="CScenePlayGrassDay.cpp">
+      <Filter>Contents\_Scene\01_PlayGrass</Filter>
+    </ClCompile>
+    <ClCompile Include="CScenePlayGrassNight.cpp">
+      <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -91,12 +91,6 @@
     </ClInclude>
     <ClInclude Include="CSceneMainMenu.h">
       <Filter>Contents\_Scene\00_Title\MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="CScenePlayGrassDay.h">
-      <Filter>Contents\_Scene\01_PlayGrass\Day</Filter>
-    </ClInclude>
-    <ClInclude Include="CScenePlayGrassNight.h">
-      <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
     </ClInclude>
     <ClInclude Include="CGridScript.h">
       <Filter>Contents\_Script\Grid</Filter>
@@ -143,6 +137,13 @@
     <ClInclude Include="CCherryBomb.h">
       <Filter>Contents\Objects\Plants\5_CherryBomb</Filter>
     </ClInclude>
+    <ClInclude Include="CScenePlayGrassDay.h">
+      <Filter>Contents\_Scene\01_PlayGrass</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="CScenePlayGrassNight.h">
+      <Filter>Contents\_Scene\01_PlayGrass\Night</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Contents">
@@ -171,12 +172,6 @@
     </Filter>
     <Filter Include="Contents\_Scene\01_PlayGrass">
       <UniqueIdentifier>{6822c385-90a3-4418-b7d6-edd99a86b94e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\_Scene\01_PlayGrass\Day">
-      <UniqueIdentifier>{6a229d5d-2568-4266-884c-fa9cfa7c7785}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Contents\_Scene\01_PlayGrass\Night">
-      <UniqueIdentifier>{e2082203-6011-4f37-a684-71e47c799645}</UniqueIdentifier>
     </Filter>
     <Filter Include="Contents\_Script">
       <UniqueIdentifier>{e4057279-a017-405f-9609-75ea8f7a8d6f}</UniqueIdentifier>
@@ -226,5 +221,11 @@
     <Filter Include="Contents\Objects\Plants\2_PeaShooter">
       <UniqueIdentifier>{9d1083c9-48a0-4e3e-8625-086387243930}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents\_Scene\01_PlayGrass\Night">
+      <UniqueIdentifier>{924d5d71-e1b8-44f2-ae9c-48435aab0695}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZEngine.rc" />
   </ItemGroup>
 </Project>

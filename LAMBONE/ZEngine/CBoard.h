@@ -12,6 +12,21 @@ namespace yha
 
 	public:
 		/*
+			(단계: 1)MouseOver이벤트 처리
+		*/
+		static void FnMouseOverEvent();
+
+		/*
+			(단계: 1)Show - 식물 심을 임시 위치
+		*/
+		static void FnShowTmpPosition();
+
+		/*
+			(단계: 1)Show - 식물 뽑을 임시 위치
+		*/
+		static void FnShowTmpRemovePosition();
+
+		/*
 			(단계: 1)클릭이벤트 처리 - Board 선택시
 			연동 : FnClickEvent_SunLight, FnPutPlants, FnRemovePlants
 		*/

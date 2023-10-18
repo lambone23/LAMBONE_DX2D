@@ -1,5 +1,6 @@
 #pragma once
 #include "..\Engine_SOURCE\CScene.h"
+#include "..\Engine_SOURCE\CLight.h"
 
 namespace yha
 {
@@ -23,10 +24,24 @@ namespace yha
 		virtual void FnOnExit() override;
 
 	private:
+		/*
+			서서히 밝게 나타내기
+		*/
+		void FnFadeIn();
+
+		/*
+			서서히 어둡게 사라지기
+		*/
+		void FnFadeOut();
+
+	private:
 		CGameObject* mCamera;
 		CGameObject* mBG;
-		CGameObject* mlight;
+		CGameObject* mLight;
+		CLight* mLightComp;
 
+		bool mFlagEnterFadeOut;
 		float mChkSecond;
+		float mBrightValue;
 	};
 }

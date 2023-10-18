@@ -2,13 +2,18 @@
 
 #include "CCommon.h"
 
+extern yha::CApplication MyApplication;
+
 namespace yha
 {
 	CSceneIntro::CSceneIntro()
 		: mCamera(nullptr)
 		, mBG(nullptr)
-		, mlight(nullptr)
+		, mLight(nullptr)
+		, mLightComp(nullptr)
+		, mFlagEnterFadeOut(false)
 		, mChkSecond(0.f)
+		, mBrightValue(0.f)
 	{
 	}
 	CSceneIntro::~CSceneIntro()
@@ -30,15 +35,16 @@ namespace yha
 		//==================================================================
 		// Light
 		//==================================================================
-		mlight = new CGameObject();
-		mlight->FnSetName(L"Light_Directional");
-		FnAddGameObject(eLayerType::Light, mlight);
-		CLight* lightComp = mlight->FnAddComponent<CLight>();
-		lightComp->FnSetType(eLightType::Directional);
-		lightComp->FnSetColor(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
-		//lightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
-		mlight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
-		//CCollider2D* cd = light->FnAddComponent<CCollider2D>();
+		mLight = new CGameObject();
+		mLight->FnSetName(L"Light_Directional");
+		FnAddGameObject(eLayerType::Light, mLight);
+
+		mLightComp = mLight->FnAddComponent<CLight>();
+		mLightComp->FnSetType(eLightType::Directional);
+		//mLightComp->FnSetColor(Vector4(0.8f, 0.8f, 0.8f, 1.0f));
+		mLightComp->FnSetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+
+		mLight->FnGetComponent<CTransform>()->FnSetPosition(Vector3(0.0f, 0.0f, 0.0f));
 
 		//==================================================================
 		// BG
@@ -65,16 +71,13 @@ namespace yha
 		//if (CInput::FnGetKeyDown(eKeyCode::N))
 		//	CSceneManager::FnLoadScene(L"Scene_Loading");
 		
-		//==================================================================
-		// Way2 - Load NextScene
-		//==================================================================
+		if(!mFlagEnterFadeOut)
+			FnFadeIn();
+
 		mChkSecond += CTime::FnDeltaTime();
 
-		if (mChkSecond > 2.0f)
-		{
-			//object::FnDestroy(mBG);
-			CSceneManager::FnLoadScene(L"Scene_Loading");
-		}
+		if (mFlagEnterFadeOut && (mChkSecond > 2.0f))
+			FnFadeOut();
 
 		CScene::FnUpdate();
 	}
@@ -103,7 +106,9 @@ namespace yha
 		//	MessageBox(Tmp_mHwnd, Temp, L"START", MB_OK);
 		//}
 
-		mChkSecond = 0.f;
+		mFlagEnterFadeOut	= false;
+		mChkSecond			= 0.f;
+		mBrightValue		= 0.f;
 		FnDoInitialize();
 	}
 
@@ -123,6 +128,36 @@ namespace yha
 
 		object::FnDestroy(mCamera);
 		object::FnDestroy(mBG);
-		object::FnDestroy(mlight);
+		object::FnDestroy(mLight);
 	}
+
+	void CSceneIntro::FnFadeIn()
+	{
+		if (0.7f <= mBrightValue)
+		{
+			mChkSecond = 0.f;
+			mFlagEnterFadeOut = true;
+		}
+		else
+		{
+			mBrightValue += 0.6f * CTime::FnDeltaTime();
+			mLightComp->FnSetColor(Vector4(mBrightValue, mBrightValue, mBrightValue, 1.0f));
+		}
+	}//END-void CSceneIntro::FnFadeIn
+
+	void CSceneIntro::FnFadeOut()
+	{
+		//==================================================================
+		// Way2 - Load NextScene
+		//==================================================================
+		if (0.0f >= mBrightValue)
+		{
+			CSceneManager::FnLoadScene(L"Scene_Loading");
+		}
+		else
+		{
+			mBrightValue -= 1.8f * CTime::FnDeltaTime();
+			mLightComp->FnSetColor(Vector4(mBrightValue, mBrightValue, mBrightValue, 1.0f));
+		}
+	}//END-void CSceneIntro::FnFadeOut
 }

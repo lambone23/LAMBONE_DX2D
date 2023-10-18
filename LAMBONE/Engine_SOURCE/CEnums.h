@@ -27,9 +27,9 @@ namespace yha::enums
 		Ending,
 
 		GrassDay,
-		GrassNight,
-		PoolDay,
-		PoolNight,
+		//GrassNight,
+		//PoolDay,
+		//PoolNight,
 		//RoofDay,
 		//RoofNight,
 		End
@@ -46,9 +46,10 @@ namespace yha::enums
 		Monster,
 		SunLight,
 		SunLightNatural,
-		PlayerExplode,
+		
 		Light,
 		UI,
+		PlayerExplode,
 		UI2,
 		End = 16,
 	};

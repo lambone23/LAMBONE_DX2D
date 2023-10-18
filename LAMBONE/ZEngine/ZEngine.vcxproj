@@ -178,6 +178,7 @@
     <ClInclude Include="CZombies.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="LoadScenes.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CBoard.cpp" />
@@ -208,6 +209,9 @@
     <None Update="D:\_G_DX2D\LAMBONE\Engine_SOURCE\CMath.inl">
       <FileType>Document</FileType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ZEngine.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

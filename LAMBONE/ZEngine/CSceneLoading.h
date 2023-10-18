@@ -23,16 +23,35 @@ namespace yha
 		virtual void FnOnExit() override;
 
 	private:
+		/*
+			ÀÜµð ³«ÇÏ
+		*/
+		void FnFallGrass();
+
+		/*
+			ÀÜµð ±¼¸®±â
+		*/
+		void FnRollGrass();
+
+	private:
 		CGameObject* mCamera_Main;
 		CGameObject* mCamera_UI;
 
 		CGameObject* mBG;
-		CGameObject* mlight;
-
-		float mChkSecond;
+		CGameObject* mLight;
 
 		CGameObject* mUI_Loading_Floor;
 		CGameObject* mUI_Loading_Grass;
+		CGameObject* mUI_Loading_GrassFake;
 		CGameObject* mUI_Loading_Tag;
+
+		int mCntFall;
+		bool mFlagEnterRollGrass;
+		float mChkSecond;
+		const float mPi = 3.141592f;
+		float mDegree;
+		float mTagScale;
+
+		float mGrassScale;
 	};
 }

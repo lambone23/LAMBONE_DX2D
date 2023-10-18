@@ -1,6 +1,6 @@
 #include "CSceneManager.h"
 
-//#include "CPlayScene.h"
+//#include "../ZEngine/CPlayScene.h"
 
 #include "CApplication.h"
 //#include "../ZEngine/CSceneIntro.h"
@@ -30,9 +30,9 @@ namespace yha
 		//	mScenes.insert(std::make_pair(L"Scene_Ending", new CSceneEnding()));
 
 		//	mScenes.insert(std::make_pair(L"Scene_PlayGrassDay", new CScenePlayGrassDay()));
-		//	mScenes.insert(std::make_pair(L"Scene_PlayGrassNight", new CScenePlayGrassNight()));
-		//	mScenes.insert(std::make_pair(L"Scene_PlayPoolDay", new CScenePlayPoolDay()));
-		//	mScenes.insert(std::make_pair(L"Scene_PlayPoolNight", new CScenePlayPoolNight()));
+		//	//mScenes.insert(std::make_pair(L"Scene_PlayGrassNight", new CScenePlayGrassNight()));
+		//	//mScenes.insert(std::make_pair(L"Scene_PlayPoolDay", new CScenePlayPoolDay()));
+		//	//mScenes.insert(std::make_pair(L"Scene_PlayPoolNight", new CScenePlayPoolNight()));
 
 		//	std::map<std::wstring, CScene*>::iterator iter = mScenes.begin();
 

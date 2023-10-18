@@ -23,7 +23,7 @@ namespace yha
 			= CResources::FnLoad<CTexture>(L"Sunflower_Idle", L"..\\Resources\\Texture\\MyGame\\Plants\\Sunflower\\Sunflower.png");
 		CPlants::mPlants[_idx].animator->FnCreate(
 			// name,			atlas,					leftTop
-			L"Sunflower_Idle",	atlas_Sunflower_Idle,	Vector2(0.0f, 0.0f)
+			L"Sunflower_Idle",	atlas_Sunflower_Idle,	Vector2(0.f, 0.f)
 			// size,							columnLength,	offset,			duration
 			, Vector2(1971.f / 18.f, 111.f),	18,				Vector2::Zero,	0.08f
 		);
@@ -33,7 +33,7 @@ namespace yha
 			= CResources::FnLoad<CTexture>(L"Sunflower_Bright", L"..\\Resources\\Texture\\MyGame\\Plants\\Sunflower\\Sunflower_Bright.png");
 		CPlants::mPlants[_idx].animator->FnCreate(
 			// name,				atlas,					leftTop
-			L"Sunflower_Bright",	atlas_Sunflower_Bright,	Vector2(0.0f, 0.0f)
+			L"Sunflower_Bright",	atlas_Sunflower_Bright,	Vector2(0.f, 0.f)
 			// size,							columnLength,	offset,			duration
 			, Vector2(1980.0f / 18.f, 112.0f),	18,				Vector2::Zero,	0.08f
 		);
@@ -43,7 +43,7 @@ namespace yha
 			= CResources::FnLoad<CTexture>(L"Sunflower_Blink", L"..\\Resources\\Texture\\MyGame\\Plants\\Sunflower\\Sunflower_Blink.png");
 		CPlants::mPlants[_idx].animator->FnCreate(
 			// name,			atlas,					leftTop
-			L"Sunflower_Blink",	atlas_Sunflower_Blink,	Vector2(0.0f, 0.0f)
+			L"Sunflower_Blink",	atlas_Sunflower_Blink,	Vector2(0.f, 0.f)
 			// size,							columnLength,	offset,			duration
 			, Vector2(1971.f / 18.f, 111.f),	18,				Vector2::Zero,	0.08f
 		);

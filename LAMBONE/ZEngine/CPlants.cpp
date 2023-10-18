@@ -24,12 +24,31 @@ namespace yha
 	{
 	}
 
+	void CPlants::FnReleaseALL()
+	{
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
+		{
+			bool flagIsPlantsNow = CPlants::mPlants[idx].isPlanted;
+
+			if (flagIsPlantsNow)
+			{
+				mPlants[idx].isPlanted = false;
+				mPlants[idx].plantsType = ePlantsType::End;
+				FnChangeStatus(idx, eStatusType::End);
+				object::FnDestroy(mPlants[idx].plants);
+				mPlants[idx].isAttacked = false;
+				mPlants[idx].attackedTime = 0.f;
+			}
+		}
+	}
+
 	void CPlants::FnInitialize(int _idx)
 	{
 		//==================================================================
-		// 공통
+		// 공통 (제외 - 폭발성 식물)
 		//==================================================================	
-		if (ePlantsType::Jalapeno != CCards::FnGetPickedCardType())
+		if (ePlantsType::Jalapeno != CCards::FnGetPickedCardType()
+			&& ePlantsType::CherryBomb != CCards::FnGetPickedCardType())
 		{
 			//-------------------------------------
 			// infoPlants - isPlanted, plantsType
@@ -263,6 +282,7 @@ namespace yha
 			CJalapeno::FnColliderManager(_idx);
 			break;
 		case ePlantsType::CherryBomb:
+			CCherryBomb::FnColliderManager(_idx);
 			break;
 		}
 	}//END-void CPlants::FnColliderTotalManager
@@ -282,11 +302,12 @@ namespace yha
 		// SetPosition
 		//==================================================================
 		//-------------------------------------
-		// Save 상태 - Chomper 제외
+		// Save 상태 - 제외 식물 주의
 		//-------------------------------------
 		if (true == mPlants[_idx].isPlanted
 			&& ePlantsType::Chomper != mPlants[_idx].plantsType
 			&& ePlantsType::Jalapeno != mPlants[_idx].plantsType
+			&& ePlantsType::CherryBomb != mPlants[_idx].plantsType
 			&& eStatusType::DieSoon != mPlants[_idx].statusType)
 		{
 			mPlants[_idx].plants->FnGetComponent<CTransform>()->FnSetPosition(CCommonObjects::FnGetPosition(_idx));
@@ -339,7 +360,7 @@ namespace yha
 				CJalapeno::FnFsmManager(_idx);
 				break;
 			case ePlantsType::CherryBomb:
-				CJalapeno::FnFsmManager(_idx);
+				CCherryBomb::FnFsmManager(_idx);
 				break;
 			}
 		}

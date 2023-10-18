@@ -28,6 +28,11 @@ namespace yha
 
 	public:
 		/*
+			해제
+		*/
+		static void FnReleaseALL();
+
+		/*
 			(단계: 1)초기화 - 생성
 		*/
 		static void FnInitialize(int _idx, eSunLightType _inType);
@@ -94,9 +99,6 @@ namespace yha
 
 		// 초 카운팅 - 햇빛 생성용
 		static float mChkSecond;
-
-		// 이전 생성 주기
-		static float mPrevLimitTime;
 
 		// 햇빛(Natural) 랜덤 생성한 좌표 과거값
 		static int mPrevRandomIdx_SunLightNatural;

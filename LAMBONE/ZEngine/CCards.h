@@ -23,6 +23,11 @@ namespace yha
 
 	public:
 		/*
+			해제
+		*/
+		static void FnReleaseALL();
+
+		/*
 			(단계: 0, 1)초기화
 		*/
 		static void FnInitialize();

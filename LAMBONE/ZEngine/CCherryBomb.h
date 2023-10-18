@@ -1,4 +1,6 @@
 #pragma once
+#include "CCommon.h"
+#include "CCommonObjects.h"
 
 namespace yha
 {
@@ -23,6 +25,15 @@ namespace yha
 			FSM
 		*/
 		static void FnFsmManager(int _idx);
+
+		/*
+			FSM 중 Idle에서 한번에 처리하기 위한 총 과정
+		*/
+		static void FnCherryBomb(int _idx);
+
+	public:
+		static float mChkSecond;
+		static int mCntTmp;
 	};
 }
 

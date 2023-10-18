@@ -591,9 +591,11 @@ namespace renderer
 		CResources::FnInsert(L"SpriteAnimaionMaterial", material);
 #pragma endregion
 
+		FnLoadMaterial_LAMBONE();
 		FnLoadMaterial_BG();
 		FnLoadMaterial_UI();
 		FnLoadMaterial_Cards();
+		FnLoadMaterial_Plants();
 
 		//==================================================================
 		// grid Shader
@@ -712,6 +714,24 @@ namespace renderer
 		lightsBuffer = nullptr;
 	}//END-void FnRelease
 
+	void FnLoadMaterial_LAMBONE()
+	{
+		//==================================================================
+		// Shader
+		//==================================================================
+		std::shared_ptr<CShader> shader = CResources::FnFind<CShader>(L"SpriteShader");
+
+		//==================================================================
+		// img
+		//==================================================================
+		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"YHA", L"..\\Resources\\Texture\\MyGame\\LAMBONE.png");
+		std::shared_ptr<CMaterial> material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"LAMBONE", material);
+
+	}//END-void FnLoadMaterial_LAMBONE()
+
 	void FnLoadMaterial_BG()
 	{
 		//==================================================================
@@ -819,6 +839,13 @@ namespace renderer
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_Loading_Grass", material);
 
+		// Loading_Grass_Fake
+		texture = CResources::FnLoad<CTexture>(L"Loading_Grass_Fake", L"..\\Resources\\Texture\\MyGame\\UI\\Loading_Grass_Fake.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_Loading_Grass_Fake", material);
+
 		// Loading_Tag
 		texture = CResources::FnLoad<CTexture>(L"Loading_Tag", L"..\\Resources\\Texture\\MyGame\\UI\\Loading_Tag.png");
 		material = std::make_shared<CMaterial>();
@@ -892,6 +919,20 @@ namespace renderer
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_SelectedCard", material);
 
+		// PositionRuler_H
+		texture = CResources::FnLoad<CTexture>(L"PositionRuler_H", L"..\\Resources\\Texture\\MyGame\\UI\\PositionRuler_H.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_PositionRuler_H", material);
+
+		// PositionRuler_V
+		texture = CResources::FnLoad<CTexture>(L"PositionRuler_V", L"..\\Resources\\Texture\\MyGame\\UI\\PositionRuler_V.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_PositionRuler_V", material);
+
 		//==================================================================
 		// UI Button (SpriteShader)
 		//==================================================================
@@ -950,128 +991,6 @@ namespace renderer
 		material->FnSetTexture(texture);
 		CResources::FnInsert(L"UI_btn_ResetChoose", material);
 
-
-
-
-
-
-		//GameObj_Jalapeno_0
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_0", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_0.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_0", material);
-
-		//GameObj_Jalapeno_1
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_1", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_1.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_1", material);
-
-		//GameObj_Jalapeno_2
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_2", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_2.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_2", material);
-
-		//GameObj_Jalapeno_3
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_3", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_3.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_3", material);
-
-		//GameObj_Jalapeno_4
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_4", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_4.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_4", material);
-
-		//GameObj_Jalapeno_5
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_5", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_5.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_5", material);
-
-		//GameObj_Jalapeno_6
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_6", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_6.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_6", material);
-
-		//GameObj_Jalapeno_7
-		texture = CResources::FnLoad<CTexture>(L"Jalapeno_7", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\Jalapeno_7.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_Jalapeno_7", material);
-
-
-
-
-
-
-
-		//GameObj_JalapenoExplode_0
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_0", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_0.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_0", material);
-
-		//GameObj_JalapenoExplode_1
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_1", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_1.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_1", material);
-
-		//GameObj_JalapenoExplode_2
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_2", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_2.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_2", material);
-
-		//GameObj_JalapenoExplode_3
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_3", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_3.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_3", material);
-
-		//GameObj_JalapenoExplode_4
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_4", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_4.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_4", material);
-
-		//GameObj_JalapenoExplode_5
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_5", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_5.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_5", material);
-
-		//GameObj_JalapenoExplode_6
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_6", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_6.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_6", material);
-
-		//GameObj_JalapenoExplode_7
-		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_7", L"..\\Resources\\Texture\\MyGame\\\Plants\\\Jalapeno\\\Explode\\JalapenoExplode_7.png");
-		material = std::make_shared<CMaterial>();
-		material->FnSetShader(shader);
-		material->FnSetTexture(texture);
-		CResources::FnInsert(L"GameObj_JalapenoExplode_7", material);
 	}//END-void FnLoadMaterial_UI
 
 	void FnLoadMaterial_Cards()
@@ -1169,4 +1088,259 @@ namespace renderer
 		CResources::FnInsert(L"UI_Card_CherryBomb_Disabled", material);
 
 	}//END-void FnLoadMaterial_Cards
+
+	void FnLoadMaterial_Plants()
+	{
+		//==================================================================
+		// Shader
+		//==================================================================
+		std::shared_ptr<CShader> shader = CResources::FnFind<CShader>(L"SpriteShader");
+
+		//==================================================================
+		// Representative Image
+		//==================================================================
+		// SignX
+		std::shared_ptr<CTexture> texture = CResources::FnLoad<CTexture>(L"SignX", L"..\\Resources\\Texture\\MyGame\\UI\\Sign_X.png");
+		std::shared_ptr<CMaterial> material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_Sign_X", material); 
+		
+		// SunFlower
+		texture = CResources::FnLoad<CTexture>(L"SunFlower", L"..\\Resources\\Texture\\MyGame\\Plants\\Sunflower\\SunFlower_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_SunFlower0", material);
+
+		// WallNut
+		texture = CResources::FnLoad<CTexture>(L"WallNut", L"..\\Resources\\Texture\\MyGame\\Plants\\WallNut\\WallNut_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_WallNut0", material);
+
+		// PeaShooter
+		texture = CResources::FnLoad<CTexture>(L"PeaShooter", L"..\\Resources\\Texture\\MyGame\\Plants\\PeaShooter\\Peashooter_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_PeaShooter0", material);
+
+		// Chomper
+		texture = CResources::FnLoad<CTexture>(L"Chomper", L"..\\Resources\\Texture\\MyGame\\Plants\\Chomper\\Chomper_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_Chomper0", material);
+
+		// Jalapeno
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_Jalapeno0", material);
+
+		// CherryBomb
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"UI_CherryBomb0", material);
+
+		//==================================================================
+		// Explosive Plants
+		//==================================================================
+#pragma region Jalapeno
+		//-------------------------------------
+		// Jalapeno
+		//-------------------------------------
+		//GameObj_Jalapeno_0
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_0", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_0", material);
+
+		//GameObj_Jalapeno_1
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_1", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_1.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_1", material);
+
+		//GameObj_Jalapeno_2
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_2", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_2.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_2", material);
+
+		//GameObj_Jalapeno_3
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_3", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_3.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_3", material);
+
+		//GameObj_Jalapeno_4
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_4", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_4.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_4", material);
+
+		//GameObj_Jalapeno_5
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_5", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_5.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_5", material);
+
+		//GameObj_Jalapeno_6
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_6", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_6.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_6", material);
+
+		//GameObj_Jalapeno_7
+		texture = CResources::FnLoad<CTexture>(L"Jalapeno_7", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Jalapeno_7.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_Jalapeno_7", material);
+
+		//-------------------------------------
+		// JalapenoExplode
+		//-------------------------------------
+		//GameObj_JalapenoExplode_0
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_0", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_0", material);
+
+		//GameObj_JalapenoExplode_1
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_1", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_1.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_1", material);
+
+		//GameObj_JalapenoExplode_2
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_2", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_2.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_2", material);
+
+		//GameObj_JalapenoExplode_3
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_3", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_3.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_3", material);
+
+		//GameObj_JalapenoExplode_4
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_4", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_4.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_4", material);
+
+		//GameObj_JalapenoExplode_5
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_5", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_5.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_5", material);
+
+		//GameObj_JalapenoExplode_6
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_6", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_6.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_6", material);
+
+		//GameObj_JalapenoExplode_7
+		texture = CResources::FnLoad<CTexture>(L"JalapenoExplode_7", L"..\\Resources\\Texture\\MyGame\\Plants\\Jalapeno\\Explode\\JalapenoExplode_7.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_JalapenoExplode_7", material);
+#pragma endregion
+
+#pragma region CherryBomb
+		//-------------------------------------
+		// CherryBomb
+		//-------------------------------------
+		//GameObj_CherryBomb_0
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_0", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_0.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_0", material);
+
+		//GameObj_CherryBomb_1
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_1", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_1.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_1", material);
+
+		//GameObj_CherryBomb_2
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_2", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_2.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_2", material);
+
+		//GameObj_CherryBomb_3
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_3", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_3.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_3", material);
+
+		//GameObj_CherryBomb_4
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_4", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_4.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_4", material);
+
+		//GameObj_CherryBomb_5
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_5", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_5.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_5", material);
+
+		//GameObj_CherryBomb_6
+		texture = CResources::FnLoad<CTexture>(L"CherryBomb_6", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\CherryBomb_6.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBomb_6", material);
+
+		//-------------------------------------
+		// CherryBombExplode
+		//-------------------------------------
+		//GameObj_CherryBombExplode_0
+		texture = CResources::FnLoad<CTexture>(L"CherryBombExplode_1", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\Explode\\Pow.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBombExplode_0", material);
+
+		//GameObj_CherryBombExplode_1
+		texture = CResources::FnLoad<CTexture>(L"CherryBombExplode_0", L"..\\Resources\\Texture\\MyGame\\Plants\\CherryBomb\\Explode\\ExplosionCloud.png");
+		material = std::make_shared<CMaterial>();
+		material->FnSetShader(shader);
+		material->FnSetTexture(texture);
+		CResources::FnInsert(L"GameObj_CherryBombExplode_1", material);
+#pragma endregion
+
+	}//END-void FnLoadMaterial_Plants
 }

@@ -10,7 +10,6 @@ namespace yha
 {
 	int CSunLights::mSunLightScore = 0;
 	float CSunLights::mChkSecond = 0;
-	float CSunLights::mPrevLimitTime = 0;
 	int CSunLights::mPrevRandomIdx_SunLightNatural = 999;
 
 	CSunLights::infoSunLight CSunLights::mSunLights[MAX_PLANTS] = {};
@@ -21,6 +20,20 @@ namespace yha
 	}
 	CSunLights::~CSunLights()
 	{
+	}
+
+	void CSunLights::FnReleaseALL()
+	{
+		for (int idx = 0; idx < MAX_PLANTS; idx++)
+		{
+			// made by Sunflower
+			if (true == mSunLights[idx].isShow)
+				FnRemove(idx, eSunLightType::Sunflower);
+
+			// made by Natural
+			if ((idx < MAX_SUNLIGHT_NATURAL) && (true == mSunLights_Natural[idx].isShow))
+				FnRemove(idx, eSunLightType::Natural);
+		}
 	}
 
 	void CSunLights::FnInitialize(int _idx, eSunLightType _inType)
@@ -416,7 +429,6 @@ namespace yha
 			//_stprintf_s(Temp, L"mSunScore: % d -> %d", mSunLightScore, mSunLightScore + 25);
 			//MessageBox(Tmp_mHwnd, Temp, L"Â§", MB_OK);
 
-			//FnRemove(_idx, eSunLightType::Sunflower);
 			mSunLights[_idx].isRemove = true;
 			FnSetSunLightScore_isAdd(true, 25);
 		}
@@ -492,9 +504,6 @@ namespace yha
 					// È°¼ºÈ­ - ÇÞºû
 					//-------------------------------------
 					FnInitialize(idx, eSunLightType::Sunflower);
-
-					if (mPrevLimitTime != limitTime)
-						mPrevLimitTime = limitTime;
 
 					//-------------------------------------
 					// °»½Å - Status (SunFlower)

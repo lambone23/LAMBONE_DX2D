@@ -11,6 +11,11 @@ namespace yha
 		~CZombies();
 
 	public:
+		/*
+			«ÿ¡¶
+		*/
+		static void FnReleaseALL();
+
 		static void FnInitialize();
 
 		/*

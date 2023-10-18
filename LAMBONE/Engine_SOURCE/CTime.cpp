@@ -59,12 +59,6 @@ namespace yha
 				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [Ending]", (UINT)FPS);
 			else if (activeSceneName == L"Scene_PlayGrassDay")
 				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayGrassDay]", (UINT)FPS);
-			else if (activeSceneName == L"Scene_PlayGrassNight")
-				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayGrassNight]", (UINT)FPS);
-			else if (activeSceneName == L"Scene_PlayPoolDay")
-				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayPoolDay]", (UINT)FPS);
-			else if (activeSceneName == L"Scene_PlayPoolNight")
-				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d, [PlayPoolNight]", (UINT)FPS);
 			else
 				swprintf_s(szFloat, 200, L"PvZ By LAMBONE -- #FPS : %d", (UINT)FPS);
 			
